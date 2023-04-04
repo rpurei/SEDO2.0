@@ -1,0 +1,14 @@
+[Unit]
+Description=SEDO2.0
+After=network.target
+
+[Service]
+User=www-data
+WorkingDirectory=/var/www/SEDO2.0/api
+LimitNOFILE=4096
+ExecStart=/var/www/SEDO2.0/api/scripts/server_start.sh
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
