@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, Input } from '@angular/core';
 import { LayoutService } from "../../../../services/layout.service";
 
 @Component({
@@ -7,5 +7,8 @@ import { LayoutService } from "../../../../services/layout.service";
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent {
+  @Input() defaultMenu: any[] = [];
+
   constructor(public layoutService: LayoutService, public el: ElementRef) { }
 }
+

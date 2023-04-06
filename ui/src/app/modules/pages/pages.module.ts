@@ -14,13 +14,18 @@ import {ConfigModule} from "../config/config.module";
 
 
 @NgModule({
-  declarations: [
-    PagesComponent,
-    IndexComponent,
+    declarations: [
+        PagesComponent,
+        IndexComponent,
+        TopbarComponent,
+        SidebarComponent,
+        SidemenuComponent,
+        MenuitemComponent,
+        FooterComponent
+    ],
+  exports: [
     TopbarComponent,
     SidebarComponent,
-    SidemenuComponent,
-    MenuitemComponent,
     FooterComponent
   ],
     imports: [

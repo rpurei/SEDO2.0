@@ -12,7 +12,14 @@ import { SidebarComponent } from "./components/sidebar/sidebar.component";
 })
 
 export class PagesComponent implements OnDestroy {
-
+    pageMenu: any[] = [
+      {
+        items: [
+          { label: 'Главная', icon: 'pi pi-fw pi-home', routerLink: ['/page/index'] },
+          { label: 'Демо', icon: 'pi pi-fw pi-images', routerLink: ['/demo'] }
+        ]
+      }
+    ];
     overlayMenuOpenSubscription: Subscription;
     menuOutsideClickListener: any;
     profileMenuOutsideClickListener: any;
