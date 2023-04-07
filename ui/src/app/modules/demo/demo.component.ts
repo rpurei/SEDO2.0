@@ -14,7 +14,8 @@ export class DemoComponent {
   pageMenu: any[] = [
           {
               items: [
-                  { label: 'Главная', icon: 'pi pi-fw pi-home', routerLink: ['/'] }
+                  { label: 'Главная', icon: 'pi pi-fw pi-home', routerLink: ['/'] },
+                  { label: 'Панель', icon: 'pi pi-th-large', routerLink: ['/demo'] }
               ]
           },
           {
@@ -45,18 +46,11 @@ export class DemoComponent {
               ]
           },
           {
-              label: 'Utilities',
-              items: [
-                  { label: 'PrimeIcons', icon: 'pi pi-fw pi-prime', routerLink: ['/demo/utilities/icons'] },
-                  { label: 'PrimeFlex', icon: 'pi pi-fw pi-desktop', url: ['https://www.primefaces.org/primeflex/'], target: '_blank' },
-              ]
-          },
-          {
-              label: 'Pages',
+              label: 'Страницы',
               icon: 'pi pi-fw pi-briefcase',
               items: [
                   {
-                      label: 'Landing',
+                      label: 'Лендинг',
                       icon: 'pi pi-fw pi-globe',
                       routerLink: ['/demo/landing']
                   },
@@ -82,7 +76,7 @@ export class DemoComponent {
                       ]
                   },
                   {
-                      label: 'Crud',
+                      label: 'CRUD',
                       icon: 'pi pi-fw pi-pencil',
                       routerLink: ['/demo/pages/crud']
                   },
@@ -97,65 +91,54 @@ export class DemoComponent {
                       routerLink: ['/demo/notfound']
                   },
                   {
-                      label: 'Empty',
+                      label: 'Пустая',
                       icon: 'pi pi-fw pi-circle-off',
                       routerLink: ['/demo/pages/empty']
                   },
               ]
           },
           {
-              label: 'Hierarchy',
+              label: 'Многуровневое меню',
               items: [
                   {
-                      label: 'Submenu 1', icon: 'pi pi-fw pi-bookmark',
+                      label: 'Подменю 1', icon: 'pi pi-fw pi-bookmark',
                       items: [
                           {
-                              label: 'Submenu 1.1', icon: 'pi pi-fw pi-bookmark',
+                              label: 'Подменю 1.1', icon: 'pi pi-fw pi-bookmark',
                               items: [
-                                  { label: 'Submenu 1.1.1', icon: 'pi pi-fw pi-bookmark' },
-                                  { label: 'Submenu 1.1.2', icon: 'pi pi-fw pi-bookmark' },
-                                  { label: 'Submenu 1.1.3', icon: 'pi pi-fw pi-bookmark' },
+                                  { label: 'Подменю 1.1.1', icon: 'pi pi-fw pi-bookmark' },
+                                  { label: 'Подменю 1.1.2', icon: 'pi pi-fw pi-bookmark' },
+                                  { label: 'Подменю 1.1.3', icon: 'pi pi-fw pi-bookmark' },
                               ]
                           },
                           {
-                              label: 'Submenu 1.2', icon: 'pi pi-fw pi-bookmark',
+                              label: 'Подменю 1.2', icon: 'pi pi-fw pi-bookmark',
                               items: [
-                                  { label: 'Submenu 1.2.1', icon: 'pi pi-fw pi-bookmark' }
+                                  { label: 'Подменю 1.2.1', icon: 'pi pi-fw pi-bookmark' }
                               ]
                           },
                       ]
                   },
                   {
-                      label: 'Submenu 2', icon: 'pi pi-fw pi-bookmark',
+                      label: 'Подменю 2', icon: 'pi pi-fw pi-bookmark',
                       items: [
                           {
-                              label: 'Submenu 2.1', icon: 'pi pi-fw pi-bookmark',
+                              label: 'Подменю 2.1', icon: 'pi pi-fw pi-bookmark',
                               items: [
-                                  { label: 'Submenu 2.1.1', icon: 'pi pi-fw pi-bookmark' },
-                                  { label: 'Submenu 2.1.2', icon: 'pi pi-fw pi-bookmark' },
+                                  { label: 'Подменю 2.1.1', icon: 'pi pi-fw pi-bookmark' },
+                                  { label: 'Подменю 2.1.2', icon: 'pi pi-fw pi-bookmark' },
                               ]
                           },
                           {
-                              label: 'Submenu 2.2', icon: 'pi pi-fw pi-bookmark',
+                              label: 'Подменю 2.2', icon: 'pi pi-fw pi-bookmark',
                               items: [
-                                  { label: 'Submenu 2.2.1', icon: 'pi pi-fw pi-bookmark' },
+                                  { label: 'Подменю 2.2.1', icon: 'pi pi-fw pi-bookmark' },
                               ]
                           },
                       ]
                   }
               ]
           },
-          {
-              label: 'Get Started',
-              items: [
-                  {
-                      label: 'Documentation', icon: 'pi pi-fw pi-question', routerLink: ['/demo/documentation']
-                  },
-                  {
-                      label: 'View Source', icon: 'pi pi-fw pi-search', url: ['https://github.com/primefaces/sakai-ng'], target: '_blank'
-                  }
-              ]
-          }
       ];
     overlayMenuOpenSubscription: Subscription;
     menuOutsideClickListener: any;

@@ -10,8 +10,10 @@ const routes: Routes = [{ path: '',
                                       { path: 'utilities', loadChildren: () => import('./components/utilities/utilities.module').then(m => m.UtilitiesModule) },
                                       { path: 'documentation', loadChildren: () => import('./components/documentation/documentation.module').then(m => m.DocumentationModule) },
                                       { path: 'blocks', loadChildren: () => import('./components/primeblocks/primeblocks.module').then(m => m.PrimeBlocksModule) },
-                                      { path: 'pages', loadChildren: () => import('./components/pages/pages.module').then(m => m.PagesModule) }
-                          ] }];
+                                      { path: 'pages', loadChildren: () => import('./components/pages/pages.module').then(m => m.PagesModule) },
+
+                          ] },
+                          { path: 'landing', loadChildren: () => import('./components/landing/landing.module').then(m => m.LandingModule) },];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

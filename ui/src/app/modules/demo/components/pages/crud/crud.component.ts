@@ -11,23 +11,14 @@ import { ProductService } from "../../../service/product.service";
 export class CrudComponent implements OnInit {
 
     productDialog: boolean = false;
-
     deleteProductDialog: boolean = false;
-
     deleteProductsDialog: boolean = false;
-
     products: Product[] = [];
-
     product: Product = {};
-
     selectedProducts: Product[] = [];
-
     submitted: boolean = false;
-
     cols: any[] = [];
-
     statuses: any[] = [];
-
     rowsPerPageOptions = [5, 10, 20];
 
     constructor(private productService: ProductService, private messageService: MessageService) { }
@@ -44,9 +35,9 @@ export class CrudComponent implements OnInit {
         ];
 
         this.statuses = [
-            { label: 'INSTOCK', value: 'instock' },
-            { label: 'LOWSTOCK', value: 'lowstock' },
-            { label: 'OUTOFSTOCK', value: 'outofstock' }
+            { label: 'В наличии', value: 'instock' },
+            { label: 'Мало', value: 'lowstock' },
+            { label: 'Закончился', value: 'outofstock' }
         ];
     }
 
