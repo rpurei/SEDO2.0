@@ -12,39 +12,39 @@ export class MessagesDemoComponent {
     constructor(private service: MessageService) { }
 
     showInfoViaToast() {
-        this.service.add({ key: 'tst', severity: 'info', summary: 'Info Message', detail: 'PrimeNG rocks' });
+        this.service.add({ key: 'tst', severity: 'info', summary: 'Информация', detail: 'Информационное сообщение' });
     }
 
     showWarnViaToast() {
-        this.service.add({ key: 'tst', severity: 'warn', summary: 'Warn Message', detail: 'There are unsaved changes' });
+        this.service.add({ key: 'tst', severity: 'warn', summary: 'Предупреждение', detail: 'Есть несохраненные изменения' });
     }
 
     showErrorViaToast() {
-        this.service.add({ key: 'tst', severity: 'error', summary: 'Error Message', detail: 'Validation failed' });
+        this.service.add({ key: 'tst', severity: 'error', summary: 'Ошибка', detail: 'Ошибка валидации' });
     }
 
     showSuccessViaToast() {
-        this.service.add({ key: 'tst', severity: 'success', summary: 'Success Message', detail: 'Message sent' });
+        this.service.add({ key: 'tst', severity: 'success', summary: 'Успешно', detail: 'Сообщение отправлено' });
     }
 
     showInfoViaMessages() {
         this.msgs = [];
-        this.msgs.push({ severity: 'info', summary: 'Info Message', detail: 'PrimeNG rocks' });
+        this.msgs.push({ severity: 'info', summary: 'Информация', detail: 'Информационное сообщение' });
     }
 
     showWarnViaMessages() {
         this.msgs = [];
-        this.msgs.push({ severity: 'warn', summary: 'Warn Message', detail: 'There are unsaved changes' });
+        this.msgs.push({ severity: 'warn', summary: 'Предупреждение', detail: 'Есть несохраненные изменения' });
     }
 
     showErrorViaMessages() {
         this.msgs = [];
-        this.msgs.push({ severity: 'error', summary: 'Error Message', detail: 'Validation failed' });
+        this.msgs.push({ severity: 'error', summary: 'Ошибка', detail: 'Ошибка валидации' });
     }
 
     showSuccessViaMessages() {
         this.msgs = [];
-        this.msgs.push({ severity: 'success', summary: 'Success Message', detail: 'Message sent' });
+        this.msgs.push({ severity: 'success', summary: 'Успешно', detail: 'Сообщение отправлено' });
     }
-    
+
 }
