@@ -8,23 +8,14 @@ import { ProductService } from "../../../service/product.service";
     providers: [ConfirmationService, MessageService]
 })
 export class OverlaysDemoComponent implements OnInit {
-
     images: any[] = [];
-
     display: boolean = false;
-
     products: Product[] = [];
-
     selectedProduct: Product = {};
-
     visibleSidebar1: boolean = false;
-
     visibleSidebar2: boolean = false;
-
     visibleSidebar3: boolean = false;
-
     visibleSidebar4: boolean = false;
-
     visibleSidebar5: boolean = false;
 
     constructor(private productService: ProductService, private confirmationService: ConfirmationService, private messageService: MessageService) { }
@@ -54,7 +45,7 @@ export class OverlaysDemoComponent implements OnInit {
     confirm1() {
         this.confirmationService.confirm({
             key: 'confirm1',
-            message: 'Are you sure to perform this action?'
+            message: 'Вы подтверждаете действие?'
         });
     }
 
@@ -62,19 +53,19 @@ export class OverlaysDemoComponent implements OnInit {
         this.confirmationService.confirm({
             key: 'confirm2',
             target: event.target || new EventTarget,
-            message: 'Are you sure that you want to proceed?',
+            message: 'Вы желаете продолжить?',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted' });
+                this.messageService.add({ severity: 'info', summary: 'Подтвеждено', detail: 'Вы подтвердили действие' });
             },
             reject: () => {
-                this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+                this.messageService.add({ severity: 'error', summary: 'Отклонено', detail: 'Вы отклонили действие' });
             }
         });
     }
 
     formatCurrency(value: number) {
-        return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+        return value.toLocaleString('ru-RU', { style: 'currency', currency: 'RUB' });
     }
 
 }
