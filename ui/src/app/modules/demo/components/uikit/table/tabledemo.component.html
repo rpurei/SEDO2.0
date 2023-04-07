@@ -1,14 +1,14 @@
 <div class="grid">
 	<div class="col-12">
 		<div class="card">
-			<h5>Filter Menu</h5>
+			<h5>Фильтр</h5>
 			<p-table #dt1 [value]="customers1" dataKey="id" [rows]="10" [loading]="loading" [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['name','country.name','representative.name','status']" responsiveLayout="scroll">
 				<ng-template pTemplate="caption">
 					<div class="flex justify-content-between flex-column sm:flex-row">
-						<button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
+						<button pButton label="Очистить" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
 						<span class="p-input-icon-left mb-2">
 							<i class="pi pi-search"></i>
-							<input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Search Keyword" class="w-full"/>
+							<input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Поиск" class="w-full"/>
 						</span>
 					</div>
 				</ng-template>
@@ -16,19 +16,19 @@
 					<tr>
 						<th style="min-width: 12rem">
 							<div class="flex justify-content-between align-items-center">
-								Name
-								<p-columnFilter type="text" field="name" display="menu" placeholder="Search by name"></p-columnFilter>
+								Имя
+								<p-columnFilter type="text" field="name" display="menu" placeholder="Поиск по имени"></p-columnFilter>
 							</div>
 						</th>
 						<th style="min-width: 12rem">
 							<div class="flex justify-content-between align-items-center">
-								Country
-								<p-columnFilter type="text" field="country.name" display="menu" placeholder="Search by country"></p-columnFilter>
+								Страна
+								<p-columnFilter type="text" field="country.name" display="menu" placeholder="Поиск по стране"></p-columnFilter>
 							</div>
 						</th>
 						<th style="min-width: 14rem">
 							<div class="flex justify-content-between align-items-center">
-								Agent
+								Агент
 								<p-columnFilter field="representative" matchMode="in" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
 									<ng-template pTemplate="header">
 										<div class="px-3 pt-3 pb-0">
@@ -50,19 +50,19 @@
 						</th>
 						<th style="min-width: 10rem">
 							<div class="flex justify-content-between align-items-center">
-								Date
+								Дата
 								<p-columnFilter type="date" field="date" display="menu" placeholder="mm/dd/yyyy"></p-columnFilter>
 							</div>
 						</th>
 						<th style="min-width: 10rem">
 							<div class="flex justify-content-between align-items-center">
-								Balance
+								Баланс
 								<p-columnFilter type="numeric" field="balance" display="menu" currency="USD"></p-columnFilter>
 							</div>
 						</th>
 						<th style="min-width: 12rem">
 							<div class="flex justify-content-between align-items-center">
-								Status
+								Статус
 								<p-columnFilter field="status" matchMode="equals" display="menu">
 									<ng-template pTemplate="filter" let-value let-filter="filterCallback">
 										<p-dropdown [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)" placeholder="Any" [style]="{'min-width': '12rem'}" >
@@ -76,7 +76,7 @@
 						</th>
 						<th style="min-width: 12rem">
 							<div class="flex justify-content-between align-items-center">
-								Activity
+								Активность
 								<p-columnFilter field="activity" matchMode="between" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
 									<ng-template pTemplate="filter" let-filter="filterCallback">
 										<p-slider [ngModel]="activityValues" [range]="true" (onSlideEnd)="filter($event.values)" styleClass="m-3" [style]="{'min-width': '12rem'}" ></p-slider>
@@ -90,7 +90,7 @@
 						</th>
 						<th style="min-width: 8rem">
 							<div class="flex justify-content-between align-items-center">
-								Verified
+								Проверен
 								<p-columnFilter type="boolean" field="verified" display="menu"></p-columnFilter>
 							</div>
 						</th>
@@ -110,10 +110,10 @@
 							<span class="image-text ml-2">{{customer.representative.name}}</span>
 						</td>
 						<td>
-							{{customer.date | date: 'MM/dd/yyyy'}}
+							{{customer.date | date: 'dd.MM.yyyy'}}
 						</td>
 						<td>
-							{{customer.balance | currency:'USD':'symbol'}}
+							{{customer.balance | currency:'RUB ':'symbol'}}
 						</td>
 						<td>
 							<span [class]="'customer-badge status-' + customer.status">{{customer.status}}</span>
@@ -128,12 +128,12 @@
 				</ng-template>
 				<ng-template pTemplate="emptymessage">
 					<tr>
-						<td colspan="8">No customers found.</td>
+						<td colspan="8">Данные не найдены</td>
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="loadingbody">
 					<tr>
-						<td colspan="8">Loading customers data. Please wait.</td>
+						<td colspan="8">Загрузка данных...</td>
 					</tr>
 				</ng-template>
     		</p-table>
@@ -143,21 +143,21 @@
 
 	<div class="col-12">
 		<div class="card">
-			<h5>Frozen Columns</h5>
-			<p-toggleButton [(ngModel)]="idFrozen" [onIcon]="'pi pi-lock'" offIcon="pi pi-lock-open" [onLabel]="'Unfreeze Id'" offLabel="Freeze Id" [style]="{'width': '12rem'}"></p-toggleButton>
+			<h5>Фиксированные колонки</h5>
+			<p-toggleButton [(ngModel)]="idFrozen" [onIcon]="'pi pi-lock'" offIcon="pi pi-lock-open" [onLabel]="'Освободить Id'" offLabel="Зафиксировать Id" [style]="{'width': '12rem'}"></p-toggleButton>
 
 			<p-table [value]="customers3" scrollDirection="both" [scrollable]="true" scrollHeight="400px" styleClass="mt-3" responsiveLayout="scroll">
 				<ng-template pTemplate="header">
 					<tr>
-						<th style="width:200px" pFrozenColumn>Name</th>
+						<th style="width:200px" pFrozenColumn>Имя</th>
 						<th style="width:200px" alignFrozen="left" pFrozenColumn [frozen]="idFrozen">Id</th>
-						<th style="width:200px">Country</th>
-						<th style="width:200px">Date</th>
-						<th style="width:200px">Company</th>
-						<th style="width:200px">Status</th>
-						<th style="width:200px">Activity</th>
-						<th style="width:200px">Representative</th>
-						<th style="width:200px" pFrozenColumn alignFrozen="right">Balance</th>
+						<th style="width:200px">Страна</th>
+						<th style="width:200px">Дата</th>
+						<th style="width:200px">Компания</th>
+						<th style="width:200px">Статус</th>
+						<th style="width:200px">Активность</th>
+						<th style="width:200px">Представитель</th>
+						<th style="width:200px" pFrozenColumn alignFrozen="right">Баланс</th>
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="body" let-customer>
@@ -187,23 +187,23 @@
 
 	<div class="col-12">
 		<div class="card">
-			<h5>Row Expand</h5>
+			<h5>Раскрывающаяся строка</h5>
 			<p-toast></p-toast>
 			<p-table [value]="products" dataKey="name" [expandedRowKeys]="expandedRows" responsiveLayout="scroll">
 				<ng-template pTemplate="caption">
-					<button pButton icon="pi pi-fw {{isExpanded ? 'pi-minus' : 'pi-plus'}}" label="{{isExpanded ? 'Collapse All' : 'Expand All'}}" (click)="expandAll()"></button>
+					<button pButton icon="pi pi-fw {{isExpanded ? 'pi-minus' : 'pi-plus'}}" label="{{isExpanded ? 'Свернуть все' : 'Развернуть все'}}" (click)="expandAll()"></button>
 					<div class="flex table-header">
 					</div>
 				</ng-template>
 				<ng-template pTemplate="header">
 					<tr>
 						<th style="width: 3rem"></th>
-						<th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
-						<th>Image</th>
-						<th pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon></th>
-						<th pSortableColumn="category">Category <p-sortIcon field="category"></p-sortIcon></th>
-						<th pSortableColumn="rating">Reviews <p-sortIcon field="rating"></p-sortIcon></th>
-						<th pSortableColumn="inventoryStatus">Status <p-sortIcon field="inventoryStatus"></p-sortIcon></th>
+						<th pSortableColumn="name">Имя <p-sortIcon field="name"></p-sortIcon></th>
+						<th>Изображение</th>
+						<th pSortableColumn="price">Цена <p-sortIcon field="price"></p-sortIcon></th>
+						<th pSortableColumn="category">Категория <p-sortIcon field="category"></p-sortIcon></th>
+						<th pSortableColumn="rating">Обзоры <p-sortIcon field="rating"></p-sortIcon></th>
+						<th pSortableColumn="inventoryStatus">Статус <p-sortIcon field="inventoryStatus"></p-sortIcon></th>
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="body" let-product let-expanded="expanded">
@@ -213,7 +213,7 @@
 						</td>
 						<td style="min-width: 12rem;">{{product.name}}</td>
 						<td><img [src]="'assets/demo/images/product/' + product.image" [alt]="product.name" width="100" class="shadow-4" /></td>
-						<td style="min-width: 8rem;">{{product.price | currency:'USD'}}</td>
+						<td style="min-width: 8rem;">{{product.price | currency:'RUB '}}</td>
 						<td style="min-width: 10rem;">{{product.category}}</td>
 						<td style="min-width: 10rem;"><p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating></td>
 						<td><span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span></td>
@@ -227,10 +227,10 @@
 									<ng-template pTemplate="header">
 					<tr>
 						<th pSortableColumn="id">Id <p-sortIcon field="price"></p-sortIcon></th>
-						<th pSortableColumn="customer">Customer <p-sortIcon field="customer"></p-sortIcon></th>
-						<th pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon></th>
-						<th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon></th>
-						<th pSortableColumn="stats">Status <p-sortIcon field="status"></p-sortIcon></th>
+						<th pSortableColumn="customer">Пользователь <p-sortIcon field="customer"></p-sortIcon></th>
+						<th pSortableColumn="date">Дата <p-sortIcon field="date"></p-sortIcon></th>
+						<th pSortableColumn="amount">Количество <p-sortIcon field="amount"></p-sortIcon></th>
+						<th pSortableColumn="stats">Статус <p-sortIcon field="status"></p-sortIcon></th>
 						<th style="width: 4rem"></th>
 					</tr>
 				</ng-template>
@@ -239,14 +239,14 @@
 						<td>{{order.id}}</td>
 						<td>{{order.customer}}</td>
 						<td>{{order.date}}</td>
-						<td>{{order.amount | currency:'USD'}}</td>
+						<td>{{order.amount | currency:'RUB '}}</td>
 						<td><span [class]="'order-badge order-' + order.status.toLowerCase()">{{order.status}}</span></td>
 						<td><p-button type="button" icon="pi pi-search"></p-button></td>
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="emptymessage">
 					<tr>
-						<td colspan="6">There are no order for this product yet.</td>
+						<td colspan="6">У этого товара нет заказов</td>
 					</tr>
 				</ng-template>
 			</p-table>
@@ -260,15 +260,15 @@
 
 	<div class="col-12">
 		<div class="card">
-			<h5>Subheader Grouping</h5>
+			<h5>Группировка заголовков</h5>
 			<p-table [value]="customers3" rowGroupMode="subheader" groupRowsBy="representative.name" sortField="representative.name" sortMode="single" (onSort)="onSort()" responsiveLayout="scroll" [scrollable]="true" scrollHeight="400px">
 				<ng-template pTemplate="header">
 					<tr>
-						<th>Name</th>
-						<th>Country</th>
-						<th>Company</th>
-						<th>Status</th>
-						<th>Date</th>
+						<th>Имя</th>
+						<th>Страна</th>
+						<th>Компания</th>
+						<th>Статус</th>
+						<th>Дата</th>
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="body" let-customer let-rowIndex="rowIndex">
