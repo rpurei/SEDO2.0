@@ -1,7 +1,7 @@
 <div class="grid">
 	<div class="col-12">
 		<div class="card">
-			<h5>DataView</h5>
+			<h5>Просмотр данных</h5>
 			<p-dataView #dv [value]="products" [paginator]="true" [rows]="9" filterBy="name" [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
 				<ng-template pTemplate="header">
 					<div class="flex flex-column md:flex-row md:justify-content-between gap-2">
@@ -9,7 +9,7 @@
 						<span class="p-input-icon-left">
                             <i class="pi pi-search"></i>
                             <input type="search" pInputText placeholder="Search by Name" (input)="onFilter(dv, $event)">
-                        </span>	
+                        </span>
 						<p-dataViewLayoutOptions></p-dataViewLayoutOptions>
 					</div>
 				</ng-template>
@@ -53,7 +53,7 @@
 								<p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
 							</div>
 							<div class="flex align-items-center justify-content-between">
-								<span class="text-2xl font-semibold">${{product.price}}</span>
+								<span class="text-2xl font-semibold">RUB {{product.price}}</span>
 								<p-button icon="pi pi-shopping-cart" [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></p-button>
 							</div>
 						</div>
@@ -65,8 +65,8 @@
 
 	<div class="col-12 xl:col-8">
 		<div class="card">
-			<h5>PickList</h5>
-			<p-pickList [source]="sourceCities" [target]="targetCities" sourceHeader="From" targetHeader="To" [dragdrop]="true"
+			<h5>Список выбора</h5>
+			<p-pickList [source]="sourceCities" [target]="targetCities" sourceHeader="Из" targetHeader="В" [dragdrop]="true"
 						[responsive]="true" [sourceStyle]="{'height':'250px'}" [targetStyle]="{'height':'250px'}">
 				<ng-template let-city pTemplate="item">
 					<div>{{city.name}}</div>
@@ -77,8 +77,8 @@
 
 	<div class="col-12 xl:col-4">
 		<div class="card">
-			<h5>OrderList</h5>
-			<p-orderList [value]="orderCities" header="Cities" [dragdrop]="true" [listStyle]="{'height':'250px'}">
+			<h5>Упорядоченный список</h5>
+			<p-orderList [value]="orderCities" header="Города" [dragdrop]="true" [listStyle]="{'height':'250px'}">
 				<ng-template let-city pTemplate="item">
 					<div>{{city.name}}</div>
 				</ng-template>

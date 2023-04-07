@@ -10,17 +10,11 @@ import { ProductService } from "../../../service/product.service";
 export class ListDemoComponent implements OnInit {
 
     products: Product[] = [];
-
     sortOptions: SelectItem[] = [];
-
     sortOrder: number = 0;
-
     sortField: string = '';
-
     sourceCities: any[] = [];
-
     targetCities: any[] = [];
-
     orderCities: any[] = [];
 
     constructor(private productService: ProductService) { }
@@ -29,28 +23,22 @@ export class ListDemoComponent implements OnInit {
         this.productService.getProducts().then(data => this.products = data);
 
         this.sourceCities = [
-            { name: 'San Francisco', code: 'SF' },
-            { name: 'London', code: 'LDN' },
-            { name: 'Paris', code: 'PRS' },
-            { name: 'Istanbul', code: 'IST' },
-            { name: 'Berlin', code: 'BRL' },
-            { name: 'Barcelona', code: 'BRC' },
-            { name: 'Rome', code: 'RM' }];
+            {name: 'Белгород', code: 'BLG'},
+            {name: 'Воронеж', code: 'VRN'},
+            {name: 'Курск', code: 'KRS'}
+        ];
 
         this.targetCities = [];
 
         this.orderCities = [
-            { name: 'San Francisco', code: 'SF' },
-            { name: 'London', code: 'LDN' },
-            { name: 'Paris', code: 'PRS' },
-            { name: 'Istanbul', code: 'IST' },
-            { name: 'Berlin', code: 'BRL' },
-            { name: 'Barcelona', code: 'BRC' },
-            { name: 'Rome', code: 'RM' }];
+            {name: 'Белгород', code: 'BLG'},
+            {name: 'Воронеж', code: 'VRN'},
+            {name: 'Курск', code: 'KRS'}
+        ];
 
         this.sortOptions = [
-            { label: 'Price High to Low', value: '!price' },
-            { label: 'Price Low to High', value: 'price' }
+            { label: 'Цена по убыванию', value: '!price' },
+            { label: 'Цена по возрастанию', value: 'price' }
         ];
     }
 
