@@ -1,199 +1,199 @@
 {
     "data":
-    [  
-        {  
-            "data":{  
-                "name":"Applications",
+    [
+        {
+            "data":{
+                "name":"Приложение",
                 "size":"200mb",
-                "type":"Folder"
+                "type":"Папка"
             },
-            "children":[  
-                {  
-                    "data":{  
+            "children":[
+                {
+                    "data":{
                         "name":"Angular",
                         "size":"25mb",
-                        "type":"Folder"
+                        "type":"Папка"
                     },
-                    "children":[  
-                        {  
-                            "data":{  
+                    "children":[
+                        {
+                            "data":{
                                 "name":"angular.app",
                                 "size":"10mb",
-                                "type":"Application"
+                                "type":"Приложение"
                             }
                         },
-                        {  
-                            "data":{  
+                        {
+                            "data":{
                                 "name":"cli.app",
                                 "size":"10mb",
-                                "type":"Application"
+                                "type":"Приложение"
                             }
                         },
-                        {  
-                            "data":{  
+                        {
+                            "data":{
                                 "name":"mobile.app",
                                 "size":"5mb",
-                                "type":"Application"
+                                "type":"Приложение"
                             }
                         }
                     ]
                 },
-                {  
-                    "data":{  
+                {
+                    "data":{
                         "name":"editor.app",
                         "size":"25mb",
-                        "type":"Application"
+                        "type":"Приложение"
                     }
                 },
-                {  
-                    "data":{  
+                {
+                    "data":{
                         "name":"settings.app",
                         "size":"50mb",
-                        "type":"Application"
+                        "type":"Приложение"
                     }
                 }
             ]
         },
-        {  
-            "data":{  
-                "name":"Cloud",
+        {
+            "data":{
+                "name":"Облако",
                 "size":"20mb",
-                "type":"Folder"
+                "type":"Папка"
             },
-            "children":[  
-                {  
-                    "data":{  
+            "children":[
+                {
+                    "data":{
                         "name":"backup-1.zip",
                         "size":"10mb",
                         "type":"Zip"
                     }
                 },
-                {  
-                    "data":{  
+                {
+                    "data":{
                         "name":"backup-2.zip",
                         "size":"10mb",
-                        "type":"Zip"
+                        "type":"Архив zip"
                     }
                 }
             ]
         },
-        {  
-            "data": {  
-                "name":"Desktop",
+        {
+            "data": {
+                "name":"Рабочий стол",
                 "size":"150kb",
-                "type":"Folder"
-            },
-            "children":[  
-                {  
-                    "data":{  
-                        "name":"note-meeting.txt",
-                        "size":"50kb",
-                        "type":"Text"
-                    }
-                },
-                {  
-                    "data":{  
-                        "name":"note-todo.txt",
-                        "size":"100kb",
-                        "type":"Text"
-                    }
-                }
-            ]
-        },
-        {  
-            "data":{  
-                "name":"Documents",
-                "size":"75kb",
-                "type":"Folder"
+                "type":"Папка"
             },
             "children":[
-                {  
-                    "data":{  
+                {
+                    "data":{
+                        "name":"note-meeting.txt",
+                        "size":"50kb",
+                        "type":"Текст"
+                    }
+                },
+                {
+                    "data":{
+                        "name":"note-todo.txt",
+                        "size":"100kb",
+                        "type":"Текст"
+                    }
+                }
+            ]
+        },
+        {
+            "data":{
+                "name":"Документ",
+                "size":"75kb",
+                "type":"Папка"
+            },
+            "children":[
+                {
+                    "data":{
                         "name":"Work",
                         "size":"55kb",
-                        "type":"Folder"
+                        "type":"Папка"
                     },
-                    "children":[  
-                        {  
-                            "data":{  
+                    "children":[
+                        {
+                            "data":{
                                 "name":"Expenses.doc",
                                 "size":"30kb",
-                                "type":"Document"
+                                "type":"Документ Word"
                             }
                         },
-                        {  
-                            "data":{  
+                        {
+                            "data":{
                                 "name":"Resume.doc",
                                 "size":"25kb",
-                                "type":"Resume"
+                                "type":"Документ Word"
                             }
                         }
                     ]
                 },
-                {  
-                    "data":{  
-                        "name":"Home",
+                {
+                    "data":{
+                        "name":"Профиль",
                         "size":"20kb",
-                        "type":"Folder"
+                        "type":"Папка"
                     },
-                    "children":[  
-                        {  
-                            "data":{  
-                                "name":"Invoices",
+                    "children":[
+                        {
+                            "data":{
+                                "name":"Счета",
                                 "size":"20kb",
-                                "type":"Text"
+                                "type":"Текст"
                             }
                         }
                     ]
                 }
             ]
         },
-        {  
-            "data": {  
-                "name":"Downloads",
+        {
+            "data": {
+                "name":"Загрузки",
                 "size":"25mb",
-                "type":"Folder"
+                "type":"Папка"
             },
-            "children":[  
-                {  
-                    "data": {  
-                        "name":"Spanish",
+            "children":[
+                {
+                    "data": {
+                        "name":"Испанский",
                         "size":"10mb",
-                        "type":"Folder"
+                        "type":"Папка"
                     },
-                    "children":[  
-                        {  
-                            "data":{  
+                    "children":[
+                        {
+                            "data":{
                                 "name":"tutorial-a1.txt",
                                 "size":"5mb",
-                                "type":"Text"
+                                "type":"Текст"
                             }
                         },
-                        {  
-                            "data":{  
+                        {
+                            "data":{
                                 "name":"tutorial-a2.txt",
                                 "size":"5mb",
-                                "type":"Text"
+                                "type":"Текст"
                             }
                         }
                     ]
                 },
-                {  
-                    "data":{  
-                        "name":"Travel",
+                {
+                    "data":{
+                        "name":"Путешествия",
                         "size":"15mb",
-                        "type":"Text"
+                        "type":"Текст"
                     },
-                    "children":[  
-                        {  
-                            "data":{  
+                    "children":[
+                        {
+                            "data":{
                                 "name":"Hotel.pdf",
                                 "size":"10mb",
                                 "type":"PDF"
                             }
                         },
-                        {  
-                            "data":{  
+                        {
+                            "data":{
                                 "name":"Flight.pdf",
                                 "size":"5mb",
                                 "type":"PDF"
@@ -203,108 +203,108 @@
                 }
             ]
         },
-        {  
-            "data": {  
-                "name":"Main",
+        {
+            "data": {
+                "name":"Linux",
                 "size":"50mb",
-                "type":"Folder"
+                "type":"Папка"
             },
-            "children":[  
-                {  
-                    "data":{  
+            "children":[
+                {
+                    "data":{
                         "name":"bin",
                         "size":"50kb",
-                        "type":"Link"
+                        "type":"Ссылка"
                     }
                 },
-                {  
-                    "data":{  
+                {
+                    "data":{
                         "name":"etc",
                         "size":"100kb",
-                        "type":"Link"
+                        "type":"Ссылка"
                     }
                 },
-                {  
-                    "data":{  
+                {
+                    "data":{
                         "name":"var",
                         "size":"100kb",
-                        "type":"Link"
+                        "type":"Ссылка"
                     }
                 }
             ]
         },
-        {  
-            "data":{  
-                "name":"Other",
+        {
+            "data":{
+                "name":"Прочее",
                 "size":"5mb",
-                "type":"Folder"
+                "type":"Папка"
             },
-            "children":[  
-                {  
-                    "data":{  
+            "children":[
+                {
+                    "data":{
                         "name":"todo.txt",
                         "size":"3mb",
-                        "type":"Text"
+                        "type":"Текст"
                     }
                 },
-                {  
-                    "data":{  
+                {
+                    "data":{
                         "name":"logo.png",
                         "size":"2mb",
-                        "type":"Picture"
+                        "type":"Изображение"
                     }
                 }
             ]
         },
-        {  
-            "data":{  
-                "name":"Pictures",
+        {
+            "data":{
+                "name":"Изображение",
                 "size":"150kb",
-                "type":"Folder"
+                "type":"Папка"
             },
-            "children":[  
-                {  
-                    "data":{  
+            "children":[
+                {
+                    "data":{
                         "name":"barcelona.jpg",
                         "size":"90kb",
-                        "type":"Picture"
+                        "type":"Изображение"
                     }
                 },
-                {  
-                    "data":{  
+                {
+                    "data":{
                         "name":"primeng.png",
                         "size":"30kb",
-                        "type":"Picture"
+                        "type":"Изображение"
                     }
                 },
-                {  
-                    "data":{  
+                {
+                    "data":{
                         "name":"prime.jpg",
                         "size":"30kb",
-                        "type":"Picture"
+                        "type":"Изображение"
                     }
                 }
             ]
         },
-        {  
-            "data":{  
-                "name":"Videos",
+        {
+            "data":{
+                "name":"Видео",
                 "size":"1500mb",
-                "type":"Folder"
+                "type":"Папка"
             },
-            "children":[  
-                {  
-                    "data":{  
+            "children":[
+                {
+                    "data":{
                         "name":"primefaces.mkv",
                         "size":"1000mb",
-                        "type":"Video"
+                        "type":"Видео"
                     }
                 },
-                {  
-                    "data":{  
+                {
+                    "data":{
                         "name":"intro.avi",
                         "size":"500mb",
-                        "type":"Video"
+                        "type":"Видео"
                     }
                 }
             ]

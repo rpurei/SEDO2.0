@@ -1,19 +1,19 @@
 {
     "data":
-    [  
-        {  
-            "data":{  
-                "name":"Lazy Folder 0",
+    [
+        {
+            "data":{
+                "name":"Папка 0",
                 "size":"75kb",
-                "type":"Folder"
+                "type":"Папка"
             },
             "leaf": false
         },
-        {  
-            "data":{  
-                "name":"Lazy Folder 1",
+        {
+            "data":{
+                "name":"Папка 1",
                 "size":"150kb",
-                "type":"Folder"
+                "type":"Папка"
             },
             "leaf": false
         }
