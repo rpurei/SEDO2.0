@@ -8,25 +8,15 @@ import { LayoutService } from "../../../../../services/layout.service";
 export class ChartsDemoComponent implements OnInit, OnDestroy {
 
     lineData: any;
-
     barData: any;
-
     pieData: any;
-
     polarData: any;
-
     radarData: any;
-
     lineOptions: any;
-
     barOptions: any;
-
     pieOptions: any;
-
     polarOptions: any;
-
     radarOptions: any;
-
     subscription: Subscription;
 
     constructor(public layoutService: LayoutService) {
@@ -46,16 +36,16 @@ export class ChartsDemoComponent implements OnInit, OnDestroy {
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
         this.barData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            labels: ['Январь', 'Ферваль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль'],
             datasets: [
                 {
-                    label: 'My First dataset',
+                    label: 'Первый датасет',
                     backgroundColor: documentStyle.getPropertyValue('--primary-500'),
                     borderColor: documentStyle.getPropertyValue('--primary-500'),
                     data: [65, 59, 80, 81, 56, 55, 40]
                 },
                 {
-                    label: 'My Second dataset',
+                    label: 'Второй датасет',
                     backgroundColor: documentStyle.getPropertyValue('--primary-200'),
                     borderColor: documentStyle.getPropertyValue('--primary-200'),
                     data: [28, 48, 40, 19, 86, 27, 90]
@@ -126,10 +116,10 @@ export class ChartsDemoComponent implements OnInit, OnDestroy {
         };
 
         this.lineData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            labels: ['Январь', 'Ферваль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль'],
             datasets: [
                 {
-                    label: 'First Dataset',
+                    label: 'Первый датасет',
                     data: [65, 59, 80, 81, 56, 55, 40],
                     fill: false,
                     backgroundColor: documentStyle.getPropertyValue('--primary-500'),
@@ -137,7 +127,7 @@ export class ChartsDemoComponent implements OnInit, OnDestroy {
                     tension: .4
                 },
                 {
-                    label: 'Second Dataset',
+                    label: 'Второй датасет',
                     data: [28, 48, 40, 19, 86, 27, 90],
                     fill: false,
                     backgroundColor: documentStyle.getPropertyValue('--primary-200'),
@@ -191,13 +181,13 @@ export class ChartsDemoComponent implements OnInit, OnDestroy {
                     documentStyle.getPropertyValue('--teal-500'),
                     documentStyle.getPropertyValue('--orange-500')
                 ],
-                label: 'My dataset'
+                label: 'Датасет'
             }],
             labels: [
-                'Indigo',
-                'Purple',
-                'Teal',
-                'Orange'
+                'Синий',
+                'Фиолетовый',
+                'Салатовый',
+                'Оранжевый'
             ]
         };
 
@@ -219,10 +209,10 @@ export class ChartsDemoComponent implements OnInit, OnDestroy {
         };
 
         this.radarData = {
-            labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
+            labels: ['Жрало', 'Пило', 'Спало', 'Прокрастинировало', 'Кодило', 'Ползало', 'Бегало'],
             datasets: [
                 {
-                    label: 'My First dataset',
+                    label: 'Первый датасет',
                     borderColor: documentStyle.getPropertyValue('--indigo-400'),
                     pointBackgroundColor: documentStyle.getPropertyValue('--indigo-400'),
                     pointBorderColor: documentStyle.getPropertyValue('--indigo-400'),
@@ -231,7 +221,7 @@ export class ChartsDemoComponent implements OnInit, OnDestroy {
                     data: [65, 59, 90, 81, 56, 55, 40]
                 },
                 {
-                    label: 'My Second dataset',
+                    label: 'Второй датасет',
                     borderColor: documentStyle.getPropertyValue('--purple-400'),
                     pointBackgroundColor: documentStyle.getPropertyValue('--purple-400'),
                     pointBorderColor: documentStyle.getPropertyValue('--purple-400'),
