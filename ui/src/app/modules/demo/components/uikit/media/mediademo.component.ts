@@ -6,12 +6,11 @@ import { Product } from "../../../api/product";
 @Component({
     templateUrl: './mediademo.component.html'
 })
+
 export class MediaDemoComponent implements OnInit {
 
     products!: Product[];
-
     images!: any[];
-
     galleriaResponsiveOptions: any[] = [
         {
             breakpoint: '1024px',
@@ -30,7 +29,6 @@ export class MediaDemoComponent implements OnInit {
             numVisible: 1
         }
     ];
-
     carouselResponsiveOptions: any[] = [
         {
             breakpoint: '1024px',

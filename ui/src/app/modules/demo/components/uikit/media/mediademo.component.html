@@ -1,7 +1,7 @@
 <div class="grid p-fluid">
     <div class="col-12">
         <div class="card">
-            <h5>Carousel</h5>
+            <h5>Карусель</h5>
             <p-carousel [value]="products" [numVisible]="3" [numScroll]="3" [circular]="false" [responsiveOptions]="carouselResponsiveOptions">
                 <ng-template let-product pTemplate="item">
                         <div class="border-round m-2 text-center p-2" style="border: 1px solid var(--surface-d)">
@@ -10,8 +10,10 @@
                             </div>
                             <div>
                                 <h5 class="mb-1">{{product.name}}</h5>
-                                <h6 class="mt-0 mb-3">${{product.price}}</h6>
-                                <span [class]="'product-badge status-'+product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>
+                                <h6 class="mt-0 mb-3">RUB {{product.price}}</h6>
+                                <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()" *ngIf="product.inventoryStatus === 'INSTOCK'">В наличии</span>
+                                <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()" *ngIf="product.inventoryStatus === 'LOWSTOCK'">Мало</span>
+                                <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()" *ngIf="product.inventoryStatus === 'OUTOFSTOCK'">Закончился</span>
                                 <div class="my-5">
                                     <button pButton pRipple icon="pi pi-search" class="mr-2 p-button-rounded"></button>
                                     <button pButton pRipple icon="pi pi-star-fill" class="mr-2 p-button-rounded p-button-success"></button>
@@ -26,16 +28,16 @@
 
     <div class="col-12">
         <div class="card">
-            <h5>Image</h5>
+            <h5>Изображение</h5>
             <div class="flex justify-content-center">
-                <p-image src="assets/demo/images/galleria/galleria10.jpg" alt="Image" width="250" [preview]="true"></p-image>
+                <p-image src="assets/demo/images/galleria/galleria10.jpg" alt="Изображение" width="250" [preview]="true"></p-image>
             </div>
         </div>
     </div>
 
     <div class="col-12">
         <div class="card">
-            <h5>Galleria</h5>
+            <h5>Галерея</h5>
             <p-galleria [value]="images" [responsiveOptions]="galleriaResponsiveOptions"
                         [containerStyle]="{'max-width': '800px', 'margin':'auto'}" [numVisible]="6" [circular]="true">
                 <ng-template pTemplate="item" let-item>
