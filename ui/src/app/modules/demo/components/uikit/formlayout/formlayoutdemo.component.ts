@@ -16,9 +16,9 @@ export class FormLayoutDemoComponent {
     ];
 
     dropdownItems = [
-        { name: 'Option 1', code: 'Option 1' },
-        { name: 'Option 2', code: 'Option 2' },
-        { name: 'Option 3', code: 'Option 3' }
+        { name: 'Белгородская обл', code: '31' },
+        { name: 'Воронежская обл', code: '36' },
+        { name: 'Курская обл', code: '46' }
     ];
 
     cities1: any[] = [];

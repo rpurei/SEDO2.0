@@ -13,30 +13,29 @@ import {NavigationEnd, Router} from "@angular/router";
 export class DemoComponent {
   pageMenu: any[] = [
           {
-              label: 'Home',
               items: [
-                  { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] }
+                  { label: 'Главная', icon: 'pi pi-fw pi-home', routerLink: ['/'] }
               ]
           },
           {
-              label: 'UI Components',
+              label: 'UI Компоненты',
               items: [
-                  { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', routerLink: ['/demo/uikit/formlayout'] },
-                  { label: 'Input', icon: 'pi pi-fw pi-check-square', routerLink: ['/demo/uikit/input'] },
-                  { label: 'Float Label', icon: 'pi pi-fw pi-bookmark', routerLink: ['/demo/uikit/floatlabel'] },
-                  { label: 'Invalid State', icon: 'pi pi-fw pi-exclamation-circle', routerLink: ['/demo/uikit/invalidstate'] },
-                  { label: 'Button', icon: 'pi pi-fw pi-box', routerLink: ['/demo/uikit/button'] },
-                  { label: 'Table', icon: 'pi pi-fw pi-table', routerLink: ['/demo/uikit/table'] },
-                  { label: 'List', icon: 'pi pi-fw pi-list', routerLink: ['/demo/uikit/list'] },
-                  { label: 'Tree', icon: 'pi pi-fw pi-share-alt', routerLink: ['/demo/uikit/tree'] },
-                  { label: 'Panel', icon: 'pi pi-fw pi-tablet', routerLink: ['/demo/uikit/panel'] },
-                  { label: 'Overlay', icon: 'pi pi-fw pi-clone', routerLink: ['/demo/uikit/overlay'] },
-                  { label: 'Media', icon: 'pi pi-fw pi-image', routerLink: ['/demo/uikit/media'] },
-                  { label: 'Menu', icon: 'pi pi-fw pi-bars', routerLink: ['/demo/uikit/menu'], routerLinkActiveOptions: { paths: 'subset', queryParams: 'ignored', matrixParams: 'ignored', fragment: 'ignored' } },
-                  { label: 'Message', icon: 'pi pi-fw pi-comment', routerLink: ['/demo/uikit/message'] },
-                  { label: 'File', icon: 'pi pi-fw pi-file', routerLink: ['/demo/uikit/file'] },
-                  { label: 'Chart', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/demo/uikit/charts'] },
-                  { label: 'Misc', icon: 'pi pi-fw pi-circle', routerLink: ['/demo/uikit/misc'] }
+                  { label: 'Формы', icon: 'pi pi-fw pi-id-card', routerLink: ['/demo/uikit/formlayout'] },
+                  { label: 'Ввод', icon: 'pi pi-fw pi-check-square', routerLink: ['/demo/uikit/input'] },
+                  { label: 'Название поля', icon: 'pi pi-fw pi-bookmark', routerLink: ['/demo/uikit/floatlabel'] },
+                  { label: 'Ошибка поля', icon: 'pi pi-fw pi-exclamation-circle', routerLink: ['/demo/uikit/invalidstate'] },
+                  { label: 'Кнопки', icon: 'pi pi-fw pi-box', routerLink: ['/demo/uikit/button'] },
+                  { label: 'Таблица', icon: 'pi pi-fw pi-table', routerLink: ['/demo/uikit/table'] },
+                  { label: 'Список', icon: 'pi pi-fw pi-list', routerLink: ['/demo/uikit/list'] },
+                  { label: 'Дерево', icon: 'pi pi-fw pi-share-alt', routerLink: ['/demo/uikit/tree'] },
+                  { label: 'Панель', icon: 'pi pi-fw pi-tablet', routerLink: ['/demo/uikit/panel'] },
+                  { label: 'Оверлей', icon: 'pi pi-fw pi-clone', routerLink: ['/demo/uikit/overlay'] },
+                  { label: 'Изображения', icon: 'pi pi-fw pi-image', routerLink: ['/demo/uikit/media'] },
+                  { label: 'Меню', icon: 'pi pi-fw pi-bars', routerLink: ['/demo/uikit/menu'], routerLinkActiveOptions: { paths: 'subset', queryParams: 'ignored', matrixParams: 'ignored', fragment: 'ignored' } },
+                  { label: 'Сообщение', icon: 'pi pi-fw pi-comment', routerLink: ['/demo/uikit/message'] },
+                  { label: 'Файлы', icon: 'pi pi-fw pi-file', routerLink: ['/demo/uikit/file'] },
+                  { label: 'Графики', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/demo/uikit/charts'] },
+                  { label: 'Разное', icon: 'pi pi-fw pi-circle', routerLink: ['/demo/uikit/misc'] }
               ]
           },
           {
