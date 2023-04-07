@@ -12,153 +12,143 @@ import { MegaMenuItem, MenuItem } from 'primeng/api';
 export class MenusComponent implements OnInit {
 
     breadcrumbItems: MenuItem[] = [];
-
     tieredItems: MenuItem[] = [];
-
     items: MenuItem[] = [];
-
     routeItems: MenuItem[] = [];
-
     megaMenuItems: MegaMenuItem[] = [];
-
     panelMenuItems: MenuItem[] = [];
-
     stepsItems: MenuItem[] = [];
-
     slideItems: MenuItem[] = [];
-
     menuItems: MenuItem[] = [];
-
     plainMenuItems: MenuItem[] = [];
-
     pageIndex: number = 0;
 
     ngOnInit() {
         this.tieredItems = [
             {
-                label: 'Customers',
+                label: 'Клиенты',
                 icon: 'pi pi-fw pi-table',
                 items: [
                     {
-                        label: 'New',
+                        label: 'Новый',
                         icon: 'pi pi-fw pi-plus',
                         items: [
                             {
-                                label: 'Customer',
+                                label: 'Клиент',
                                 icon: 'pi pi-fw pi-plus'
                             },
                             {
-                                label: 'Duplicate',
+                                label: 'Копировать',
                                 icon: 'pi pi-fw pi-copy'
                             },
 
                         ]
                     },
                     {
-                        label: 'Edit',
+                        label: 'Редактировать',
                         icon: 'pi pi-fw pi-user-edit'
                     }
                 ]
             },
             {
-                label: 'Orders',
+                label: 'Заказы',
                 icon: 'pi pi-fw pi-shopping-cart',
                 items: [
                     {
-                        label: 'View',
+                        label: 'Вид',
                         icon: 'pi pi-fw pi-list'
                     },
                     {
-                        label: 'Search',
+                        label: 'Поиск',
                         icon: 'pi pi-fw pi-search'
                     }
 
                 ]
             },
             {
-                label: 'Shipments',
+                label: 'Доставка',
                 icon: 'pi pi-fw pi-envelope',
                 items: [
                     {
-                        label: 'Tracker',
+                        label: 'Отслеживать',
                         icon: 'pi pi-fw pi-compass',
 
                     },
                     {
-                        label: 'Map',
+                        label: 'Карта',
                         icon: 'pi pi-fw pi-map-marker',
 
                     },
                     {
-                        label: 'Manage',
+                        label: 'Управление',
                         icon: 'pi pi-fw pi-pencil'
                     }
                 ]
             },
             {
-                label: 'Profile',
+                label: 'Профиль',
                 icon: 'pi pi-fw pi-user',
                 items: [
                     {
-                        label: 'Settings',
+                        label: 'Настройки',
                         icon: 'pi pi-fw pi-cog'
                     },
                     {
-                        label: 'Billing',
+                        label: 'Оплата',
                         icon: 'pi pi-fw pi-file'
                     }
                 ]
             },
             { separator: true },
             {
-                label: 'Quit',
+                label: 'Выход',
                 icon: 'pi pi-fw pi-sign-out'
             }
         ];
 
         this.items = [
             {
-                label: 'Customers',
+                label: 'Клиенты',
                 items: [
                     {
-                        label: 'New',
+                        label: 'Новый',
                         icon: 'pi pi-fw pi-plus'
                     },
                     {
-                        label: 'Edit',
+                        label: 'Редактировать',
                         icon: 'pi pi-fw pi-user-edit'
                     }
                 ]
             },
             {
-                label: 'Orders',
+                label: 'Заказы',
                 items: [
                     {
-                        label: 'View',
+                        label: 'Вид',
                         icon: 'pi pi-fw pi-list'
                     },
                     {
-                        label: 'Search',
+                        label: 'Поиск',
                         icon: 'pi pi-fw pi-search'
                     }
 
                 ]
             },
             {
-                label: 'Shipments',
+                label: 'Доставка',
                 items: [
                     {
-                        label: 'Tracker',
+                        label: 'Отслеживать',
                         icon: 'pi pi-fw pi-compass',
 
                     },
                     {
-                        label: 'Map',
+                        label: 'Карта',
                         icon: 'pi pi-fw pi-map-marker',
 
                     },
                     {
-                        label: 'Manage',
+                        label: 'Управление',
                         icon: 'pi pi-fw pi-pencil'
                     }
                 ]
@@ -167,82 +157,82 @@ export class MenusComponent implements OnInit {
 
         this.menuItems = [
             {
-                label: 'Save', icon: 'pi pi-fw pi-check'
+                label: 'Сохранить', icon: 'pi pi-fw pi-check'
             },
             {
-                label: 'Update', icon: 'pi pi-fw pi-refresh'
+                label: 'Обновить', icon: 'pi pi-fw pi-refresh'
             },
             {
-                label: 'Delete', icon: 'pi pi-fw pi-trash'
+                label: 'Удалить', icon: 'pi pi-fw pi-trash'
             },
             {
                 separator: true
             },
             {
-                label: 'Home', icon: 'pi pi-fw pi-home'
+                label: 'Главная', icon: 'pi pi-fw pi-home'
             },
         ];
 
         this.slideItems = [
             {
-                label: 'Customers',
+                label: 'Клиенты',
                 icon: 'pi pi-fw pi-table',
                 items: [
                     {
-                        label: 'New',
+                        label: 'Новый',
                         icon: 'pi pi-fw pi-plus'
                     },
                     {
-                        label: 'Edit',
+                        label: 'Редактировать',
                         icon: 'pi pi-fw pi-user-edit'
                     }
                 ]
             },
             {
-                label: 'Orders',
+                label: 'Заказы',
                 icon: 'pi pi-fw pi-shopping-cart',
                 items: [
                     {
-                        label: 'View',
+                        label: 'Вид',
                         icon: 'pi pi-fw pi-list'
                     },
                     {
-                        label: 'Search',
+                        label: 'Поиск',
                         icon: 'pi pi-fw pi-search'
                     }
 
                 ]
             },
             {
-                label: 'Shipments',
+                label: 'Доставка',
                 icon: 'pi pi-fw pi-envelope',
                 items: [
                     {
-                        label: 'Tracker',
+                        label: 'Отслеживать',
                         icon: 'pi pi-fw pi-compass',
 
                     },
                     {
-                        label: 'Map',
+                        label: 'Карта',
                         icon: 'pi pi-fw pi-map-marker',
 
                     },
                     {
-                        label: 'Manage',
+                        label: 'Управление',
                         icon: 'pi pi-fw pi-pencil'
                     }
                 ]
             },
             {
-                label: 'Profile',
+                label: 'Профиль',
                 icon: 'pi pi-fw pi-user',
                 items: [
                     {
-                        label: 'Settings',
+                        label: 'Настройки',
                         icon: 'pi pi-fw pi-cog'
                     },
                     {
-                        label: 'Billing',
+                        label: 'Оплата',
                         icon: 'pi pi-fw pi-file'
                     }
                 ]
@@ -251,27 +241,27 @@ export class MenusComponent implements OnInit {
 
         this.plainMenuItems = [
             {
-                label: 'Customers',
+                label: 'Клиенты',
                 items: [
                     {
-                        label: 'New',
+                        label: 'Новый',
                         icon: 'pi pi-fw pi-plus'
                     },
                     {
-                        label: 'Edit',
+                        label: 'Редактировать',
                         icon: 'pi pi-fw pi-user-edit'
                     }
                 ]
             },
             {
-                label: 'Orders',
+                label: 'Заказы',
                 items: [
                     {
-                        label: 'View',
+                        label: 'Вид',
                         icon: 'pi pi-fw pi-list'
                     },
                     {
-                        label: 'Search',
+                        label: 'Поиск',
                         icon: 'pi pi-fw pi-search'
                     }
 
@@ -280,119 +270,118 @@ export class MenusComponent implements OnInit {
         ];
 
         this.breadcrumbItems = [];
-        this.breadcrumbItems.push({ label: 'Electronics' });
-        this.breadcrumbItems.push({ label: 'Computer' });
-        this.breadcrumbItems.push({ label: 'Notebook' });
-        this.breadcrumbItems.push({ label: 'Accessories' });
-        this.breadcrumbItems.push({ label: 'Backpacks' });
-        this.breadcrumbItems.push({ label: 'Item' });
+        this.breadcrumbItems.push({ label: 'Электроника' });
+        this.breadcrumbItems.push({ label: 'Компьютеры' });
+        this.breadcrumbItems.push({ label: 'Ноутбуки' });
+        this.breadcrumbItems.push({ label: 'Аксессуары' });
+        this.breadcrumbItems.push({ label: 'Сумки' });
 
         this.routeItems = [
-            { label: 'Personal', routerLink: 'personal' },
-            { label: 'Seat', routerLink: 'seat' },
-            { label: 'Payment', routerLink: 'payment' },
-            { label: 'Confirmation', routerLink: 'confirmation' },
+            { label: 'Выбор даты вылета', routerLink: 'personal' },
+            { label: 'Выбор места', routerLink: 'seat' },
+            { label: 'Оплата', routerLink: 'payment' },
+            { label: 'Подтверждение', routerLink: 'confirmation' },
         ];
 
         this.megaMenuItems = [
             {
-                label: 'Fashion', icon: 'pi pi-fw pi-tag',
+                label: 'Одежда', icon: 'pi pi-fw pi-tag',
                 items: [
                     [
                         {
-                            label: 'Women',
-                            items: [{ label: 'Women Item' }, { label: 'Women Item' }, { label: 'Women Item' }]
+                            label: 'Женская',
+                            items: [{ label: 'Трусишки' }, { label: 'Обувь' }, { label: 'Юбки' }]
                         },
                         {
-                            label: 'Men',
-                            items: [{ label: 'Men Item' }, { label: 'Men Item' }, { label: 'Men Item' }]
+                            label: 'Мужская',
+                            items: [{ label: 'Брюки' }, { label: 'Рубашки' }, { label: 'Обувь' }]
                         }
                     ],
                     [
                         {
-                            label: 'Kids',
-                            items: [{ label: 'Kids Item' }, { label: 'Kids Item' }]
+                            label: 'Детская',
+                            items: [{ label: 'Верхняя' }, { label: 'Обувь' }]
                         },
                         {
-                            label: 'Luggage',
-                            items: [{ label: 'Luggage Item' }, { label: 'Luggage Item' }, { label: 'Luggage Item' }]
+                            label: 'Сумки',
+                            items: [{ label: 'Дорожные' }, { label: 'Женские' }, { label: 'Мужские' }]
                         }
                     ]
                 ]
             },
             {
-                label: 'Electronics', icon: 'pi pi-fw pi-desktop',
+                label: 'Электроника', icon: 'pi pi-fw pi-desktop',
                 items: [
                     [
                         {
-                            label: 'Computer',
-                            items: [{ label: 'Computer Item' }, { label: 'Computer Item' }]
+                            label: 'Компьютеры',
+                            items: [{ label: 'Ноутбуки' }, { label: 'Моноблоки' }]
                         },
                         {
-                            label: 'Camcorder',
-                            items: [{ label: 'Camcorder Item' }, { label: 'Camcorder Item' }, { label: 'Camcorder Item' }]
+                            label: 'Мобильные',
+                            items: [{ label: 'Смартфоны' }, { label: 'Планшеты' }, { label: 'Электронные книги' }]
                         }
                     ],
                     [
                         {
-                            label: 'TV',
-                            items: [{ label: 'TV Item' }, { label: 'TV Item' }]
+                            label: 'ТВ',
+                            items: [{ label: 'Телевизоры' }, { label: 'Медиаплееры' }]
                         },
                         {
-                            label: 'Audio',
-                            items: [{ label: 'Audio Item' }, { label: 'Audio Item' }, { label: 'Audio Item' }]
+                            label: 'Аудио',
+                            items: [{ label: 'Аккустика' }, { label: 'Усилители' }, { label: 'ЦАП' }]
                         }
                     ],
                     [
                         {
-                            label: 'Sports.7',
-                            items: [{ label: 'Sports.7.1' }, { label: 'Sports.7.2' }]
+                            label: 'Спорт',
+                            items: [{ label: 'Могила' }, { label: 'Сила' }]
                         }
                     ]
                 ]
             },
             {
-                label: 'Furniture', icon: 'pi pi-fw pi-image',
+                label: 'Интерьер', icon: 'pi pi-fw pi-image',
                 items: [
                     [
                         {
-                            label: 'Living Room',
-                            items: [{ label: 'Living Room Item' }, { label: 'Living Room Item' }]
+                            label: 'Гостиная',
+                            items: [{ label: 'Диван' }, { label: 'Комод' }]
                         },
                         {
-                            label: 'Kitchen',
-                            items: [{ label: 'Kitchen Item' }, { label: 'Kitchen Item' }, { label: 'Kitchen Item' }]
+                            label: 'Кухня',
+                            items: [{ label: 'Шкаф' }, { label: 'Стол' }, { label: 'Стул' }]
                         }
                     ],
                     [
                         {
-                            label: 'Bedroom',
-                            items: [{ label: 'Bedroom Item' }, { label: 'Bedroom Item' }]
+                            label: 'Спальня',
+                            items: [{ label: 'Набор БДСМ' }, { label: 'Кровать' }]
                         },
                         {
-                            label: 'Outdoor',
-                            items: [{ label: 'Outdoor Item' }, { label: 'Outdoor Item' }, { label: 'Outdoor Item' }]
+                            label: 'Детская',
+                            items: [{ label: 'Уголок' }, { label: 'Кровать' }]
                         }
                     ]
                 ]
             },
             {
-                label: 'Sports', icon: 'pi pi-fw pi-star',
+                label: 'Спорт', icon: 'pi pi-fw pi-star',
                 items: [
                     [
                         {
-                            label: 'Basketball',
-                            items: [{ label: 'Basketball Item' }, { label: 'Basketball Item' }]
+                            label: 'Баскетбол',
+                            items: [{ label: 'Мяч' }, { label: 'Корзина' }]
                         },
                         {
-                            label: 'Football',
-                            items: [{ label: 'Football Item' }, { label: 'Football Item' }, { label: 'Football Item' }]
+                            label: 'Футбол',
+                            items: [{ label: 'Ворота' }, { label: 'Кроссовки' }, { label: 'Мяч' }]
                         }
                     ],
                     [
                         {
-                            label: 'Tennis',
-                            items: [{ label: 'Tennis Item' }, { label: 'Tennis Item' }]
+                            label: 'Теннис',
+                            items: [{ label: 'Ракетка' }, { label: 'Сетка' }]
                         }
                     ]
                 ]
@@ -401,71 +390,71 @@ export class MenusComponent implements OnInit {
 
         this.panelMenuItems = [
             {
-                label: 'Customers',
+                label: 'Клиенты',
                 items: [
                     {
-                        label: 'New',
+                        label: 'Новый',
                         icon: 'pi pi-fw pi-plus',
                         items: [
                             {
-                                label: 'Customer',
+                                label: 'Клиент',
                                 icon: 'pi pi-fw pi-plus'
                             },
                             {
-                                label: 'Duplicate',
+                                label: 'Копировать',
                                 icon: 'pi pi-fw pi-copy'
                             },
 
                         ]
                     },
                     {
-                        label: 'Edit',
+                        label: 'Редактировать',
                         icon: 'pi pi-fw pi-user-edit'
                     }
                 ]
             },
             {
-                label: 'Orders',
+                label: 'Заказы',
                 items: [
                     {
-                        label: 'View',
+                        label: 'Вид',
                         icon: 'pi pi-fw pi-list'
                     },
                     {
-                        label: 'Search',
+                        label: 'Поиск',
                         icon: 'pi pi-fw pi-search'
                     }
 
                 ]
             },
             {
-                label: 'Shipments',
+                label: 'Доставка',
                 items: [
                     {
-                        label: 'Tracker',
+                        label: 'Отслеживать',
                         icon: 'pi pi-fw pi-compass',
 
                     },
                     {
-                        label: 'Map',
+                        label: 'Карта',
                         icon: 'pi pi-fw pi-map-marker',
 
                     },
                     {
-                        label: 'Manage',
+                        label: 'Управление',
                         icon: 'pi pi-fw pi-pencil'
                     }
                 ]
             },
             {
-                label: 'Profile',
+                label: 'Профиль',
                 items: [
                     {
-                        label: 'Settings',
+                        label: 'Настройки',
                         icon: 'pi pi-fw pi-cog'
                     },
                     {
-                        label: 'Billing',
+                        label: 'Оплата',
                         icon: 'pi pi-fw pi-file'
                     }
                 ]
