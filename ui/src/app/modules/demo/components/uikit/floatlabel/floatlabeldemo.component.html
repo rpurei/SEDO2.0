@@ -1,38 +1,38 @@
 <div class="card">
-    <h5>Float Label</h5>
-    <p>All input text components support floating labels by adding (<mark>.p-float-label</mark>) to wrapper class.</p>
+    <h5>Подвижный лейбл</h5>
+    <p>Все поля ввода поддерживают подвижный лейбл с помощью добавления класса <mark>.p-float-label</mark></p>
     <div class="grid p-fluid mt-3">
         <div class="field col-12 md:col-4">
             <span class="p-float-label">
                 <input type="text" id="inputtext" pInputText [(ngModel)]="value1">
-                <label for="inputtext">InputText</label>
+                <label for="inputtext">Поле ввода</label>
             </span>
         </div>
         <div class="field col-12 md:col-4">
             <span class="p-float-label">
                 <p-autoComplete inputId="autocomplete" [(ngModel)]="value2" [suggestions]="filteredCountries"
                 (completeMethod)="searchCountry($event)" field="name"></p-autoComplete>
-                <label for="autocomplete">AutoComplete</label>
+                <label for="autocomplete">Автодополнение</label>
             </span>
         </div>
         <div class="field col-12 md:col-4">
             <span class="p-float-label p-input-icon-left">
                 <i class="pi pi-search"></i>
                 <input type="text" id="lefticon" pInputText [(ngModel)]="value3">
-                <label for="lefticon">Left Icon</label>
+                <label for="lefticon">Иконка слева</label>
             </span>
         </div>
         <div class="field col-12 md:col-4">
             <span class="p-float-label p-input-icon-right">
                 <input type="text" id="righticon" pInputText [(ngModel)]="value4">
-                <label for="righticon">Right Icon</label>
+                <label for="righticon">Иконка справа</label>
                 <i class="pi pi-spin pi-spinner"></i>
             </span>
         </div>
         <div class="field col-12 md:col-4">
             <span class="p-float-label">
                 <p-calendar inputId="calendar" [(ngModel)]="value5"></p-calendar>
-                <label for="calendar">Calendar</label>
+                <label for="calendar">Календарь</label>
             </span>
         </div>
         <div class="field col-12 md:col-4">
@@ -44,13 +44,13 @@
         <div class="field col-12 md:col-4">
             <span class="p-float-label">
                 <p-inputMask inputId="inputmask" mask="99/99/9999" [(ngModel)]="value7"></p-inputMask>
-                <label for="inputmask">InputMask</label>
+                <label for="inputmask">Ввод по маске</label>
             </span>
         </div>
         <div class="field col-12 md:col-4">
             <span class="p-float-label">
                 <p-inputNumber inputId="inputnumber" [(ngModel)]="value8"></p-inputNumber>
-                <label for="inputnumber">InputNumber</label>
+                <label for="inputnumber">Ввод числа</label>
             </span>
         </div>
         <div class="field col-12 md:col-4">
@@ -59,27 +59,27 @@
                     <i class="pi pi-user"></i>
                 </span>
                 <span class="p-float-label">
-                    <input type="text" inputId="inputgroup" pInputText [(ngModel)]="value9"> 
-                    <label for="inputgroup">InputGroup</label>
+                    <input type="text" inputId="inputgroup" pInputText [(ngModel)]="value9">
+                    <label for="inputgroup">Сгруппированное поле ввода</label>
                 </span>
             </div>
         </div>
         <div class="field col-12 md:col-4">
             <span class="p-float-label">
                 <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" [options]="cities" [(ngModel)]="value10" optionLabel="name"></p-dropdown>
-                <label for="dropdown">Dropdown</label>
+                <label for="dropdown">Выпадающий список</label>
             </span>
         </div>
         <div class="field col-12 md:col-4">
             <span class="p-float-label">
                 <p-multiSelect inputId="multiselect" [options]="cities" [(ngModel)]="value11" optionLabel="name" [filter]="false"></p-multiSelect>
-                <label for="multiselect">MultiSelect</label>
+                <label for="multiselect">Множественный выбор</label>
             </span>
         </div>
         <div class="field col-12 md:col-4">
             <span class="p-float-label">
                 <textarea inputId="textarea" rows="3" cols="30" [(ngModel)]="value12" pInputTextarea></textarea>
-                <label for="textarea">Textarea</label>
+                <label for="textarea">Текстовое поле</label>
             </span>
         </div>
     </div>
