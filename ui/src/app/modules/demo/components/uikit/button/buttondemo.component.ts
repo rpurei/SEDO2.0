@@ -12,11 +12,11 @@ export class ButtonDemoComponent implements OnInit {
 
     ngOnInit() {
         this.items = [
-            { label: 'Update', icon: 'pi pi-refresh' },
-            { label: 'Delete', icon: 'pi pi-times' },
+            { label: 'Обноваить', icon: 'pi pi-refresh' },
+            { label: 'Удалить', icon: 'pi pi-times' },
             { label: 'Angular.io', icon: 'pi pi-info', url: 'http://angular.io' },
             { separator: true },
-            { label: 'Setup', icon: 'pi pi-cog' }
+            { label: 'Установки', icon: 'pi pi-cog' }
         ];
     }
 
@@ -24,5 +24,5 @@ export class ButtonDemoComponent implements OnInit {
         this.loading[index] = true;
         setTimeout(() => this.loading[index] = false, 1000);
     }
-    
+
 }
