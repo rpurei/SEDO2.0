@@ -48,3 +48,4 @@ venv.bak/
 /api/config.py
 **/node_modules
 **/venv
+**/.git
