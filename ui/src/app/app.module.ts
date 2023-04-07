@@ -6,6 +6,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ConfigModule } from './modules/config/config.module';
+import { NgTranslateModule } from './modules/translate/translate.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { ConfigModule } from './modules/config/config.module';
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    ConfigModule
+    ConfigModule,
+    NgTranslateModule
   ],
   providers: [],
   bootstrap: [AppComponent]
