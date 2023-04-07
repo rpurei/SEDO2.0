@@ -13,15 +13,15 @@ enum BlockView {
         <div class="block-header">
             <span class="block-title">
                 <span>{{header}}</span>
-                <span class="badge-free" *ngIf="free">Free</span>
-                <span class="badge-new" *ngIf="new">New</span>
+                <span class="badge-free" *ngIf="free">Бесплатный</span>
+                <span class="badge-new" *ngIf="new">Новый</span>
             </span>
             <div class="block-actions">
-                <a tabindex="0" [ngClass]="{'block-action-active': blockView === BlockView.PREVIEW}" (click)="activateView($event, BlockView.PREVIEW)"><span>Preview</span></a>
+                <a tabindex="0" [ngClass]="{'block-action-active': blockView === BlockView.PREVIEW}" (click)="activateView($event, BlockView.PREVIEW)"><span>Просмотр</span></a>
                 <a [attr.tabindex]="'0'" [ngClass]="{'block-action-active': blockView === BlockView.CODE}" (click)="activateView($event, BlockView.CODE)">
-                    <span>Code</span>
+                    <span>Код</span>
                 </a>
-                <a [attr.tabindex]="'0'" class="block-action-copy" (click)="copyCode($event)" 
+                <a [attr.tabindex]="'0'" class="block-action-copy" (click)="copyCode($event)"
                     pTooltip="Copied to clipboard" tooltipEvent="focus" tooltipPosition="bottom"><i class="pi pi-copy m-0"></i></a>
             </div>
         </div>
@@ -40,19 +40,12 @@ enum BlockView {
 export class BlockViewerComponent {
 
     @Input() header!: string;
-
     @Input() code!: string;
-
     @Input() containerClass!: string;
-
     @Input() previewStyle!: object;
-
     @Input() free: boolean = true;
-
     @Input() new: boolean = false;
-
     BlockView = BlockView;
-
     blockView: BlockView = BlockView.PREVIEW;
 
     activateView(event: Event, blockView: BlockView) {

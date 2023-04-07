@@ -39,10 +39,9 @@ export class DemoComponent {
               ]
           },
           {
-              label: 'Prime Blocks',
+              label: 'Блоки',
               items: [
-                  { label: 'Free Blocks', icon: 'pi pi-fw pi-eye', routerLink: ['/demo/blocks'], badge: 'NEW' },
-                  { label: 'All Blocks', icon: 'pi pi-fw pi-globe', url: ['https://www.primefaces.org/primeblocks-ng'], target: '_blank' },
+                  { label: 'Бесплатные', icon: 'pi pi-fw pi-eye', routerLink: ['/demo/blocks'], badge: 'NEW' },
               ]
           },
           {
