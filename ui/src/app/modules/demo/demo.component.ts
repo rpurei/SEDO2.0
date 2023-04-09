@@ -35,7 +35,7 @@ export class DemoComponent {
                   { label: 'Меню', icon: 'pi pi-fw pi-bars', routerLink: ['/demo/uikit/menu'], routerLinkActiveOptions: { paths: 'subset', queryParams: 'ignored', matrixParams: 'ignored', fragment: 'ignored' } },
                   { label: 'Сообщение', icon: 'pi pi-fw pi-comment', routerLink: ['/demo/uikit/message'] },
                   { label: 'Файлы', icon: 'pi pi-fw pi-file', routerLink: ['/demo/uikit/file'] },
-                  { label: 'Графики', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/demo/uikit/charts'] },
+                  { label: 'Диаграммы', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/demo/uikit/charts'] },
                   { label: 'Разное', icon: 'pi pi-fw pi-circle', routerLink: ['/demo/uikit/misc'] }
               ]
           },
@@ -81,7 +81,7 @@ export class DemoComponent {
                       routerLink: ['/demo/pages/crud']
                   },
                   {
-                      label: 'Timeline',
+                      label: 'График',
                       icon: 'pi pi-fw pi-calendar',
                       routerLink: ['/demo/pages/timeline']
                   },

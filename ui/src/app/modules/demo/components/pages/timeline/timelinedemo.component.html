@@ -1,7 +1,7 @@
 <div class="grid">
     <div class="col-12 md:col-6">
         <div class="card">
-            <h5>Left Align</h5>
+            <h5>Слева</h5>
             <p-timeline [value]="events1">
                 <ng-template pTemplate="content" let-event>
                     {{event.status}}
@@ -11,7 +11,7 @@
     </div>
     <div class="col-12 md:col-6">
         <div class="card">
-            <h5>Right Align</h5>
+            <h5>Справа</h5>
             <p-timeline [value]="events1" align="right">
                 <ng-template pTemplate="content" let-event>
                     {{event.status}}
@@ -21,7 +21,7 @@
     </div>
     <div class="col-12 md:col-6">
         <div class="card">
-            <h5>Alternate Align</h5>
+            <h5>Альтернатива</h5>
             <p-timeline [value]="events1" align="alternate">
                 <ng-template pTemplate="content" let-event>
                     {{event.status}}
@@ -31,7 +31,7 @@
     </div>
     <div class="col-12 md:col-6">
         <div class="card">
-            <h5>Opposite Content</h5>
+            <h5>Напротив</h5>
             <p-timeline [value]="events1">
                 <ng-template pTemplate="content" let-event>
                     <small class="p-text-secondary">{{event.date}}</small>
@@ -45,7 +45,7 @@
 </div>
 
 <div class="card">
-    <h5>Customized</h5>
+    <h5>Расшеренная</h5>
     <p-timeline [value]="events1" align="alternate" styleClass="customized-timeline">
         <ng-template pTemplate="marker" let-event>
         <span class="flex z-1 w-2rem h-2rem align-items-center justify-content-center text-white border-circle shadow-2" [style.backgroundColor]="event.color">
@@ -57,35 +57,34 @@
                 <img *ngIf="event.image" [src]="'assets/demo/images/product/' + event.image" [alt]="event.name" width="200" class="shadow-2" />
                 <p class="line-height-3 my-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
                     quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p>
-                <button pButton label="Read more" class="p-button-outlined mb-5"></button>
+                <button pButton label="Подробнее" class="p-button-outlined mb-5"></button>
             </p-card>
         </ng-template>
     </p-timeline>
 </div>
 
 <div class="card">
-    <h5>Horizontal</h5>
-    <h6>Top Align</h6>
+    <h5>Горизонтально</h5>
+    <h6>Вверх</h6>
     <p-timeline [value]="events2" layout="horizontal" align="top">
         <ng-template pTemplate="content" let-event>
             {{event}}
         </ng-template>
     </p-timeline>
 
-    <h6>Bottom Align</h6>
+    <h6>Вниз</h6>
     <p-timeline [value]="events2" layout="horizontal" align="bottom">
         <ng-template pTemplate="content" let-event>
             {{event}}
         </ng-template>
     </p-timeline>
 
-    <h6>Alternate Align</h6>
+    <h6>Альтернатива</h6>
     <p-timeline [value]="events2" layout="horizontal" align="alternate">
         <ng-template pTemplate="content" let-event>
             {{event}}
         </ng-template>
         <ng-template pTemplate="opposite" let-event>
-            &nbsp;
         </ng-template>
     </p-timeline>
 </div>
