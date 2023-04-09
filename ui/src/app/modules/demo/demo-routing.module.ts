@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DemoComponent } from './demo.component';
+import { NotfoundComponent } from "./components/notfound/notfound.component";
 
 const routes: Routes = [{ path: '',
                           component: DemoComponent,
@@ -13,7 +14,9 @@ const routes: Routes = [{ path: '',
                                       { path: 'pages', loadChildren: () => import('./components/pages/pages.module').then(m => m.PagesModule) },
 
                           ] },
-                          { path: 'landing', loadChildren: () => import('./components/landing/landing.module').then(m => m.LandingModule) },];
+                         { path: 'landing', loadChildren: () => import('./components/landing/landing.module').then(m => m.LandingModule) },
+                         { path: 'notfound', component: NotfoundComponent },
+                        ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

@@ -86,7 +86,7 @@ export class DemoComponent {
                       routerLink: ['/demo/pages/timeline']
                   },
                   {
-                      label: 'Not Found',
+                      label: '404',
                       icon: 'pi pi-fw pi-exclamation-circle',
                       routerLink: ['/demo/notfound']
                   },

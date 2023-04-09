@@ -12,11 +12,13 @@ import { IconService } from "./service/icon.service";
 import { PhotoService } from "./service/photo.service";
 import { ProductService } from "./service/product.service";
 import { NodeService } from "./service/node.service";
+import { NotfoundComponent } from "./components/notfound/notfound.component";
 
 
 @NgModule({
   declarations: [
-    DemoComponent
+    DemoComponent,
+    NotfoundComponent
   ],
   imports: [
     CommonModule,
@@ -25,6 +27,7 @@ import { NodeService } from "./service/node.service";
     ConfigModule
   ],
   providers: [CountryService, CustomerService, EventService, IconService, NodeService,
-              PhotoService, ProductService]
+              PhotoService, ProductService],
+  exports: [NotfoundComponent]
 })
 export class DemoModule { }
