@@ -55,21 +55,21 @@ export class DemoComponent {
                       routerLink: ['/demo/landing']
                   },
                   {
-                      label: 'Auth',
+                      label: 'Авторизация',
                       icon: 'pi pi-fw pi-user',
                       items: [
                           {
-                              label: 'Login',
+                              label: 'Вход',
                               icon: 'pi pi-fw pi-sign-in',
                               routerLink: ['/demo/auth/login']
                           },
                           {
-                              label: 'Error',
+                              label: 'Ошибка',
                               icon: 'pi pi-fw pi-times-circle',
                               routerLink: ['/demo/auth/error']
                           },
                           {
-                              label: 'Access Denied',
+                              label: 'Доступ запрещен',
                               icon: 'pi pi-fw pi-lock',
                               routerLink: ['/demo/auth/access']
                           }

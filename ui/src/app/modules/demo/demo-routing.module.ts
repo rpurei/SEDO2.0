@@ -16,6 +16,9 @@ const routes: Routes = [{ path: '',
                           ] },
                          { path: 'landing', loadChildren: () => import('./components/landing/landing.module').then(m => m.LandingModule) },
                          { path: 'notfound', component: NotfoundComponent },
+                         { path: 'auth/login', loadChildren: () => import('./components/auth/login/login.module').then(m => m.LoginModule) },
+                         { path: 'auth/error', loadChildren: () => import('./components/auth/error/error.module').then(m => m.ErrorModule) },
+                         { path: 'auth/access', loadChildren: () => import('./components/auth/access/access.module').then(m => m.AccessModule) },
                         ];
 
 @NgModule({
