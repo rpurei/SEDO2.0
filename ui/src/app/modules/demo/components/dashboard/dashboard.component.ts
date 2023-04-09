@@ -11,13 +11,9 @@ import { LayoutService } from "../../../../services/layout.service";
 export class DashboardComponent implements OnInit, OnDestroy {
 
     items!: MenuItem[];
-
     products!: Product[];
-
     chartData: any;
-
     chartOptions: any;
-
     subscription!: Subscription;
 
     constructor(private productService: ProductService, public layoutService: LayoutService) {
@@ -31,8 +27,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.productService.getProductsSmall().then(data => this.products = data);
 
         this.items = [
-            { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-            { label: 'Remove', icon: 'pi pi-fw pi-minus' }
+            { label: 'Добавить', icon: 'pi pi-fw pi-plus' },
+            { label: 'Удалить', icon: 'pi pi-fw pi-minus' }
         ];
     }
 
@@ -43,10 +39,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
         this.chartData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            labels: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль'],
             datasets: [
                 {
-                    label: 'First Dataset',
+                    label: 'Датасет 1',
                     data: [65, 59, 80, 81, 56, 55, 40],
                     fill: false,
                     backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
@@ -54,7 +50,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     tension: .4
                 },
                 {
-                    label: 'Second Dataset',
+                    label: 'Датасет 2',
                     data: [28, 48, 40, 19, 86, 27, 90],
                     fill: false,
                     backgroundColor: documentStyle.getPropertyValue('--green-600'),
