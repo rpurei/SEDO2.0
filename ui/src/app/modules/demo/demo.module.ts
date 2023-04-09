@@ -13,12 +13,20 @@ import { PhotoService } from "./service/photo.service";
 import { ProductService } from "./service/product.service";
 import { NodeService } from "./service/node.service";
 import { NotfoundComponent } from "./components/notfound/notfound.component";
+import { ConfirmationComponent } from "./components/uikit/menus/confirmation.component";
+import { PaymentComponent } from "./components/uikit/menus/payment.component";
+import { PersonalComponent } from "./components/uikit/menus/personal.component";
+import { SeatComponent } from "./components/uikit/menus/seat.component";
 
 
 @NgModule({
   declarations: [
     DemoComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    ConfirmationComponent,
+    PaymentComponent,
+    PersonalComponent,
+    SeatComponent
   ],
   imports: [
     CommonModule,
@@ -26,8 +34,21 @@ import { NotfoundComponent } from "./components/notfound/notfound.component";
     PagesModule,
     ConfigModule
   ],
-  providers: [CountryService, CustomerService, EventService, IconService, NodeService,
-              PhotoService, ProductService],
-  exports: [NotfoundComponent]
+  providers: [
+              CountryService,
+              CustomerService,
+              EventService,
+              IconService,
+              NodeService,
+              PhotoService,
+              ProductService
+  ],
+  exports: [
+            NotfoundComponent,
+            ConfirmationComponent,
+            PaymentComponent,
+            PersonalComponent,
+            SeatComponent
+  ]
 })
 export class DemoModule { }
