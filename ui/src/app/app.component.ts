@@ -19,7 +19,6 @@ export class AppComponent implements OnInit {
     this.translateService.setDefaultLang('ru');
     this.translateService.use('ru');
     this.translateService.get('ru').subscribe(res => this.config.setTranslation(res));
-    console.log(this.translateService.get('equals'));
   }
 
   translate(lang: string) {
