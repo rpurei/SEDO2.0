@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { environment } from "../../environments/environment.development";
-import { IRole, IRoleAdd } from "../models/IRoles";
+import { environment } from "../../environments/environment";
+import { IRole } from "../models/IRoles";
 
 @Injectable({
   providedIn: 'root'
@@ -17,11 +17,11 @@ export class RolesService {
     return this.http.get<IRole[]>(`${environment.apiUrl + this.url}`, {withCredentials: true})
   }
 
-  public createNewRole(role: IRoleAdd): Observable<any> {
+  public createNewRole(role: IRole): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl + this.url}`, role, {withCredentials: true})
   }
 
-  public updateRole(role: IRoleAdd): Observable<any> {
+  public updateRole(role: IRole): Observable<any> {
     return this.http.patch<IRole[]>(`${environment.apiUrl + this.url}`, role, {withCredentials: true})
   }
 
@@ -39,7 +39,7 @@ export class RolesService {
 
   public getRole () {
     let userRole = JSON.parse(localStorage.getItem('user')!).roles
-    return !!(userRole.includes('creator') || userRole.includes('admin'));
+    return (userRole.includes('creator') || userRole.includes('admin'));
 }
 
 }
