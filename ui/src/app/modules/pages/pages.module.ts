@@ -8,31 +8,75 @@ import { TopbarComponent } from './components/topbar/topbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SidemenuComponent } from './components/sidemenu/sidemenu.component';
 import { MenuitemComponent } from './components/menuitem/menuitem.component';
-import {RippleModule} from "primeng/ripple";
+import { RippleModule } from 'primeng/ripple';
 import { FooterComponent } from './components/footer/footer.component';
-import {ConfigModule} from "../config/config.module";
-
+import { ConfigModule } from '../config/config.module';
+import { SchedulerComponent } from './scheduler/scheduler.component';
+import { CalendarModule } from 'primeng/calendar';
+import { FormsModule } from '@angular/forms';
+import { DividerModule } from 'primeng/divider';
+import { AccordionModule } from 'primeng/accordion';
+import { TableModule } from 'primeng/table';
+import { TranslateModule } from '@ngx-translate/core';
+import { ToggleButtonModule } from 'primeng/togglebutton';
+import { TreeTableModule } from 'primeng/treetable';
+import { NodeService } from '../demo/service/node.service';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { DropdownModule } from 'primeng/dropdown';
+import { SliderModule } from 'primeng/slider';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { CustomerService } from '../demo/service/customer.service';
+import { InputTextModule } from 'primeng/inputtext';
+import { SplitButtonModule } from 'primeng/splitbutton';
+import { AvatarModule } from 'primeng/avatar';
+import { DialogModule } from 'primeng/dialog';
+import { EventCardComponent } from './scheduler/event-card/event-card.component';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { CountryService } from '../demo/service/country.service';
+import { TabMenuModule } from 'primeng/tabmenu';
+import { FileUploadModule } from 'primeng/fileupload';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
-    declarations: [
-        PagesComponent,
-        IndexComponent,
-        TopbarComponent,
-        SidebarComponent,
-        SidemenuComponent,
-        MenuitemComponent,
-        FooterComponent
-    ],
-  exports: [
+  declarations: [
+    PagesComponent,
+    IndexComponent,
     TopbarComponent,
     SidebarComponent,
-    FooterComponent
+    SidemenuComponent,
+    MenuitemComponent,
+    FooterComponent,
+    SchedulerComponent,
+    EventCardComponent,
   ],
-    imports: [
-        CommonModule,
-        PagesRoutingModule,
-        RippleModule,
-        ConfigModule
-    ]
+  exports: [TopbarComponent, SidebarComponent, FooterComponent],
+  imports: [
+    CommonModule,
+    PagesRoutingModule,
+    RippleModule,
+    ConfigModule,
+    CalendarModule,
+    FormsModule,
+    DividerModule,
+    AccordionModule,
+    TableModule,
+    TranslateModule,
+    ToggleButtonModule,
+    TreeTableModule,
+    MultiSelectModule,
+    DropdownModule,
+    SliderModule,
+    ProgressBarModule,
+    InputTextModule,
+    SplitButtonModule,
+    AvatarModule,
+    DialogModule,
+    InputTextareaModule,
+    AutoCompleteModule,
+    TabMenuModule,
+    FileUploadModule,
+  ],
+  providers: [NodeService, CustomerService, CountryService, MessageService],
 })
-export class PagesModule { }
+export class PagesModule {}

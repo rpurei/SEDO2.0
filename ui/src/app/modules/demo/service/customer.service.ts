@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Customer } from '../api/customer';
+import {IEvent} from "../../../models/IEvents";
 
 @Injectable()
 export class CustomerService {
@@ -27,4 +28,12 @@ export class CustomerService {
             .then(res => res.data as Customer[])
             .then(data => data);
     }
+
+  getEvents() {
+    return this.http.get<any>('assets/demo/data/scheduler.json')
+      .toPromise()
+      .then(res => res.data as IEvent[])
+      .then(data => data);
+  }
+
 }
