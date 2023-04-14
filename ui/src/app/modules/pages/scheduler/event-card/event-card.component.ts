@@ -12,7 +12,7 @@ import { Table } from 'primeng/table';
 export class EventCardComponent implements OnInit {
   constructor(private countryService: CountryService, private messageService: MessageService) {}
 
-  display: boolean = true;
+  display: boolean = false;
   @Input() event!: IEvent;
   cities: any;
   value: any;

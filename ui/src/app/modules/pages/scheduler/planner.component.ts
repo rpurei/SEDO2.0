@@ -8,10 +8,10 @@ import { IEvent } from '../../../models/IEvents';
 
 @Component({
   selector: 'app-scheduler',
-  templateUrl: './scheduler.component.html',
-  styleUrls: ['./scheduler.component.scss'],
+  templateUrl: './planner.component.html',
+  styleUrls: ['./planner.component.scss'],
 })
-export class SchedulerComponent implements OnInit {
+export class PlannerComponent implements OnInit {
   constructor(private nodeService: NodeService, private customerService: CustomerService) {}
 
   selectedDate = new Date();

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PagesComponent } from './pages.component';
 import { IndexComponent } from './index/index.component';
-import { SchedulerComponent } from './scheduler/scheduler.component';
+import { PlannerComponent } from './scheduler/planner.component';
 
 const routes: Routes = [
   {
@@ -10,7 +10,7 @@ const routes: Routes = [
     component: PagesComponent,
     children: [
       { path: 'index', component: IndexComponent },
-      { path: 'scheduler', component: SchedulerComponent },
+      { path: 'scheduler', component: PlannerComponent },
     ],
   },
 ];

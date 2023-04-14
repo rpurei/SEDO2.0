@@ -11,7 +11,7 @@ import { MenuitemComponent } from './components/menuitem/menuitem.component';
 import { RippleModule } from 'primeng/ripple';
 import { FooterComponent } from './components/footer/footer.component';
 import { ConfigModule } from '../config/config.module';
-import { SchedulerComponent } from './scheduler/scheduler.component';
+import { PlannerComponent } from './scheduler/planner.component';
 import { CalendarModule } from 'primeng/calendar';
 import { FormsModule } from '@angular/forms';
 import { DividerModule } from 'primeng/divider';
@@ -47,7 +47,7 @@ import { MessageService } from 'primeng/api';
     SidemenuComponent,
     MenuitemComponent,
     FooterComponent,
-    SchedulerComponent,
+    PlannerComponent,
     EventCardComponent,
   ],
   exports: [TopbarComponent, SidebarComponent, FooterComponent],
