@@ -10,7 +10,7 @@ import { NgTranslateModule } from './modules/translate/translate.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -24,3 +24,4 @@ import { NgTranslateModule } from './modules/translate/translate.module';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+ 

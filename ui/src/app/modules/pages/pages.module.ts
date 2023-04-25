@@ -11,7 +11,7 @@ import { MenuitemComponent } from './components/menuitem/menuitem.component';
 import { RippleModule } from 'primeng/ripple';
 import { FooterComponent } from './components/footer/footer.component';
 import { ConfigModule } from '../config/config.module';
-import { PlannerComponent } from './scheduler/planner.component';
+import { PlannerComponent } from './planner/planner.component';
 import { CalendarModule } from 'primeng/calendar';
 import { FormsModule } from '@angular/forms';
 import { DividerModule } from 'primeng/divider';
@@ -30,13 +30,21 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { AvatarModule } from 'primeng/avatar';
 import { DialogModule } from 'primeng/dialog';
-import { EventCardComponent } from './scheduler/event-card/event-card.component';
+import { EventCardComponent } from './planner/event-card/event-card.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { CountryService } from '../demo/service/country.service';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { FileUploadModule } from 'primeng/fileupload';
 import { MessageService } from 'primeng/api';
+import { BadgeModule } from 'primeng/badge';
+import { StyleClassModule } from 'primeng/styleclass';
+import { TaskComponent } from './task/task.component';
+import { PanelMenuModule } from 'primeng/panelmenu';
+import { ChipModule } from 'primeng/chip';
+import { MenuModule } from 'primeng/menu';
+import { MenubarModule } from 'primeng/menubar';
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
   declarations: [
@@ -49,34 +57,42 @@ import { MessageService } from 'primeng/api';
     FooterComponent,
     PlannerComponent,
     EventCardComponent,
+    TaskComponent,
   ],
   exports: [TopbarComponent, SidebarComponent, FooterComponent],
-  imports: [
-    CommonModule,
-    PagesRoutingModule,
-    RippleModule,
-    ConfigModule,
-    CalendarModule,
-    FormsModule,
-    DividerModule,
-    AccordionModule,
-    TableModule,
-    TranslateModule,
-    ToggleButtonModule,
-    TreeTableModule,
-    MultiSelectModule,
-    DropdownModule,
-    SliderModule,
-    ProgressBarModule,
-    InputTextModule,
-    SplitButtonModule,
-    AvatarModule,
-    DialogModule,
-    InputTextareaModule,
-    AutoCompleteModule,
-    TabMenuModule,
-    FileUploadModule,
-  ],
+    imports: [
+        CommonModule,
+        PagesRoutingModule,
+        RippleModule,
+        ConfigModule,
+        CalendarModule,
+        FormsModule,
+        DividerModule,
+        AccordionModule,
+        TableModule,
+        TranslateModule,
+        ToggleButtonModule,
+        TreeTableModule,
+        MultiSelectModule,
+        DropdownModule,
+        SliderModule,
+        ProgressBarModule,
+        InputTextModule,
+        SplitButtonModule,
+        AvatarModule,
+        DialogModule,
+        InputTextareaModule,
+        AutoCompleteModule,
+        TabMenuModule,
+        FileUploadModule,
+        BadgeModule,
+        StyleClassModule,
+        PanelMenuModule,
+        ChipModule,
+        MenuModule,
+        MenubarModule,
+        TabViewModule,
+    ],
   providers: [NodeService, CustomerService, CountryService, MessageService],
 })
 export class PagesModule {}

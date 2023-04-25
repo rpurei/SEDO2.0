@@ -11,20 +11,30 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
   styleUrls: ['./pages.component.scss'],
 })
 export class PagesComponent implements OnDestroy {
+  
   pageMenu: any[] = [
     {
       items: [
-        {
-          label: 'Главная',
-          icon: 'pi pi-fw pi-home',
-          routerLink: ['/page/index'],
-        },
-        { label: 'Демо', icon: 'pi pi-fw pi-images', routerLink: ['/demo'] },
-        {
-          label: 'Планировщик',
-          icon: 'pi pi-fw pi-list',
-          routerLink: ['/page/scheduler'],
-        },
+          {
+              label: 'Главная',
+              icon: 'pi pi-fw pi-home',
+              routerLink: ['/page/index'],
+          },
+          {
+              label: 'Демо',
+              icon: 'pi pi-fw pi-images',
+              routerLink: ['/demo']
+          },
+          {
+              label: 'Планировщик',
+              icon: 'pi pi-fw pi-list',
+              routerLink: ['/page/planner'],
+          },
+          {
+              label: 'Задачи',
+              icon: 'pi pi-fw pi-folder',
+              routerLink: ['/page/task'],
+          },
       ],
     },
   ];

@@ -1,10 +1,12 @@
 <button
-        (click)="display = true"
+        (click)="showEventDetails()"
         icon="pi pi-external-link"
         label="Показать"
         pButton
 ></button>
+<div >
 <p-dialog
+        *ngIf="endLoading"
         [(visible)]="display"
         [breakpoints]="{ '960px': '75vw' }"
         [modal]="true"
@@ -17,7 +19,7 @@
             <div class="col mb-5">
                 <h5>Название события</h5>
                 <input
-                        [(ngModel)]="event.eventTitle"
+                        [(ngModel)]="eventDetail.title"
                         class="w-full"
                         pInputText
                         type="text"
@@ -36,7 +38,7 @@
             <div class="col mb-5">
                 <h5>Описание события</h5>
                 <textarea
-                        [(ngModel)]="event.description"
+                        [(ngModel)]="eventDetail.desc"
                         pInputTextarea
                         style="width: 100%"
                 ></textarea>
@@ -45,7 +47,7 @@
                 <h5>Помещение</h5>
                 <p-autoComplete
                         (completeMethod)="filterCountry($event)"
-                        [(ngModel)]="selectedCountryAdvanced"
+                        [(ngModel)]="eventDetail.className.name"
                         [dropdown]="true"
                         [suggestions]="filteredCountries"
                         field="name"
@@ -68,7 +70,8 @@
             <div class="col mb-2">
                 <h5>Компания</h5>
                 <p-dropdown
-                        [(ngModel)]="selectedCity"
+                        [(ngModel)]="eventDetail.className.name"
+
                         [options]="cities"
                         optionLabel="name"
                         styleClass="w-full"
@@ -164,7 +167,7 @@
                         </td>
 
                         <td class="text-center">
-                            <app-event-card [event]="event"></app-event-card>
+<!--                            <app-event-card [event]="event"></app-event-card>-->
                         </td>
                     </tr>
                 </ng-template>
@@ -261,7 +264,7 @@
                         </td>
 
                         <td class="text-center">
-                            <app-event-card [event]="event"></app-event-card>
+<!--                            <app-event-card [event]="event"></app-event-card>-->
                         </td>
                     </tr>
                 </ng-template>
@@ -330,8 +333,7 @@
 
         <div *ngIf="this.activeItem.label === 'Протокол'">
             <h5>{{activeItem.label}}</h5>
-
-            <div *ngIf="false">
+            <div>
                 <p-fileUpload
                         (onUpload)="onUpload($event)"
                         [maxFileSize]="1000000"
@@ -359,10 +361,18 @@
                 </div>
                 <div class="flex justify-content-end">
                     <button
+                            (click)="visibleModification = true"
+                            class="p-button-danger mr-2"
+                            icon="pi pi-exclamation-circle"
+                            label="Отправить на доработку"
+                            pButton>
+                    </button>
+                    <button
                             icon="pi pi-check"
                             label="Утвердить"
                             pButton>
                     </button>
+
                 </div>
             </div>
         </div>
@@ -391,3 +401,4 @@
         ></button>
     </ng-template>
 </p-dialog>
+</div>
