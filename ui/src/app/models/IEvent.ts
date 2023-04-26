@@ -1,10 +1,10 @@
 export interface IEvent {
     className: string;
-    end: Date;
+    dateEnd: Date;
     guid: string;
     org: string;
     softId?: string;
-    start: string;
+    dateStart: Date;
     subdiv?: string;
     title?: string;
     type: string;

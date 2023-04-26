@@ -7,12 +7,66 @@ import { MenuItem } from 'primeng/api';
     styleUrls: ['./task.component.scss']
 })
 export class TaskComponent implements OnInit {
+    display: boolean = false;
+    text: string = '';
     panelMenuItems: MenuItem[] = [];
     menuItems: MenuItem[] = [];
     menuItems1: MenuItem[] = [];
     tieredItems: MenuItem[] = [];
+    items: MenuItem[] = [];
+    tooltipItems: MenuItem[] = [];
     
     ngOnInit(): void {
+        this.tooltipItems = [
+            {
+                tooltipOptions: {
+                    tooltipLabel: 'Add'
+                },
+                icon: 'pi pi-pencil',
+                command: () => {
+                    console.log('good');
+                }
+            },
+            {
+                tooltipOptions: {
+                    tooltipLabel: 'Update'
+                },
+                icon: 'pi pi-refresh',
+                command: () => {
+                    console.log('good');
+                }
+            },
+            {
+                tooltipOptions: {
+                    tooltipLabel: 'Delete'
+                },
+                icon: 'pi pi-trash',
+                command: () => {
+                    console.log('good');
+                }
+            },
+            {
+                tooltipOptions: {
+                    tooltipLabel: 'Upload'
+                },
+                icon: 'pi pi-upload'
+            },
+            {
+                tooltipOptions: {
+                    tooltipLabel: 'Angular Website'
+                },
+                icon: 'pi pi-external-link',
+                url: 'http://angular.io'
+            }
+        ];
+        this.items = [
+            {label: 'Задача подчиненным'},
+            {label: 'Приказ/распоряжение/резолюция'},
+            {label: 'Протокол Комитета'},
+            {label: 'Протокол РС/РВ/РЧ/БС'},
+            {label: 'Прочее'},
+        ];
+        
         this.tieredItems = [
             {
                 label: 'Согласовать',

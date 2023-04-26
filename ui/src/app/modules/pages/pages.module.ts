@@ -45,6 +45,10 @@ import { ChipModule } from 'primeng/chip';
 import { MenuModule } from 'primeng/menu';
 import { MenubarModule } from 'primeng/menubar';
 import { TabViewModule } from 'primeng/tabview';
+import { ToastModule } from 'primeng/toast';
+import { SpeedDialModule } from 'primeng/speeddial';
+import { SkeletonModule } from 'primeng/skeleton';
+import { EditorModule } from 'primeng/editor';
 
 @NgModule({
   declarations: [
@@ -92,6 +96,10 @@ import { TabViewModule } from 'primeng/tabview';
         MenuModule,
         MenubarModule,
         TabViewModule,
+        ToastModule,
+        SpeedDialModule,
+        SkeletonModule,
+        EditorModule,
     ],
   providers: [NodeService, CustomerService, CountryService, MessageService],
 })
