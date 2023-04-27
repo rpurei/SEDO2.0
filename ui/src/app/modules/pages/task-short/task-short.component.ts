@@ -22,7 +22,7 @@ export class TaskShortComponent implements OnInit {
     items: MenuItem[] = [];
     tooltipItems: MenuItem[] = [];
     tasksShort: ITaskShort[] = [];
-    
+    sort1: string = ''
     ngOnInit(): void {
         this.taskService.getAllTasksShort().subscribe({
             next: value => {
@@ -227,21 +227,27 @@ export class TaskShortComponent implements OnInit {
     }
     
     sort(sort: string) {
-        this.loadingFunction()
+        // this.loadingFunction()
         switch (sort) {
             case 'text':
-
                 this.tasksShort = this.tasksShort.sort((a, b) => a.title > b.title ? 1 : -1);
                 break;
             case 'date':
+                if (this.sort1 === 'date') {
+                    this.tasksShort = this.tasksShort.sort((a, b) => a.dateStart < b.dateStart ? 1 : -1);
+                    this.sort1 = 'dateBack'
+                }else {
+                    this.sort1 = 'date'
                 this.tasksShort = this.tasksShort.sort((a, b) => a.dateStart > b.dateStart ? 1 : -1);
+                }
                 console.log(this.tasksShort);
+                break;
         }
     }
     loadingFunction() {
         this.loading = true
         setTimeout(()=> {
             this.loading = false
-        },500)
+        },200)
     }
 }
