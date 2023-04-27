@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PagesComponent } from './pages.component';
 import { IndexComponent } from './index/index.component';
 import { PlannerComponent } from './planner/planner.component';
-import { TaskComponent } from './task/task.component';
+import { TaskShortComponent } from './task-short/task-short.component';
 
 const routes: Routes = [
     {
@@ -12,7 +12,7 @@ const routes: Routes = [
         children: [
             {path: 'index', component: IndexComponent},
             {path: 'planner', component: PlannerComponent},
-            {path: 'task', component: TaskComponent},
+            {path: 'task', component: TaskShortComponent},
         ],
   },
 ];

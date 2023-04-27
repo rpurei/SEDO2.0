@@ -1,12 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { TaskService } from '../../../services/task.service';
+import { ITaskShort } from '../../../models/ITask';
 
 @Component({
-    selector: 'app-task',
-    templateUrl: './task.component.html',
-    styleUrls: ['./task.component.scss']
+    selector: 'app-task-short',
+    templateUrl: './task-short.component.html',
+    styleUrls: ['./task-short.component.scss']
 })
-export class TaskComponent implements OnInit {
+export class TaskShortComponent implements OnInit {
+    constructor(private taskService: TaskService) {
+    }
+    
+    loading: boolean = false;
     display: boolean = false;
     text: string = '';
     panelMenuItems: MenuItem[] = [];
@@ -15,8 +21,17 @@ export class TaskComponent implements OnInit {
     tieredItems: MenuItem[] = [];
     items: MenuItem[] = [];
     tooltipItems: MenuItem[] = [];
+    tasksShort: ITaskShort[] = [];
     
     ngOnInit(): void {
+        this.taskService.getAllTasksShort().subscribe({
+            next: value => {
+                value.data.forEach((value: ITaskShort) => {
+                    value.dateStart = new Date(value.dateStart);
+                });
+                this.tasksShort = value.data;
+            }
+        });
         this.tooltipItems = [
             {
                 tooltipOptions: {
@@ -187,17 +202,17 @@ export class TaskComponent implements OnInit {
         //         icon: 'pi pi-fw pi-user-edit'
         //     },
         // ];
-        this.menuItems = [
-            {
-                label: 'Вернуть', icon: 'pi pi-fw pi-check'
-            },
-            {
-                label: 'Загрузить файлы', icon: 'pi pi-fw pi-refresh'
-            },
-            {
-                label: 'Удалить', icon: 'pi pi-fw pi-trash'
-            }
-        ];
+        // this.menuItems = [
+        //     {
+        //         label: 'Вернуть', icon: 'pi pi-fw pi-check'
+        //     },
+        //     {
+        //         label: 'Загрузить файлы', icon: 'pi pi-fw pi-refresh'
+        //     },
+        //     {
+        //         label: 'Удалить', icon: 'pi pi-fw pi-trash'
+        //     }
+        // ];
         this.menuItems1 = [
             {
                 label: 'Отлично'
@@ -211,4 +226,22 @@ export class TaskComponent implements OnInit {
         ];
     }
     
+    sort(sort: string) {
+        this.loadingFunction()
+        switch (sort) {
+            case 'text':
+
+                this.tasksShort = this.tasksShort.sort((a, b) => a.title > b.title ? 1 : -1);
+                break;
+            case 'date':
+                this.tasksShort = this.tasksShort.sort((a, b) => a.dateStart > b.dateStart ? 1 : -1);
+                console.log(this.tasksShort);
+        }
+    }
+    loadingFunction() {
+        this.loading = true
+        setTimeout(()=> {
+            this.loading = false
+        },500)
+    }
 }

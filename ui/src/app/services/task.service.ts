@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { IRichText, ITask, ITaskCapsule } from '../models/ITask';
+import { IRichText, ITask, ITaskShort } from '../models/ITask';
 
 @Injectable({
     providedIn: 'root'
@@ -13,12 +13,13 @@ export class TaskService {
     constructor(private http: HttpClient) {
     }
     
-    public getAllTasksCapsule(): Observable<any> {
-        return this.http.get<ITaskCapsule[]>(`${environment.apiUrl + this.url}`, {withCredentials: true});
+    public getAllTasksShort(): Observable<any> {
+        // return this.http.get<ITaskCapsule[]>(`${environment.apiUrl + this.url}`, {withCredentials: true});
+        return this.http.get<ITaskShort[]>('assets/demo/data/task.json');
     }
     
     public getTasksCapsuleByGroup(group: string): Observable<any> {
-        return this.http.get<ITaskCapsule[]>(`${environment.apiUrl + this.url + group}`, {withCredentials: true});
+        return this.http.get<ITaskShort[]>(`${environment.apiUrl + this.url + group}`, {withCredentials: true});
     }
     
     public getTasksById(id: string): Observable<any> {

@@ -2,11 +2,13 @@ import { IFiles } from './IFiles';
 import { IUserCapsule } from './IUser';
 import { Data } from '@angular/router';
 
-export interface ITaskCapsule {
+export interface ITaskShort {
     dateStart: Date;
     title: string;
     author: string;
     guid: string;
+    accepted: boolean;
+    
 }
 
 export interface ITask {

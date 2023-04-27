@@ -39,7 +39,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { MessageService } from 'primeng/api';
 import { BadgeModule } from 'primeng/badge';
 import { StyleClassModule } from 'primeng/styleclass';
-import { TaskComponent } from './task/task.component';
+import { TaskShortComponent } from './task-short/task-short.component';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { ChipModule } from 'primeng/chip';
 import { MenuModule } from 'primeng/menu';
@@ -49,6 +49,7 @@ import { ToastModule } from 'primeng/toast';
 import { SpeedDialModule } from 'primeng/speeddial';
 import { SkeletonModule } from 'primeng/skeleton';
 import { EditorModule } from 'primeng/editor';
+import { TaskComponent } from './task-short/task/task.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { EditorModule } from 'primeng/editor';
     FooterComponent,
     PlannerComponent,
     EventCardComponent,
+    TaskShortComponent,
     TaskComponent,
   ],
   exports: [TopbarComponent, SidebarComponent, FooterComponent],
