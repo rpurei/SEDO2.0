@@ -6,7 +6,6 @@
                            label="Создать задачу"
                            styleClass="p-button-info"
             ></p-splitButton>
-
         </ng-template>
     </p-menubar>
     <div class="grid mt-5" >
@@ -18,17 +17,20 @@
                             icon="pi pi-sort-alpha-down"
                             (click)="sort('text')"
                             pButton
-                            type="button"></button>
+                            type="button"
+                    ></button>
                     <button
                             class="p-button-outlined p-button-info mr-2"
                             icon="pi pi-sort-numeric-down"
                             (click)="sort('date')"
-
                             pButton
-                            type="button"></button>
+                            type="button"
+                    ></button>
                     <span class="pi p-input-icon-right p-fluid"
                           style="width: 100%">
-                        <input pInputText
+                        <input
+                          (input)="filterTasks(search)"
+                          [(ngModel)]="search"
                                placeholder="Название события"
                                style="height: 37px"
                                type="text">
@@ -65,93 +67,4 @@
         </div>
         <app-task class="col-12 md:col-8"></app-task>
     </div>
-</div>
-<div>
-    <!--<div class="grid">-->
-    <!--    <div class="col-12 md:col-2">-->
-    <!--        <div class="card">-->
-    <!--            <button class="p-element p-ripple p-button-success p-button p-component w-full mb-5"-->
-    <!--                    label="Создать задачу"-->
-    <!--                    pButton-->
-    <!--            ></button>-->
-    <!--            <p-panelMenu-->
-    <!--                    [model]="panelMenuItems"-->
-    <!--                    class="w-full"-->
-    <!--            ></p-panelMenu>-->
-    <!--        </div>-->
-    <!--    </div>-->
-    <!--    <div class="col-12 md:col-4">-->
-    <!--        <div class="card">-->
-    <!--            <div class="card">-->
-    <!--                <div class="flex justify-content-between">-->
-    <!--                    <p>Новое событие</p>-->
-    <!--                    <p>{{"10.04.2023 07:59:00"}}</p>-->
-    <!--                </div>-->
-    <!--                <p>Курганский Кирилл Юрьевич</p>-->
-    <!--            </div>-->
-    <!--        </div>-->
-
-    <!--    </div>-->
-    <!--    <div class="col-12 md:col-6">-->
-    <!--        <div class="card">-->
-    <!--            <div class="flex justify-content-around">-->
-    <!--                <div class="flex flex-column text-center">-->
-    <!--                    <p-chip image="assets/demo/images/avatar/amyelsner.png"-->
-    <!--                            label="Amy Elsner"-->
-    <!--                            styleClass="m-1"></p-chip>-->
-    <!--                    <p class="text-black-alpha-40">Постановщик</p>-->
-    <!--                </div>-->
-    <!--                <div class="flex flex-column text-center">-->
-    <!--                    <p-chip image="assets/demo/images/avatar/asiyajavayant.png"-->
-    <!--                            label="Asiya Javayant"-->
-    <!--                            styleClass="m-1"></p-chip>-->
-    <!--                    <p class="text-black-alpha-40">Исполнитель</p>-->
-    <!--                </div>-->
-    <!--                <div class="flex flex-column text-center"-->
-    <!--                     style="margin-top: 3.5px">-->
-    <!--                    <p>{{"10.04.2023 07:59:00"}}</p>-->
-    <!--                    <p class="text-black-alpha-40">Срок исполнения</p>-->
-    <!--                </div>-->
-    <!--                <div class="flex flex-column text-center"-->
-    <!--                     style="margin-top: 3.5px">-->
-    <!--                    <p>{{"Не исполнена"}}</p>-->
-    <!--                    <p class="text-black-alpha-40">Факт исполнения</p>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--            <div class="mt-5">-->
-    <!--                <p>Курганский Кирилл Юрьевич:</p>-->
-    <!--                <p><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. At culpa eius est inventore ipsa labore, necessitatibus quia repellat sed sit? Amet debitis dignissimos doloribus ea excepturi, illo laborum mollitia sint.</span><span>Ab beatae blanditiis consequatur deserunt doloremque eligendi enim ex in incidunt iste laborum, maiores maxime minima minus modi molestiae necessitatibus nostrum odit omnis pariatur similique sint sit ullam voluptates voluptatibus?</span>-->
-    <!--                </p>-->
-    <!--                <p-divider align="center"-->
-    <!--                           layout="horizontal">-->
-    <!--                </p-divider>-->
-    <!--                <button class="p-element p-ripple p-button-success p-button p-component mr-2"-->
-    <!--                        label="Исполнено"-->
-    <!--                        pButton></button>-->
-    <!--                <p-menu #menu-->
-    <!--                        [model]="menuItems"-->
-    <!--                        [popup]="true"></p-menu>-->
-    <!--                <button (click)="menu.toggle($event)"-->
-    <!--                        class="mr-2"-->
-    <!--                        icon="pi pi-chevron-down"-->
-    <!--                        label="Дополнительно"-->
-    <!--                        pButton-->
-    <!--                        style="width:auto"-->
-    <!--                        type="button"></button>-->
-    <!--                <p-menu #menu1-->
-    <!--                        [model]="menuItems1"-->
-    <!--                        [popup]="true"></p-menu>-->
-    <!--                <button (click)="menu1.toggle($event)"-->
-    <!--                        class="p-button-success"-->
-    <!--                        icon="pi pi-chevron-down"-->
-    <!--                        label="Завершить"-->
-    <!--                        pButton-->
-    <!--                        style="width:auto"-->
-    <!--                        type="button"></button>-->
-    <!--            </div>-->
-
-    <!--        </div>-->
-
-    <!--    </div>-->
-    <!--</div>-->
 </div>

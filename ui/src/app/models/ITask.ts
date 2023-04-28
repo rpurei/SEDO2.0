@@ -8,7 +8,7 @@ export interface ITaskShort {
     author: string;
     guid: string;
     accepted: boolean;
-    
+    type: string;
 }
 
 export interface ITask {

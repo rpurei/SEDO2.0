@@ -4,33 +4,27 @@
             24.04.2023) (Приказ по личному составу)"
         </h3>
         <div class="flex justify-content-around">
-            <div class="flex flex-column text-center">
-                <p-chip [label]="'Amy Elsner'"
+            <div class="mx-1">
+                <p-chip [label]="'Иванова Ивана Ивановна'"
                         image="assets/demo/images/avatar/amyelsner.png"
-                        styleClass="m-1 p-button-success"></p-chip>
+                       ></p-chip>
                 <p class="text-gray-500">Постановщик</p>
             </div>
-            <div class="flex flex-column text-center">
+            <div class="mx-1">
                 <p-chip [label]="'Asiya Javayant'"
                         image="assets/demo/images/avatar/asiyajavayant.png"
-                        styleClass="m-1"></p-chip>
+                        styleClass="bg-blue"
+                        ></p-chip>
                 <p class="text-gray-500">Исполнитель</p>
             </div>
 
-            <div class="flex flex-column text-center"
-                 style="margin-top: 3.5px">
-                <div class="p-button-outlined p-button-success"
-                     label="10.04.2023 07:59:00"
-                     pButton
-                ></div>
+            <div class="mx-1">
+              <p-chip [label]="'10.04.2023 07:59:00'"></p-chip>
                 <p class="text-gray-500">Срок исполнения</p>
             </div>
-            <div class="flex flex-column text-center"
-                 style="margin-top: 3.5px">
-                <div class="p-button-outlined p-button-danger"
-                     label="Не исполнена"
-                     pButton
-                ></div>
+            <div class="mx-1">
+              <p-chip [label]="'Не исполнена'"></p-chip>
+
                 <p class="text-gray-500">Факт исполнения</p>
             </div>
         </div>
