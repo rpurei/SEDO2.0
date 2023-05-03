@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { PagesRoutingModule } from './pages-routing.module';
@@ -12,7 +12,6 @@ import { RippleModule } from 'primeng/ripple';
 import { FooterComponent } from './components/footer/footer.component';
 import { ConfigModule } from '../config/config.module';
 import { PlannerComponent } from './planner/planner.component';
-import { CalendarModule } from 'primeng/calendar';
 import { FormsModule } from '@angular/forms';
 import { DividerModule } from 'primeng/divider';
 import { AccordionModule } from 'primeng/accordion';
@@ -50,7 +49,14 @@ import { SpeedDialModule } from 'primeng/speeddial';
 import { SkeletonModule } from 'primeng/skeleton';
 import { EditorModule } from 'primeng/editor';
 import { TaskComponent } from './task-short/task/task.component';
+import { TestCalendarPlanerComponent } from './test-calendar-planer/test-calendar-planer.component';
+import { CalendarModule } from 'primeng/calendar';
+import { CalendarModule as CalendarModulePlaner, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { registerLocaleData } from '@angular/common';
 
+import localeRU from '@angular/common/locales/ru-MD';
+registerLocaleData(localeRU);
 @NgModule({
   declarations: [
     PagesComponent,
@@ -64,45 +70,51 @@ import { TaskComponent } from './task-short/task/task.component';
     EventCardComponent,
     TaskShortComponent,
     TaskComponent,
+    TestCalendarPlanerComponent,
   ],
   exports: [TopbarComponent, SidebarComponent, FooterComponent],
-    imports: [
-        CommonModule,
-        PagesRoutingModule,
-        RippleModule,
-        ConfigModule,
-        CalendarModule,
-        FormsModule,
-        DividerModule,
-        AccordionModule,
-        TableModule,
-        TranslateModule,
-        ToggleButtonModule,
-        TreeTableModule,
-        MultiSelectModule,
-        DropdownModule,
-        SliderModule,
-        ProgressBarModule,
-        InputTextModule,
-        SplitButtonModule,
-        AvatarModule,
-        DialogModule,
-        InputTextareaModule,
-        AutoCompleteModule,
-        TabMenuModule,
-        FileUploadModule,
-        BadgeModule,
-        StyleClassModule,
-        PanelMenuModule,
-        ChipModule,
-        MenuModule,
-        MenubarModule,
-        TabViewModule,
-        ToastModule,
-        SpeedDialModule,
-        SkeletonModule,
-        EditorModule,
-    ],
-  providers: [NodeService, CustomerService, CountryService, MessageService],
+  imports: [
+    CommonModule,
+    PagesRoutingModule,
+    RippleModule,
+    ConfigModule,
+    CalendarModule,
+    CalendarModulePlaner.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
+    FormsModule,
+    DividerModule,
+    AccordionModule,
+    TableModule,
+    TranslateModule,
+    ToggleButtonModule,
+    TreeTableModule,
+    MultiSelectModule,
+    DropdownModule,
+    SliderModule,
+    ProgressBarModule,
+    InputTextModule,
+    SplitButtonModule,
+    AvatarModule,
+    DialogModule,
+    InputTextareaModule,
+    AutoCompleteModule,
+    TabMenuModule,
+    FileUploadModule,
+    BadgeModule,
+    StyleClassModule,
+    PanelMenuModule,
+    ChipModule,
+    MenuModule,
+    MenubarModule,
+    TabViewModule,
+    ToastModule,
+    SpeedDialModule,
+    SkeletonModule,
+    EditorModule,
+    CalendarModule,
+  ],
+  providers: [NodeService, CustomerService, CountryService, MessageService, { provide: LOCALE_ID, useValue: 'ru-MD' }],
 })
 export class PagesModule {}
