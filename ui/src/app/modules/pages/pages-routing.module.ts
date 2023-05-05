@@ -4,6 +4,7 @@ import { PagesComponent } from './pages.component';
 import { IndexComponent } from './index/index.component';
 import { TaskShortComponent } from './task-short/task-short.component';
 import { TestCalendarPlanerComponent } from './test-calendar-planer/test-calendar-planer.component';
+import { PlannerComponent } from './planner/planner.component';
 
 const routes: Routes = [
   {
@@ -12,7 +13,7 @@ const routes: Routes = [
     children: [
       { path: 'index', component: IndexComponent },
       { path: 'planner', component: TestCalendarPlanerComponent },
-      // {path: 'planner', component: PlannerComponent},
+      { path: 'plannerOld', component: PlannerComponent },
       { path: 'task', component: TaskShortComponent },
     ],
   },

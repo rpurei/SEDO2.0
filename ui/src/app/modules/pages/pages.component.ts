@@ -11,30 +11,34 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
   styleUrls: ['./pages.component.scss'],
 })
 export class PagesComponent implements OnDestroy {
-  
   pageMenu: any[] = [
     {
       items: [
-          {
-              label: 'Главная',
-              icon: 'pi pi-fw pi-home',
-              routerLink: ['/page/index'],
-          },
-          {
-              label: 'Демо',
-              icon: 'pi pi-fw pi-images',
-              routerLink: ['/demo']
-          },
-          {
-              label: 'Планировщик',
-              icon: 'pi pi-fw pi-list',
-              routerLink: ['/page/planner'],
-          },
-          {
-              label: 'Задачи',
-              icon: 'pi pi-fw pi-folder',
-              routerLink: ['/page/task'],
-          },
+        {
+          label: 'Главная',
+          icon: 'pi pi-fw pi-home',
+          routerLink: ['/page/index'],
+        },
+        {
+          label: 'Демо',
+          icon: 'pi pi-fw pi-images',
+          routerLink: ['/demo'],
+        },
+        {
+          label: 'Планировщик',
+          icon: 'pi pi-fw pi-list',
+          routerLink: ['/page/planner'],
+        },
+        {
+          label: 'Задачи',
+          icon: 'pi pi-fw pi-folder',
+          routerLink: ['/page/task'],
+        },
+        {
+          label: 'Планировщик (1 версия)',
+          icon: 'pi pi-fw pi-list',
+          routerLink: ['/page/plannerOld'],
+        },
       ],
     },
   ];
@@ -44,11 +48,7 @@ export class PagesComponent implements OnDestroy {
   @ViewChild(SidebarComponent) appSidebar!: SidebarComponent;
   @ViewChild(TopbarComponent) appTopbar!: TopbarComponent;
 
-  constructor(
-    public layoutService: LayoutService,
-    public renderer: Renderer2,
-    public router: Router,
-  ) {
+  constructor(public layoutService: LayoutService, public renderer: Renderer2, public router: Router) {
     this.overlayMenuOpenSubscription = this.layoutService.overlayOpen$.subscribe(() => {
       if (!this.menuOutsideClickListener) {
         this.menuOutsideClickListener = this.renderer.listen('document', 'click', (event) => {
@@ -66,22 +66,18 @@ export class PagesComponent implements OnDestroy {
       }
 
       if (!this.profileMenuOutsideClickListener) {
-        this.profileMenuOutsideClickListener = this.renderer.listen(
-          'document',
-          'click',
-          (event) => {
-            const isOutsideClicked = !(
-              this.appTopbar.menu.nativeElement.isSameNode(event.target) ||
-              this.appTopbar.menu.nativeElement.contains(event.target) ||
-              this.appTopbar.topbarMenuButton.nativeElement.isSameNode(event.target) ||
-              this.appTopbar.topbarMenuButton.nativeElement.contains(event.target)
-            );
+        this.profileMenuOutsideClickListener = this.renderer.listen('document', 'click', (event) => {
+          const isOutsideClicked = !(
+            this.appTopbar.menu.nativeElement.isSameNode(event.target) ||
+            this.appTopbar.menu.nativeElement.contains(event.target) ||
+            this.appTopbar.topbarMenuButton.nativeElement.isSameNode(event.target) ||
+            this.appTopbar.topbarMenuButton.nativeElement.contains(event.target)
+          );
 
-            if (isOutsideClicked) {
-              this.hideProfileMenu();
-            }
-          },
-        );
+          if (isOutsideClicked) {
+            this.hideProfileMenu();
+          }
+        });
       }
 
       if (this.layoutService.state.staticMenuMobileActive) {
@@ -140,8 +136,7 @@ export class PagesComponent implements OnDestroy {
       'layout-overlay': this.layoutService.config.menuMode === 'overlay',
       'layout-static': this.layoutService.config.menuMode === 'static',
       'layout-static-inactive':
-        this.layoutService.state.staticMenuDesktopInactive &&
-        this.layoutService.config.menuMode === 'static',
+        this.layoutService.state.staticMenuDesktopInactive && this.layoutService.config.menuMode === 'static',
       'layout-overlay-active': this.layoutService.state.overlayMenuActive,
       'layout-mobile-active': this.layoutService.state.staticMenuMobileActive,
       'p-input-filled': this.layoutService.config.inputStyle === 'filled',

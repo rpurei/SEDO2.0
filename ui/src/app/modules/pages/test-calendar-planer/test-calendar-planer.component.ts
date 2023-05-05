@@ -1,8 +1,18 @@
-import { Component, ViewChild, TemplateRef } from '@angular/core';
-import { startOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours } from 'date-fns';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { addDays, addHours, endOfMonth, isSameDay, isSameMonth, startOfDay, subDays } from 'date-fns';
 import { Subject } from 'rxjs';
-import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
+import {
+  CalendarDateFormatter,
+  CalendarEvent,
+  CalendarEventAction,
+  CalendarEventTimesChangedEvent,
+  CalendarView,
+  DAYS_OF_WEEK,
+} from 'angular-calendar';
 import { EventColor } from 'calendar-utils';
+import { CustomDateFormatter } from './custom-date-formatter.provider';
+import { CustomerService } from '../../demo/service/customer.service';
+import { Table } from 'primeng/table';
 
 const colors: Record<string, EventColor> = {
   red: {
@@ -22,12 +32,22 @@ const colors: Record<string, EventColor> = {
 @Component({
   selector: 'app-test-calendar-planer',
   templateUrl: './test-calendar-planer.component.html',
-
+  providers: [
+    {
+      provide: CalendarDateFormatter,
+      useClass: CustomDateFormatter,
+    },
+  ],
   styleUrls: ['./test-calendar-planer.component.scss'],
 })
-export class TestCalendarPlanerComponent {
-  @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any> | undefined;
+export class TestCalendarPlanerComponent implements OnInit {
+  filteredItems: any[] = [];
 
+  constructor(private customerService: CustomerService) {}
+
+  @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any> | undefined;
+  display: boolean = false;
+  loading: boolean = false;
   view: CalendarView = CalendarView.Month;
   CalendarView = CalendarView;
   viewDate: Date = new Date();
@@ -35,6 +55,55 @@ export class TestCalendarPlanerComponent {
   nowMonth: Date = new Date();
   refresh = new Subject<void>();
   activeDayIsOpen: boolean = true;
+  weekStartsOn = DAYS_OF_WEEK.MONDAY;
+  eventDetail: any;
+  testInfo: any;
+  countries: any[] = [];
+  filteredCountries: any;
+  selectedCountryAdvanced: any[] = [];
+  cities: any;
+  activeItem: any;
+  people!: any[]; // TODO: создать интерфейс
+  uploadedFiles: any[] = [];
+  visibleModification: boolean = false;
+  endLoading: boolean = false;
+  isChange: boolean = false;
+  selectedItem: any;
+  items: any[] = [];
+  items1: any[] = [];
+
+  onGlobalFilter(table: Table, event: Event) {
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
+
+  filterItems(event: any) {
+    //in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
+    let filtered: any[] = [];
+    let query = event.query;
+
+    for (let i = 0; i < this.items1.length; i++) {
+      let item = this.items1[i];
+      // @ts-ignore
+      if (item.label.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        filtered.push(item);
+      }
+    }
+
+    this.filteredItems = filtered;
+  }
+
+  filterCountry(event: any) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (let i = 0; i < this.countries.length; i++) {
+      const country = this.countries[i];
+      if (country.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        filtered.push(country);
+      }
+    }
+
+    this.filteredCountries = filtered;
+  }
 
   modalData!: {
     action: string;
@@ -59,11 +128,20 @@ export class TestCalendarPlanerComponent {
     },
   ];
 
+  showEventDetails() {
+    this.customerService.getEventsDetail().then((eventDetails) => {
+      this.eventDetail = eventDetails;
+      this.endLoading = true;
+      this.display = true;
+      // this.events.forEach((customer) => (customer.end = new Date(customer.end)));
+    });
+  }
+
   events: CalendarEvent[] = [
     {
       start: subDays(startOfDay(new Date()), 1),
       end: addDays(new Date(), 1),
-      title: 'A 3 day event',
+      title: '10:20' + ' A 3 day event',
       color: { ...colors['red'] },
       actions: this.actions,
       allDay: true,
@@ -75,21 +153,21 @@ export class TestCalendarPlanerComponent {
     },
     {
       start: startOfDay(new Date()),
-      title: 'An event with no end date',
+      title: '12:15' + ' An event with no end date',
       color: { ...colors['yellow'] },
       actions: this.actions,
     },
     {
       start: subDays(endOfMonth(new Date()), 3),
       end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
+      title: '13:10' + ' A long event that spans 2 months',
       color: { ...colors['blue'] },
       allDay: true,
     },
     {
       start: addHours(startOfDay(new Date()), 2),
       end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
+      title: '13:20' + ' A draggable and resizable event',
       color: { ...colors['yellow'] },
       actions: this.actions,
       resizable: {
@@ -99,6 +177,12 @@ export class TestCalendarPlanerComponent {
       draggable: true,
     },
   ];
+  selectedItem1: any;
+  visible: boolean = false;
+
+  showDetails() {
+    this.display = true;
+  }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -123,6 +207,9 @@ export class TestCalendarPlanerComponent {
 
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
+    this.showDetails();
+    console.log('я тут');
+    this.showEventDetails();
   }
 
   setView(view: CalendarView) {
@@ -131,5 +218,39 @@ export class TestCalendarPlanerComponent {
 
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
+  }
+
+  onActiveItemChange(event: any) {
+    this.activeItem = event;
+    console.log(this.activeItem);
+  }
+
+  onUpload(event: any) {
+    for (const file of event.files) {
+      this.uploadedFiles.push(file);
+    }
+  }
+
+  ngOnInit(): void {
+    this.items1 = [
+      { label: 'Ivanov Ivan Ivanovich' },
+      { label: 'Ivanov1 Ivan1 Ivanovich1' },
+      { label: 'Petrov Petr Petrovich' },
+    ];
+    this.cities = [
+      { name: 'Переговорная Помещение ДИТ (виртуальное)', code: 'NY' },
+      { name: 'Rome', code: 'RM' },
+      { name: 'London', code: 'LDN' },
+      { name: 'Istanbul', code: 'IST' },
+      { name: 'Paris', code: 'PRS' },
+    ];
+
+    this.items = [
+      { label: 'Участники', icon: 'pi pi-fw pi-user' },
+      { label: 'Информация к событию', icon: 'pi pi-fw pi-info-circle' },
+      { label: 'Оценка', icon: 'pi pi-fw pi-dollar' },
+      { label: 'Протокол', icon: 'pi pi-fw pi-file' },
+    ];
+    this.activeItem = this.items[0];
   }
 }
