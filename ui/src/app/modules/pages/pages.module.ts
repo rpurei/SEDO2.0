@@ -11,7 +11,7 @@ import { MenuitemComponent } from './components/menuitem/menuitem.component';
 import { RippleModule } from 'primeng/ripple';
 import { FooterComponent } from './components/footer/footer.component';
 import { ConfigModule } from '../config/config.module';
-import { PlannerComponent } from './planner/planner.component';
+import { PlannerBlockComponent } from './planners/planner-block/planner-block.component';
 import { FormsModule } from '@angular/forms';
 import { DividerModule } from 'primeng/divider';
 import { AccordionModule } from 'primeng/accordion';
@@ -29,7 +29,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { AvatarModule } from 'primeng/avatar';
 import { DialogModule } from 'primeng/dialog';
-import { EventCardComponent } from './planner/event-card/event-card.component';
+import { EventCardComponent } from './planners/planner-block/event-card/event-card.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { CountryService } from '../demo/service/country.service';
@@ -49,7 +49,7 @@ import { SpeedDialModule } from 'primeng/speeddial';
 import { SkeletonModule } from 'primeng/skeleton';
 import { EditorModule } from 'primeng/editor';
 import { TaskComponent } from './task-short/task/task.component';
-import { TestCalendarPlanerComponent } from './test-calendar-planer/test-calendar-planer.component';
+import { PlannerCalendarFullScreenComponent } from './planners/planner-calendar-full-screen/planner-calendar-full-screen.component';
 import { CalendarModule } from 'primeng/calendar';
 import { CalendarModule as CalendarModulePlaner, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
@@ -66,11 +66,11 @@ registerLocaleData(localeRU);
     SidemenuComponent,
     MenuitemComponent,
     FooterComponent,
-    PlannerComponent,
+    PlannerBlockComponent,
     EventCardComponent,
     TaskShortComponent,
     TaskComponent,
-    TestCalendarPlanerComponent,
+    PlannerCalendarFullScreenComponent,
   ],
   exports: [TopbarComponent, SidebarComponent, FooterComponent],
   imports: [

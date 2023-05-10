@@ -1,9 +1,9 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { CountryService } from '../../../demo/service/country.service';
+import { CountryService } from '../../../../demo/service/country.service';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { CustomerService } from '../../../demo/service/customer.service';
-import { IEventDetails } from '../../../../models/IEvent';
+import { CustomerService } from '../../../../demo/service/customer.service';
+import { IEventDetails } from '../../../../../models/IEvent';
 
 @Component({
   selector: 'app-event-card',

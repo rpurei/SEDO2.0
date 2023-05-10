@@ -1,17 +1,17 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MenuItem, TreeNode } from 'primeng/api';
-import { NodeService } from '../../demo/service/node.service';
-import { Representative } from '../../demo/api/customer';
+import { NodeService } from '../../../demo/service/node.service';
+import { Representative } from '../../../demo/api/customer';
 import { Table } from 'primeng/table';
-import { CustomerService } from '../../demo/service/customer.service';
-import { IEvent } from '../../../models/IEvent';
+import { CustomerService } from '../../../demo/service/customer.service';
+import { IEvent } from '../../../../models/IEvent';
 
 @Component({
     selector: 'app-planner',
-    templateUrl: './planner.component.html',
-    styleUrls: ['./planner.component.scss'],
+    templateUrl: './planner-block.component.html',
+    styleUrls: ['./planner-block.component.scss'],
 })
-export class PlannerComponent implements OnInit {
+export class PlannerBlockComponent implements OnInit {
     constructor(private nodeService: NodeService, private customerService: CustomerService) {
     }
     

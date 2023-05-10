@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { ITask } from '../../../../models/ITask';
-import { TaskService } from '../../../../services/task.service';
+import { TasksService } from '../../../../services/api/tasks.service';
 
 @Component({
   selector: 'app-task',
@@ -9,7 +9,7 @@ import { TaskService } from '../../../../services/task.service';
   styleUrls: ['./task.component.scss'],
 })
 export class TaskComponent implements OnInit {
-  constructor(private taskService: TaskService) {}
+  constructor(private taskService: TasksService) {}
 
   menuItems: MenuItem[] = [];
   display: boolean = false;

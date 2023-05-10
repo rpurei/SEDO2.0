@@ -66,11 +66,11 @@ export interface IEventDetails {
 }
 
 export interface Participants {
-  deputy: {
-    type?: string;
-    guid?: string;
-    name?: string;
-  };
+    substitute: {
+        type?: string;
+        guid?: string;
+        name?: string;
+    };
   isAbsent: boolean;
   isKnow: string;
   isMust: boolean;

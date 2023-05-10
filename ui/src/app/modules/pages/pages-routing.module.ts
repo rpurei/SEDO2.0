@@ -3,8 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { PagesComponent } from './pages.component';
 import { IndexComponent } from './index/index.component';
 import { TaskShortComponent } from './task-short/task-short.component';
-import { TestCalendarPlanerComponent } from './test-calendar-planer/test-calendar-planer.component';
-import { PlannerComponent } from './planner/planner.component';
+import { PlannerCalendarFullScreenComponent } from './planners/planner-calendar-full-screen/planner-calendar-full-screen.component';
+import { PlannerBlockComponent } from './planners/planner-block/planner-block.component';
 
 const routes: Routes = [
   {
@@ -12,8 +12,8 @@ const routes: Routes = [
     component: PagesComponent,
     children: [
       { path: 'index', component: IndexComponent },
-      { path: 'planner', component: TestCalendarPlanerComponent },
-      { path: 'plannerOld', component: PlannerComponent },
+      { path: 'planner', component: PlannerCalendarFullScreenComponent },
+      { path: 'plannerOld', component: PlannerBlockComponent },
       { path: 'task', component: TaskShortComponent },
     ],
   },
