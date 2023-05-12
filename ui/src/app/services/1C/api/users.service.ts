@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { environment } from "../../../environments/environment";
-import { IUser } from "../../models/IUser";
+import { environment } from "../../../../environments/environment";
+import { IUser } from "../../../models/IUser";
 
 @Injectable({
   providedIn: 'root'
@@ -32,4 +32,7 @@ export class UsersService {
   // public deleteRoleById(roleId: number | undefined): Observable<any> {
   //   return this.http.delete<IRole[]>(`${environment.apiUrl + this.url + roleId}`, {withCredentials: true})
   // }
+    public phonebook(): Observable<any> {
+        return this.http.get('http://localhost:3000/phonebook')
+    }
 }

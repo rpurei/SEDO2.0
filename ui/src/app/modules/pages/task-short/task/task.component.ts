@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { ITask } from '../../../../models/ITask';
-import { TasksService } from '../../../../services/api/tasks.service';
+import { TasksService } from '../../../../services/1C/api/tasks.service';
 
 @Component({
   selector: 'app-task',

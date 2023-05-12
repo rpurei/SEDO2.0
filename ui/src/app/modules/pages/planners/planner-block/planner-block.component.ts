@@ -4,7 +4,7 @@ import { NodeService } from '../../../demo/service/node.service';
 import { Representative } from '../../../demo/api/customer';
 import { Table } from 'primeng/table';
 import { CustomerService } from '../../../demo/service/customer.service';
-import { IEvent } from '../../../../models/IEvent';
+import { IEvent1C } from '../../../../models/1C/IEvent-1C';
 
 @Component({
     selector: 'app-planner',
@@ -16,7 +16,7 @@ export class PlannerBlockComponent implements OnInit {
     }
     
     selectedDate = new Date();
-    event: IEvent[] = [];
+    event: IEvent1C[] = [];
     loading: boolean = true;
     representatives: Representative[] = [];
     files1: TreeNode[] = [];

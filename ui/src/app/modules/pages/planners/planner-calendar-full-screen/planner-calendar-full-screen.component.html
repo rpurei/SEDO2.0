@@ -6,7 +6,7 @@
             <div>
                 <div class="text-left mb-3">
                     <p-autoComplete (completeMethod)="filterItems($event)"
-                                    [(ngModel)]="selectedItem1"
+                                    [(ngModel)]="selectItem1"
                                     [dropdown]="true"
                                     [suggestions]="filteredItems"
                                     [virtualScrollItemSize]="34"
@@ -47,7 +47,7 @@
             <div>
                 <div class="text-left mb-3">
                     <p-autoComplete (completeMethod)="filterItems($event)"
-                                    [(ngModel)]="selectedItem1"
+                                    [(ngModel)]="selectItem1"
                                     [dropdown]="true"
                                     [suggestions]="filteredItems"
                                     [virtualScrollItemSize]="34"

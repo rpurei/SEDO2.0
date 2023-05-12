@@ -3,7 +3,7 @@ import { CountryService } from '../../../../demo/service/country.service';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { CustomerService } from '../../../../demo/service/customer.service';
-import { IEventDetails } from '../../../../../models/IEvent';
+import { IEventDetails1C } from '../../../../../models/1C/IEvent-1C';
 
 @Component({
   selector: 'app-event-card',
@@ -20,7 +20,7 @@ export class EventCardComponent implements OnInit {
   @Input() eventId!: string;
   endLoading: boolean = false;
   display: boolean = false;
-  eventDetail!: IEventDetails;
+  eventDetail!: IEventDetails1C;
   visibleModification: boolean = false;
   cities: any;
   value: any;

@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { addDays, addHours, endOfMonth, isSameDay, isSameMonth, startOfDay, subDays } from 'date-fns';
+import { isSameDay, isSameMonth } from 'date-fns';
 import { Subject } from 'rxjs';
 import {
     CalendarDateFormatter,
@@ -12,9 +12,10 @@ import { DAYS_OF_WEEK, EventColor } from 'calendar-utils';
 import { CustomDateFormatter } from './custom-date-formatter.provider';
 import { CustomerService } from '../../../demo/service/customer.service';
 import { Table } from 'primeng/table';
-import { MenuItem } from 'primeng/api';
-import { EventsService } from '../../../../services/api/events.service';
-import { PlannerFullApiServiceConvert } from '../../../../services/data/planner-full-api-service-convert.service';
+import { MenuItem, MessageService } from 'primeng/api';
+import { PlannerFullApiServiceConvert } from '../../../../services/1C/planner-full-api-service-convert-1c.service';
+import { EventsService } from '../../../../services/events.service';
+import { AlertService } from '../../../../services/alert.service';
 
 const colors: Record<string, EventColor> = {
     red: {
@@ -45,7 +46,13 @@ const colors: Record<string, EventColor> = {
 export class PlannerCalendarFullScreenComponent implements OnInit {
     filteredItems: any[] = [];
     
-    constructor(private customerService: CustomerService, private apiEventService: EventsService, private planerFullApiService: PlannerFullApiServiceConvert) {
+    constructor(
+        private customerService: CustomerService,
+        private apiEventService: EventsService,
+        private planerFullApiService: PlannerFullApiServiceConvert,
+        private alertService: AlertService,
+        private service: MessageService
+    ) {
     }
     
     options: MenuItem[] = [];
@@ -78,8 +85,24 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
     selectedItem: any;
     items: any[] = [];
     items1: any[] = [];
+    selectItem1: any;
+    events: CalendarEvent[] = [];
+    
+    test() {
+        this.service.add({ key: 'tst', severity: 'info', summary: 'Информация', detail: 'Информационное сообщение' })
+    }
     
     ngOnInit(): void {
+        this.apiEventService.getAllEventsShort().subscribe({
+            next: value => {
+                if (value.length === 0) {
+                    this.alertService.error('Ошибка связи с беком')
+                } else {
+                    this.events = value;
+                    this.alertService.success('ok', {autoClose: true})
+                }
+            }
+        });
         this.options = [
             {
                 label: 'Все события', command: () => {
@@ -92,7 +115,6 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
                 }
             }
         ];
-        
         
         this.items1 = [
             {label: 'Ivanov Ivan Ivanovich'},
@@ -114,14 +136,6 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
             {label: 'Протокол', icon: 'pi pi-fw pi-file'},
         ];
         this.activeItem = this.items[0];
-    }
-    
-    test() {
-        this.apiEventService.getAllEventsShort().subscribe({next: value => {
-                console.log(this.planerFullApiService.convertApiShortToCalendarEventAction(value))
-            }, error: err => {
-                console.log(err);
-            }})
     }
     
     
@@ -190,48 +204,6 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
     });
   }
 
-  events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: '10:20' + ' A 3 day event',
-      color: { ...colors['red'] },
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-    {
-      start: startOfDay(new Date()),
-      title: '12:15' + ' An event with no end date',
-      color: { ...colors['yellow'] },
-      actions: this.actions,
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: '13:10' + ' A long event that spans 2 months',
-      color: { ...colors['blue'] },
-      allDay: true,
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: '13:20' + ' A draggable and resizable event',
-      color: { ...colors['yellow'] },
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-  ];
-  selectedItem1: any;
-  visible: boolean = false;
 
 
   showDetails() {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { TasksService } from '../../../services/api/tasks.service';
+import { TasksService } from '../../../services/1C/api/tasks.service';
 import { ITaskShort } from '../../../models/ITask';
 
 @Component({
