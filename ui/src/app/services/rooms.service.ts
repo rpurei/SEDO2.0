@@ -27,5 +27,15 @@ export class RoomsService {
             );
         } return of([] as IRoom[]);
     }
-  
+  public filterRooms(allRooms: IRoom[], event: any) {
+      let filtered: IRoom[] = [];
+      let query = event.query;
+      for (let i = 0; i < allRooms.length; i++) {
+          let room = allRooms[i];
+          if (room.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+              filtered.push(room);
+          }
+      }
+     return filtered;
+  }
 }

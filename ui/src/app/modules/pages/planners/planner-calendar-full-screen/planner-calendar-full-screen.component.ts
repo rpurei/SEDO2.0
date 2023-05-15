@@ -8,7 +8,7 @@ import {
     CalendarEventTimesChangedEvent,
     CalendarView,
 } from 'angular-calendar';
-import { DAYS_OF_WEEK, EventColor } from 'calendar-utils';
+import { DAYS_OF_WEEK } from 'calendar-utils';
 import { CustomDateFormatter } from './custom-date-formatter.provider';
 import { CustomerService } from '../../../demo/service/customer.service';
 import { Table } from 'primeng/table';
@@ -18,21 +18,6 @@ import { EventsService } from '../../../../services/events.service';
 import { AlertService } from '../../../../services/alert/alert.service';
 import { RoomsService } from '../../../../services/rooms.service';
 import { IRoom } from '../../../../models/room';
-
-const colors: Record<string, EventColor> = {
-    red: {
-        primary: '#ad2121',
-        secondary: '#FAE3E3',
-    },
-    blue: {
-        primary: '#1e90ff',
-        secondary: '#D1E8FF',
-    },
-    yellow: {
-        primary: '#e3bc08',
-        secondary: '#FDF1BA',
-    },
-};
 
 @Component({
     selector: 'app-planner-calendar-full-screen',
@@ -52,7 +37,7 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
         private apiEventService: EventsService,
         private planerFullApiService: PlannerFullApiServiceConvert,
         private alertService: AlertService,
-        private roomsAiService: RoomsService
+        private roomsService: RoomsService
     ) {
     }
     
@@ -92,6 +77,7 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
     items: any[] = [];
     filteredItems: any;
     selectItem: any;
+    
     test(a?: any) {
         console.log('good');
         console.log(a);
@@ -100,12 +86,16 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
     filteredEventsForRooms(room: IRoom) {
         this.events = room.name === 'Все помещения' ? this.allEvents : this.allEvents.filter(event => event.meta === room.name);
     }
-
+    
+    filterRooms(event: any) {
+        this.filteredRooms = this.roomsService.filterRooms(this.rooms, event);
+    }
+    
     ngOnInit(): void {
-        this.roomsAiService.getAllRooms().subscribe({
+        this.roomsService.getAllRooms().subscribe({
             next: value => {
                 this.rooms = value;
-                this.rooms.unshift(this.selectRoom)
+                this.rooms.unshift(this.selectRoom);
             }
         });
         this.apiEventService.getAllEventsShort().subscribe({
@@ -155,19 +145,6 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }
     
-    filterRooms(event: any) {
-        let filtered: IRoom[] = [];
-        let query = event.query;
-        
-        for (let i = 0; i < this.rooms.length; i++) {
-            let item = this.rooms[i];
-            if (item.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-                filtered.push(item);
-            }
-        }
-        this.filteredRooms = filtered;
-        console.log(event);
-    }
     
     filterCountry(event: any) {
         const filtered: any[] = [];
