@@ -13,9 +13,11 @@ import { CustomDateFormatter } from './custom-date-formatter.provider';
 import { CustomerService } from '../../../demo/service/customer.service';
 import { Table } from 'primeng/table';
 import { MenuItem } from 'primeng/api';
-import { PlannerFullApiServiceConvert } from '../../../../services/1C/planner-full-api-service-convert-1c.service';
+import { PlannerFullApiServiceConvert } from '../../../../services/1C/api/convert/planner-full-api-convert-1c.service';
 import { EventsService } from '../../../../services/events.service';
 import { AlertService } from '../../../../services/alert/alert.service';
+import { RoomsService } from '../../../../services/rooms.service';
+import { IRoom } from '../../../../models/room';
 
 const colors: Record<string, EventColor> = {
     red: {
@@ -44,17 +46,22 @@ const colors: Record<string, EventColor> = {
     styleUrls: ['./planner-calendar-full-screen.component.scss'],
 })
 export class PlannerCalendarFullScreenComponent implements OnInit {
-    filteredItems: any[] = [];
     
     constructor(
         private customerService: CustomerService,
         private apiEventService: EventsService,
         private planerFullApiService: PlannerFullApiServiceConvert,
         private alertService: AlertService,
+        private roomsAiService: RoomsService
     ) {
     }
     
     options: MenuItem[] = [];
+    selectRoom: IRoom = {id: '', name: 'Все помещения'};
+    rooms: IRoom[] = [];
+    filteredRooms: IRoom[] = [];
+    events: CalendarEvent[] = [];
+    allEvents: CalendarEvent[] = []
     
     
     nowDate: Date = new Date();
@@ -83,21 +90,32 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
     isChange: boolean = false;
     selectedItem: any;
     items: any[] = [];
-    items1: any[] = [];
-    selectItem1: any;
-    events: CalendarEvent[] = [];
-    
-    test() {
-        this.alertService.info('привет')
+    filteredItems: any;
+    selectItem: any;
+    test(a?: any) {
+        console.log('good');
+        console.log(a);
     }
+    
+    filteredEventsForRooms(room: IRoom) {
+        this.events = room.name === 'Все помещения' ? this.allEvents : this.allEvents.filter(event => event.meta === room.name);
+    }
+
     ngOnInit(): void {
+        this.roomsAiService.getAllRooms().subscribe({
+            next: value => {
+                this.rooms = value;
+                this.rooms.unshift(this.selectRoom)
+            }
+        });
         this.apiEventService.getAllEventsShort().subscribe({
             next: value => {
                 if (value.length === 0) {
-                    this.alertService.error('Ошибка связи с беком')
+                    this.alertService.error('Ошибка. Обратитесь в поддержку');
                 } else {
                     this.events = value;
-                    this.alertService.success('ok')
+                    this.allEvents = value
+                    this.alertService.success('ok');
                 }
             }
         });
@@ -114,11 +132,7 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
             }
         ];
         
-        this.items1 = [
-            {label: 'Ivanov Ivan Ivanovich'},
-            {label: 'Ivanov1 Ivan1 Ivanovich1'},
-            {label: 'Petrov Petr Petrovich'},
-        ];
+
         this.cities = [
             {name: 'Переговорная Помещение ДИТ (виртуальное)', code: 'NY'},
             {name: 'Rome', code: 'RM'},
@@ -141,20 +155,18 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }
     
-    filterItems(event: any) {
-        //in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
-        let filtered: any[] = [];
+    filterRooms(event: any) {
+        let filtered: IRoom[] = [];
         let query = event.query;
         
-        for (let i = 0; i < this.items1.length; i++) {
-            let item = this.items1[i];
-            // @ts-ignore
-            if (item.label.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        for (let i = 0; i < this.rooms.length; i++) {
+            let item = this.rooms[i];
+            if (item.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
                 filtered.push(item);
             }
         }
-        
-        this.filteredItems = filtered;
+        this.filteredRooms = filtered;
+        console.log(event);
     }
     
     filterCountry(event: any) {
@@ -166,9 +178,22 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
                 filtered.push(country);
             }
         }
-
-    this.filteredCountries = filtered;
-  }
+        
+        this.filteredCountries = filtered;
+    }
+    
+    filterItems(event: any) {
+        const filtered: any[] = [];
+        const query = event.query;
+        for (let i = 0; i < this.countries.length; i++) {
+            const country = this.countries[i];
+            if (country.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+                filtered.push(country);
+            }
+        }
+        
+        this.filteredCountries = filtered;
+    }
 
   modalData!: {
     action: string;

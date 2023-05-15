@@ -58,6 +58,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 import localeRU from '@angular/common/locales/ru-MD';
 import { AlertService } from '../../services/alert/alert.service';
+import { KeyFilterModule } from 'primeng/keyfilter';
 
 registerLocaleData(localeRU);
 
@@ -118,6 +119,7 @@ registerLocaleData(localeRU);
         SkeletonModule,
         EditorModule,
         CalendarModule,
+        KeyFilterModule,
     ],
     providers: [
         NodeService,

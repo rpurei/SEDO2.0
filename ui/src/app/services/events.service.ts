@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Events1CService } from './1C/api/events.service';
-import { PlannerFullApiServiceConvert } from './1C/planner-full-api-service-convert-1c.service';
+import { PlannerFullApiServiceConvert } from './1C/api/convert/planner-full-api-convert-1c.service';
 import { CalendarEvent } from 'calendar-utils';
 import { catchError, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';

@@ -1,17 +1,18 @@
 <div class="card mb-5">
     <div class="row text-center">
         <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'ru-MD' }}</h3>
-        <button pButton (click)="test()">TestButton</button>
         <div class="flex justify-content-between mb-5">
-            <div>
+            <div class="text-left">
                 <div class="text-left mb-3">
-                    <p-autoComplete (completeMethod)="filterItems($event)"
-                                    [(ngModel)]="selectItem1"
+                    <p-autoComplete (completeMethod)="filterRooms($event)"
+                                    [(ngModel)]="selectRoom"
                                     [dropdown]="true"
-                                    [suggestions]="filteredItems"
-                                    [virtualScrollItemSize]="34"
+                                    [suggestions]="filteredRooms"
+                                    [size]="40"
                                     [virtualScroll]="true"
-                                    field="label"
+                                    [virtualScrollItemSize]="40"
+                                    (onSelect)="filteredEventsForRooms(selectRoom)"
+                                    field="name"
                                     placeholder="Выбрать помещение"
                     ></p-autoComplete>
                 </div>
@@ -19,7 +20,6 @@
 				<button (viewDateChange)="closeOpenMonthViewDay()"
                         [(viewDate)]="viewDate"
                         [view]="view"
-
                         icon="pi pi-chevron-left"
                         label="Назад"
                         mwlCalendarPreviousView
@@ -45,13 +45,14 @@
     </span>
             </div>
             <div>
-                <div class="text-left mb-3">
+                <div class="text-left mb-3 ">
                     <p-autoComplete (completeMethod)="filterItems($event)"
-                                    [(ngModel)]="selectItem1"
+                                    [(ngModel)]="selectItem"
                                     [dropdown]="true"
                                     [suggestions]="filteredItems"
-                                    [virtualScrollItemSize]="34"
                                     [virtualScroll]="true"
+                                    [virtualScrollItemSize]="40"
+
                                     field="label"
                                     placeholder="Выбрать сотрудника"
                     ></p-autoComplete>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IEventFromApi1C } from '../../models/1C/IEvent-1C';
+import { IEventFromApi1C } from '../../../../models/1C/IEvent-1C';
 import { CalendarEvent, EventColor } from 'calendar-utils';
 import { addDays, format} from 'date-fns';
 
@@ -28,7 +28,8 @@ export class PlannerFullApiServiceConvert {
         return apiEvents.map(event => ({
             start: addDays(new Date(event.start), 0),
             end: addDays(new Date(event.end), 0),
-            title: `${format(new Date(event.start), 'HH:mm')} ${event.type} ${event.title} ${event.author}`, //TODO: Добавить автора события из 1С
+            title: `${format(new Date(event.start), 'HH:mm')} ${event.type} ${event.title} ${event.className}`, //TODO: Добавить автора события из 1С
+            meta: event.className,
             color: { ...(this.colors)['blue'] }, //TODO: Добавить важнос
         }));
     }
