@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Rooms1CService } from './1C/api/rooms.service';
 import { RoomsConvert1cService } from './1C/api/convert/rooms-convert-1c.service';
-import { IRoom } from '../models/room';
+import { IRoom } from '../models/IRoom';
 import { IRoomsList1C } from '../models/1C/IOptions-1C';
 
 

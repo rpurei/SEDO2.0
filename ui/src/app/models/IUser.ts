@@ -17,16 +17,16 @@ export interface IUserCapsule {
     name: string;
 }
 
-export interface IPhonebook {
-    birthday: string;
-    div: string;
-    email: string;
-    fio: string;
-    foto: string;
+export interface IUserDetail {
+    id: string;
+    name: string;
     gender: number;
-    guid: string;
-    phone: string[];
-    position: string;
+    email: string;
     skype: string;
+    phone: string[];
+    photo: string;
     subdivision: string;
+    position: string;
+    birthday: string;
+    department: string;
 }

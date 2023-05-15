@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IRoomsList1C } from '../../../../models/1C/IOptions-1C';
-import { IRoom } from '../../../../models/room';
+import { IRoom } from '../../../../models/IRoom';
 
 
 @Injectable({

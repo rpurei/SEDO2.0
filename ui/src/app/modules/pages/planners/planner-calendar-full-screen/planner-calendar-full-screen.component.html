@@ -46,14 +46,15 @@
             </div>
             <div>
                 <div class="text-left mb-3 ">
-                    <p-autoComplete (completeMethod)="filterItems($event)"
-                                    [(ngModel)]="selectItem"
+                    <p-autoComplete (completeMethod)="filterUsers($event)"
+                                    (onSelect)="getEventFroUser(selectUser)"
                                     [dropdown]="true"
-                                    [suggestions]="filteredItems"
+                                    [(ngModel)]="selectUser"
                                     [virtualScroll]="true"
                                     [virtualScrollItemSize]="40"
-
-                                    field="label"
+                                    [size]="40"
+                                    [suggestions]="filteredUsers"
+                                    field="name"
                                     placeholder="Выбрать сотрудника"
                     ></p-autoComplete>
                 </div>
@@ -109,6 +110,8 @@
                                  [weekStartsOn]="weekStartsOn"
         ></mwl-calendar-month-view>
         <mwl-calendar-week-view (eventClicked)="handleEvent('Clicked', $event.event)"
+                                [dayEndHour]="20"
+                                [dayStartHour]="7"
                                 (eventTimesChanged)="eventTimesChanged($event)"
                                 *ngSwitchCase="CalendarView.Week"
                                 [events]="events"
@@ -119,6 +122,8 @@
         <mwl-calendar-day-view (eventClicked)="handleEvent('Clicked', $event.event)"
                                (eventTimesChanged)="eventTimesChanged($event)"
                                *ngSwitchCase="CalendarView.Day"
+                               [dayEndHour]="20"
+                               [dayStartHour]="7"
                                [events]="events"
                                [locale]="locale"
                                [refresh]="refresh"

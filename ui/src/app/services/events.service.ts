@@ -27,5 +27,16 @@ export class EventsService {
             );
         } return of([] as CalendarEvent[]);
     }
-  
+  public getUserEventsShort(id: string): Observable<CalendarEvent[]> {
+      if (environment.backend ==='1c') {
+          const events$: Observable<IEventFromApi1C[]> = this.event1CService.getUsersEventsShortFrom1C(id);
+          return events$.pipe(
+              map(apiEvents => this.planerFullApiService.convertApiShortToCalendarEventAction(apiEvents)),
+              catchError(error => {
+                  console.log(error);
+                  return of([] as CalendarEvent[]);
+              })
+          );
+      } return of([] as CalendarEvent[]);
+  }
 }

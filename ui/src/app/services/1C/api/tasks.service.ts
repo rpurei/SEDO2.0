@@ -7,7 +7,7 @@ import { IRichText, ITask, ITaskShort } from '../../../models/ITask';
 @Injectable({
   providedIn: 'root',
 })
-export class TasksService {
+export class Tasks1CService {
   url = '/api/tasks/';
 
   constructor(private http: HttpClient) {}

@@ -17,7 +17,9 @@ import { PlannerFullApiServiceConvert } from '../../../../services/1C/api/conver
 import { EventsService } from '../../../../services/events.service';
 import { AlertService } from '../../../../services/alert/alert.service';
 import { RoomsService } from '../../../../services/rooms.service';
-import { IRoom } from '../../../../models/room';
+import { IRoom } from '../../../../models/IRoom';
+import { UsersService } from '../../../../services/users.service';
+import { IUserDetail } from '../../../../models/IUser';
 
 @Component({
     selector: 'app-planner-calendar-full-screen',
@@ -37,7 +39,8 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
         private apiEventService: EventsService,
         private planerFullApiService: PlannerFullApiServiceConvert,
         private alertService: AlertService,
-        private roomsService: RoomsService
+        private roomsService: RoomsService,
+        private userService: UsersService
     ) {
     }
     
@@ -46,7 +49,10 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
     rooms: IRoom[] = [];
     filteredRooms: IRoom[] = [];
     events: CalendarEvent[] = [];
-    allEvents: CalendarEvent[] = []
+    allEvents: CalendarEvent[] = [];
+    users: IUserDetail[] = [];
+    filteredUsers: IUserDetail[] = [];
+    selectUser!: IUserDetail;
     
     
     nowDate: Date = new Date();
@@ -76,11 +82,14 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
     selectedItem: any;
     items: any[] = [];
     filteredItems: any;
-    selectItem: any;
+    modalData!: {
+        action: string;
+        event: CalendarEvent;
+    };
+    
     
     test(a?: any) {
-        console.log('good');
-        console.log(a);
+    
     }
     
     filteredEventsForRooms(room: IRoom) {
@@ -91,11 +100,29 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
         this.filteredRooms = this.roomsService.filterRooms(this.rooms, event);
     }
     
-    ngOnInit(): void {
+    filterUsers(event: any) {
+        this.filteredUsers = this.userService.filterUsers(this.users, event);
+    }
+    
+    getEventFroUser(selectUser: IUserDetail) {
+        this.apiEventService.getUserEventsShort(selectUser.id).subscribe(value => {
+            console.log(value);
+        })
+    }
+    
+    
+    ngOnInit() {
+        this.userService.getAllUsersDetail().subscribe({
+            next: value => {
+                this.users = value;
+                console.log(value);
+            }
+        });
+        
         this.roomsService.getAllRooms().subscribe({
             next: value => {
-                this.rooms = value;
-                this.rooms.unshift(this.selectRoom);
+                this.rooms.push(this.selectRoom);
+                this.rooms = this.rooms.concat(value);
             }
         });
         this.apiEventService.getAllEventsShort().subscribe({
@@ -109,6 +136,13 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
                 }
             }
         });
+        this.items = [
+            {label: 'Участники', icon: 'pi pi-fw pi-user'},
+            {label: 'Информация к событию', icon: 'pi pi-fw pi-info-circle'},
+            {label: 'Оценка', icon: 'pi pi-fw pi-dollar'},
+            {label: 'Протокол', icon: 'pi pi-fw pi-file'},
+        ];
+        this.activeItem = this.items[0];
         this.options = [
             {
                 label: 'Все события', command: () => {
@@ -121,23 +155,6 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
                 }
             }
         ];
-        
-
-        this.cities = [
-            {name: 'Переговорная Помещение ДИТ (виртуальное)', code: 'NY'},
-            {name: 'Rome', code: 'RM'},
-            {name: 'London', code: 'LDN'},
-            {name: 'Istanbul', code: 'IST'},
-            {name: 'Paris', code: 'PRS'},
-        ];
-        
-        this.items = [
-            {label: 'Участники', icon: 'pi pi-fw pi-user'},
-            {label: 'Информация к событию', icon: 'pi pi-fw pi-info-circle'},
-            {label: 'Оценка', icon: 'pi pi-fw pi-dollar'},
-            {label: 'Протокол', icon: 'pi pi-fw pi-file'},
-        ];
-        this.activeItem = this.items[0];
     }
     
     
@@ -147,35 +164,20 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
     
     
     filterCountry(event: any) {
-        const filtered: any[] = [];
-        const query = event.query;
-        for (let i = 0; i < this.countries.length; i++) {
-            const country = this.countries[i];
-            if (country.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-                filtered.push(country);
-            }
-        }
-        
-        this.filteredCountries = filtered;
+        // const filtered: any[] = [];
+        // const query = event.query;
+        // for (let i = 0; i < this.countries.length; i++) {
+        //     const country = this.countries[i];
+        //     if (country.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        //         filtered.push(country);
+        //     }
+        // }
+        //
+        // this.filteredCountries = filtered;
     }
     
-    filterItems(event: any) {
-        const filtered: any[] = [];
-        const query = event.query;
-        for (let i = 0; i < this.countries.length; i++) {
-            const country = this.countries[i];
-            if (country.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-                filtered.push(country);
-            }
-        }
-        
-        this.filteredCountries = filtered;
-    }
 
-  modalData!: {
-    action: string;
-    event: CalendarEvent;
-  };
+
 
   actions: CalendarEventAction[] = [
     {
@@ -245,17 +247,18 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
   }
-
-  onActiveItemChange(event: any) {
-    this.activeItem = event;
-    console.log(this.activeItem);
-  }
-
-  onUpload(event: any) {
-    for (const file of event.files) {
-      this.uploadedFiles.push(file);
+    
+    onActiveItemChange(event: any) {
+        this.activeItem = event;
+        console.log(this.activeItem);
     }
-  }
-  
-  
+    
+    onUpload(event: any) {
+        for (const file of event.files) {
+            this.uploadedFiles.push(file);
+        }
+    }
+    
+    
+
 }

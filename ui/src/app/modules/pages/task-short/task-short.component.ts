@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { TasksService } from '../../../services/1C/api/tasks.service';
+import { Tasks1CService } from '../../../services/1C/api/tasks.service';
 import { ITaskShort } from '../../../models/ITask';
 
 @Component({
@@ -9,7 +9,7 @@ import { ITaskShort } from '../../../models/ITask';
   styleUrls: ['./task-short.component.scss'],
 })
 export class TaskShortComponent implements OnInit {
-  constructor(private taskService: TasksService) {}
+  constructor(private taskService: Tasks1CService) {}
   noSortingTasks: ITaskShort[] = [];
   tasksShort: ITaskShort[] = [];
   loading: boolean = true;
