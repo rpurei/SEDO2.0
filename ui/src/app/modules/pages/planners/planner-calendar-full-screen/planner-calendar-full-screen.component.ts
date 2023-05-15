@@ -12,10 +12,10 @@ import { DAYS_OF_WEEK, EventColor } from 'calendar-utils';
 import { CustomDateFormatter } from './custom-date-formatter.provider';
 import { CustomerService } from '../../../demo/service/customer.service';
 import { Table } from 'primeng/table';
-import { MenuItem, MessageService } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { PlannerFullApiServiceConvert } from '../../../../services/1C/planner-full-api-service-convert-1c.service';
 import { EventsService } from '../../../../services/events.service';
-import { AlertService } from '../../../../services/alert.service';
+import { AlertService } from '../../../../services/alert/alert.service';
 
 const colors: Record<string, EventColor> = {
     red: {
@@ -51,7 +51,6 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
         private apiEventService: EventsService,
         private planerFullApiService: PlannerFullApiServiceConvert,
         private alertService: AlertService,
-        private service: MessageService
     ) {
     }
     
@@ -89,9 +88,8 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
     events: CalendarEvent[] = [];
     
     test() {
-        this.service.add({ key: 'tst', severity: 'info', summary: 'Информация', detail: 'Информационное сообщение' })
+        this.alertService.info('привет')
     }
-    
     ngOnInit(): void {
         this.apiEventService.getAllEventsShort().subscribe({
             next: value => {
@@ -99,7 +97,7 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
                     this.alertService.error('Ошибка связи с беком')
                 } else {
                     this.events = value;
-                    this.alertService.success('ok', {autoClose: true})
+                    this.alertService.success('ok')
                 }
             }
         });

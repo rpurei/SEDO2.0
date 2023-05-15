@@ -12,7 +12,7 @@ export class MessagesDemoComponent {
     constructor(private service: MessageService) { }
 
     showInfoViaToast() {
-        this.service.add({ key: 'tst', severity: 'info', summary: 'Информация', detail: 'Информационное сообщение' });
+        this.service.add({ severity: 'info', summary: 'Информация', detail: 'Информационное сообщение' });
     }
 
     showWarnViaToast() {
