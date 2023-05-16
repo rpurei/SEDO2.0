@@ -1,5 +1,7 @@
+import { IOption } from './IOption';
+
 export class IUser {
-  id?: number;
+    id?: number;
     login?: string;
     full_name?: string;
     password?: string;
@@ -29,4 +31,16 @@ export interface IUserDetail {
     position: string;
     birthday: string;
     department: string;
+}
+
+export interface IParticipant {
+    deputy: IOption;
+    isAbsent: boolean;
+    isKnow: string;
+    isMust: boolean;
+    user: IOption;
+    order: number;
+    role: IOption;
+    presence: string;
+    presenceRus: string;
 }

@@ -59,6 +59,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import localeRU from '@angular/common/locales/ru-MD';
 import { AlertService } from '../../services/alert/alert.service';
 import { KeyFilterModule } from 'primeng/keyfilter';
+import { EventDetailsComponent } from './planners/planner-calendar-full-screen/event-details/event-details.component';
 
 registerLocaleData(localeRU);
 
@@ -76,6 +77,7 @@ registerLocaleData(localeRU);
         TaskShortComponent,
         TaskComponent,
         PlannerCalendarFullScreenComponent,
+        EventDetailsComponent,
     ],
     exports: [TopbarComponent, SidebarComponent, FooterComponent],
     imports: [

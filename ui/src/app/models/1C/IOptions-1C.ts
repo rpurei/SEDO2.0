@@ -4,6 +4,27 @@ export interface IOptions1C {
     name?: string;
 }
 
-export interface IRoomsList1C extends IOptions1C{
-    capacity: number
+export interface IRoomsList1C extends IOptions1C {
+    capacity: number;
+}
+
+export interface IFiles1C {
+    guid: string;
+    name: string;
+    title: string;
+    type: string;
+    size: number;
+    createDate: string;
+    author: IOptions1C;
+    order: number;
+    typeDoc: string;
+}
+
+export interface IViolations1C {
+    delayTime: number;
+    note: string;
+    participant: IOptions1C;
+    sum: number;
+    violationNumber: number;
+    violationType: IOptions1C;
 }

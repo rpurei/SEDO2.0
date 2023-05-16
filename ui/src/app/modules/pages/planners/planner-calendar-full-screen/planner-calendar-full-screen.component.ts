@@ -20,6 +20,7 @@ import { RoomsService } from '../../../../services/rooms.service';
 import { IRoom } from '../../../../models/IRoom';
 import { UsersService } from '../../../../services/users.service';
 import { IUserDetail } from '../../../../models/IUser';
+import { IEventDetails } from '../../../../models/IEvent';
 
 @Component({
     selector: 'app-planner-calendar-full-screen',
@@ -33,6 +34,7 @@ import { IUserDetail } from '../../../../models/IUser';
     styleUrls: ['./planner-calendar-full-screen.component.scss'],
 })
 export class PlannerCalendarFullScreenComponent implements OnInit {
+    @ViewChild('modalContent', {static: true}) modalContent: TemplateRef<any> | undefined;
     
     constructor(
         private customerService: CustomerService,
@@ -53,25 +55,19 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
     users: IUserDetail[] = [];
     filteredUsers: IUserDetail[] = [];
     selectUser!: IUserDetail;
-    
-    
+    activeDayIsOpen: boolean = true;
     nowDate: Date = new Date();
-    @ViewChild('modalContent', {static: true}) modalContent: TemplateRef<any> | undefined;
     display: boolean = false;
-    loading: boolean = false;
     view: CalendarView = CalendarView.Month;
     CalendarView = CalendarView;
     viewDate: Date = new Date();
     locale: string = 'ru-MD';
-    nowMonth: Date = new Date();
     refresh = new Subject<void>();
-    activeDayIsOpen: boolean = true;
     weekStartsOn = DAYS_OF_WEEK.MONDAY;
-    eventDetail: any;
-    testInfo: any;
-    countries: any[] = [];
+    
+    
+    eventDetail!: IEventDetails;
     filteredCountries: any;
-    selectedCountryAdvanced: any[] = [];
     cities: any;
     activeItem: any;
     people!: any[]; // TODO: создать интерфейс
@@ -116,6 +112,8 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
             next: value => {
                 this.users = value;
                 console.log(value);
+            }, error: err => {
+                this.alertService.errorApi(err);
             }
         });
         
@@ -163,67 +161,63 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
     }
     
     
-    filterCountry(event: any) {
-        // const filtered: any[] = [];
-        // const query = event.query;
-        // for (let i = 0; i < this.countries.length; i++) {
-        //     const country = this.countries[i];
-        //     if (country.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-        //         filtered.push(country);
-        //     }
-        // }
-        //
-        // this.filteredCountries = filtered;
-    }
-    
 
 
 
   actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fas fa-fw fa-pencil-alt"></i>',
-      a11yLabel: 'Edit',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
+      {
+          label: '<i class="fas fa-fw fa-pencil-alt"></i>',
+          a11yLabel: 'Edit',
+          onClick: ({event}: { event: CalendarEvent }): void => {
+              this.handleEvent('Edited', event);
+          },
       },
-    },
-    {
-      label: '<i class="fas fa-fw fa-trash-alt"></i>',
-      a11yLabel: 'Delete',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter((iEvent) => iEvent !== event);
-        this.handleEvent('Deleted', event);
+      {
+          label: '<i class="fas fa-fw fa-trash-alt"></i>',
+          a11yLabel: 'Delete',
+          onClick: ({event}: { event: CalendarEvent }): void => {
+              this.events = this.events.filter((iEvent) => iEvent !== event);
+              this.handleEvent('Deleted', event);
+          },
       },
-    },
   ];
-
-  showEventDetails() {
-    this.customerService.getEventsDetail().then((eventDetails) => {
-      this.eventDetail = eventDetails;
-      this.endLoading = true;
-      this.display = true;
-      // this.events.forEach((customer) => (customer.end = new Date(customer.end)));
-    });
-  }
-
-
-
-  showDetails() {
-    this.display = true;
-  }
-
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-    if (isSameMonth(date, this.viewDate)) {
-      this.activeDayIsOpen = !((isSameDay(this.viewDate, date) && this.activeDayIsOpen) || events.length === 0);
-      this.viewDate = date;
+    
+    showEventDetails(id: string) {
+        this.apiEventService.getEventDetailsById(id).subscribe({
+            next: eventDetails => {
+                console.log(eventDetails);
+                this.eventDetail = eventDetails;
+                this.endLoading = true;
+                this.display = true;
+            }, error: err => {
+                this.alertService.errorApi(err);
+            }
+        });
+        // this.customerService.getEventsDetail().then((eventDetails) => {
+        //   this.eventDetail = eventDetails;
+        //   this.endLoading = true;
+        //   this.display = true;
+        //   // this.events.forEach((customer) => (customer.end = new Date(customer.end)));
+        // });
     }
-  }
-
-  eventTimesChanged({ event, newStart, newEnd }: CalendarEventTimesChangedEvent): void {
-    this.events = this.events.map((iEvent) => {
-      if (iEvent === event) {
-        return {
-          ...event,
+    
+    
+    showDetails() {
+        this.display = true;
+    }
+    
+    dayClicked({date, events}: { date: Date; events: CalendarEvent[] }): void {
+        if (isSameMonth(date, this.viewDate)) {
+            this.activeDayIsOpen = !((isSameDay(this.viewDate, date) && this.activeDayIsOpen) || events.length === 0);
+            this.viewDate = date;
+        }
+    }
+    
+    eventTimesChanged({event, newStart, newEnd}: CalendarEventTimesChangedEvent): void {
+        this.events = this.events.map((iEvent) => {
+            if (iEvent === event) {
+                return {
+                    ...event,
           start: newStart,
           end: newEnd,
         };
@@ -234,10 +228,11 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
-    this.showDetails();
-    console.log('я тут');
-    this.showEventDetails();
+      this.modalData = {event, action};
+      this.showDetails();
+      console.log(event);
+      let id: string = String(event.id);
+      this.showEventDetails(id);
   }
 
   setView(view: CalendarView) {

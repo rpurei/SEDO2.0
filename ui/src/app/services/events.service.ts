@@ -6,6 +6,7 @@ import { catchError, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { IEventFromApi1C } from '../models/1C/IEvent-1C';
 import { environment } from '../../environments/environment';
+import { IEventDetails } from '../models/IEvent';
 
 
 @Injectable({
@@ -16,7 +17,7 @@ export class EventsService {
     }
     
     public getAllEventsShort(): Observable<CalendarEvent[]> {
-        if (environment.backend ==='1c') {
+        if (environment.backend === '1c') {
             const events$: Observable<IEventFromApi1C[]> = this.event1CService.getAllEventsShortFrom1C();
             return events$.pipe(
                 map(apiEvents => this.planerFullApiService.convertApiShortToCalendarEventAction(apiEvents)),
@@ -25,18 +26,30 @@ export class EventsService {
                     return of([] as CalendarEvent[]);
                 })
             );
-        } return of([] as CalendarEvent[]);
+        }
+        return of([] as CalendarEvent[]);
     }
-  public getUserEventsShort(id: string): Observable<CalendarEvent[]> {
-      if (environment.backend ==='1c') {
-          const events$: Observable<IEventFromApi1C[]> = this.event1CService.getUsersEventsShortFrom1C(id);
-          return events$.pipe(
-              map(apiEvents => this.planerFullApiService.convertApiShortToCalendarEventAction(apiEvents)),
-              catchError(error => {
-                  console.log(error);
-                  return of([] as CalendarEvent[]);
-              })
-          );
-      } return of([] as CalendarEvent[]);
-  }
+    
+    public getUserEventsShort(id: string): Observable<CalendarEvent[]> {
+        if (environment.backend === '1c') {
+            const events$: Observable<IEventFromApi1C[]> = this.event1CService.getUsersEventsShortFrom1C(id);
+            return events$.pipe(
+                map(apiEvents => this.planerFullApiService.convertApiShortToCalendarEventAction(apiEvents)),
+                catchError(error => {
+                    console.log(error);
+                    return of([] as CalendarEvent[]);
+                })
+            );
+        }
+        return of([] as CalendarEvent[]);
+    }
+    
+    public getEventDetailsById(id: string): Observable<IEventDetails> {
+        if (environment.backend === '1c') {
+            return this.event1CService.getEventDetailsFrom1CByEventId(id).pipe(
+                map(eventDetails => this.planerFullApiService.convertApiEventDetail(eventDetails[0]))
+            );
+        }
+        return of({} as IEventDetails);
+    }
 }

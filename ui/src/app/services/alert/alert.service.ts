@@ -18,6 +18,15 @@ export class AlertService {
         this.service.add({key: this.defaultKey, severity: 'error', summary: 'Ошибка', detail: message});
     }
     
+    errorApi(error: any) {
+        this.service.add({
+            key: this.defaultKey,
+            severity: 'error',
+            summary: 'Ошибка',
+            detail: `Ошибка связи. Обратитесь к администратору. ${error.status} ${error.statusText}`
+        });
+    }
+    
     info(message: string) {
         this.service.add({key: this.defaultKey, severity: 'info', summary: 'Информация', detail: message});
     }

@@ -2,8 +2,6 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { CountryService } from '../../../../demo/service/country.service';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { CustomerService } from '../../../../demo/service/customer.service';
-import { IEventDetails1C } from '../../../../../models/1C/IEvent-1C';
 
 @Component({
   selector: 'app-event-card',
@@ -11,40 +9,40 @@ import { IEventDetails1C } from '../../../../../models/1C/IEvent-1C';
   styleUrls: ['./event-card.component.scss'],
 })
 export class EventCardComponent implements OnInit {
-  constructor(
-    private countryService: CountryService,
-    private messageService: MessageService,
-    private customerService: CustomerService,
-  ) {}
-
-  @Input() eventId!: string;
-  endLoading: boolean = false;
-  display: boolean = false;
-  eventDetail!: IEventDetails1C;
-  visibleModification: boolean = false;
-  cities: any;
-  value: any;
-  selectedCity: any;
-  testInfo: any;
-  selectedCountryAdvanced: any[] = [];
-  filteredCountries: any[] = [];
-  countries: any[] = [];
-  items!: MenuItem[];
-  people!: any[]; // TODO: создать интерфейс
-  activeItem!: MenuItem;
+    constructor(
+        private countryService: CountryService,
+        private messageService: MessageService,
+    ) {
+    }
+    
+    @Input() eventId!: string;
+    endLoading: boolean = false;
+    display: boolean = false;
+    eventDetail!: any;
+    visibleModification: boolean = false;
+    cities: any;
+    value: any;
+    selectedCity: any;
+    testInfo: any;
+    selectedCountryAdvanced: any[] = [];
+    filteredCountries: any[] = [];
+    countries: any[] = [];
+    items!: MenuItem[];
+    people!: any[]; // TODO: создать интерфейс
+    activeItem!: MenuItem;
   loading: boolean = false;
   uploadedFiles: any[] = [];
 
   @ViewChild('filter') filter!: ElementRef;
 
   showEventDetails() {
-    this.customerService.getEventsDetail().then((eventDetails) => {
-      this.eventDetail = eventDetails;
-      this.endLoading = true;
-      this.loading = false;
-      this.display = true;
-      // this.events.forEach((customer) => (customer.end = new Date(customer.end)));
-    });
+      // this.customerService.getEventsDetail().then((eventDetails) => {
+      //   this.eventDetail = eventDetails;
+      //   this.endLoading = true;
+      //   this.loading = false;
+      //   this.display = true;
+      //   // this.events.forEach((customer) => (customer.end = new Date(customer.end)));
+      // });
   }
 
   onGlobalFilter(table: Table, event: Event) {

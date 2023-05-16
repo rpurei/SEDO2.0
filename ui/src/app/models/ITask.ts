@@ -1,4 +1,4 @@
-import { IFiles } from './IFiles';
+import { IFileTask } from './IFiles';
 import { IUserCapsule } from './IUser';
 
 export interface ITaskShort {
@@ -11,25 +11,25 @@ export interface ITaskShort {
 }
 
 export interface ITask {
-  dateExecution?: Date;
-  dateStart?: Date;
-  files?: IFiles[];
-  project?: '';
-  dateAcceptanceExecution?: Date;
-  buttons: IButton[];
-  guid: string;
-  author: string;
-  importance: string;
-  completed: boolean;
-  dateCreated: Date;
-  ExcludedFromProcess: boolean;
-  executors: IExecutors[];
-  title: string;
-  description: string;
-  accepted: boolean;
-  stateProcess: string;
-  dateEnd: Date;
-  logbook: IRichText[];
+    dateExecution?: Date;
+    dateStart?: Date;
+    files?: IFileTask[];
+    project?: '';
+    dateAcceptanceExecution?: Date;
+    buttons: IButton[];
+    guid: string;
+    author: string;
+    importance: string;
+    completed: boolean;
+    dateCreated: Date;
+    ExcludedFromProcess: boolean;
+    executors: IExecutors[];
+    title: string;
+    description: string;
+    accepted: boolean;
+    stateProcess: string;
+    dateEnd: Date;
+    logbook: IRichText[];
 }
 
 export interface IButton {

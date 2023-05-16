@@ -1,4 +1,5 @@
-import { IOptions1C } from './IOptions-1C';
+import { IFiles1C, IOptions1C, IViolations1C } from './IOptions-1C';
+import { IOption, IViolation } from '../IOption';
 
 export interface IEvent1C {
     className: string;
@@ -13,29 +14,34 @@ export interface IEvent1C {
     author: string;
 }
 
-export interface IEventDetails1C {
-    className: IOptions1C
-    committeeType: IOptions1C
-    desc: string ;
-    duration: number;
-    end: string;
-    files?: any[];
-    importance: string;
-    initiator: IOptions1C
-    leader: IOptions1C
-    notification: any[];
-    org: IOptions1C
-    participants: Participants[];
-    secretary: IOptions1C
+export interface IEventDetailsFrom1C {
+    guid: string;
     softId: string;
-    start: string;
-    subdiv: IOptions1C
-    type: IOptions1C
     title: string;
-    violations?: any[];
+    importance: string;
+    type: IOptions1C;
+    committeeType: IOptions1C;
+    start: string;
+    end: string;
+    desc: string;
+    initiator: IOptions1C;
+    org: IOptions1C;
+    subdiv: IOptions1C;
+    className: IOptions1C;
+    leader: IOptions1C;
+    secretary: IOptions1C;
+    duration: number;
+    participants: IParticipants1C[];
+    files: IFiles1C[];
+    violations?: IViolations1C[];
+    notification?: any[]; //TODO: Выяснить точно какой тип данных в массиве:)
+    changeOptionsType(option1C: IOptions1C): IOption;
+    
+    changeViolationsType(violations1C: IViolations1C): IViolation;
 }
 
-export interface Participants {
+export interface IParticipants1C {
+    deputy: IOptions1C;
     substitute: IOptions1C;
     isAbsent: boolean;
     isKnow: string;

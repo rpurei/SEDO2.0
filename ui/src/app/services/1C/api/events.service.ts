@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IEventFromApi1C } from '../../../models/1C/IEvent-1C';
+import { IEventDetailsFrom1C, IEventFromApi1C } from '../../../models/1C/IEvent-1C';
 import { IOptions1C, IRoomsList1C } from '../../../models/1C/IOptions-1C';
 
 
@@ -31,9 +31,12 @@ export class Events1CService {
         formData.append(this.method, 'userEdoEvents');
         formData.append('user', id);
         formData.append('params[allUsers]', 'false');
-        
-        console.log('тест');
         return this.http.post('https://api.zdmail.ru/service', formData);
+    }
+    
+    public getEventDetailsFrom1CByEventId(id: string): Observable<any> {
+        console.log(id);
+        return this.http.get<IEventDetailsFrom1C[]>('http://localhost:3000/eventDetails');
     }
     
     // public getAllEventsShortForRoomFrom1C(id: string): Observable<any> {
