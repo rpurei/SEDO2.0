@@ -13,7 +13,7 @@ import { CustomDateFormatter } from './custom-date-formatter.provider';
 import { CustomerService } from '../../../demo/service/customer.service';
 import { Table } from 'primeng/table';
 import { MenuItem } from 'primeng/api';
-import { PlannerFullApiServiceConvert } from '../../../../services/1C/api/convert/planner-full-api-convert-1c.service';
+import { EventApiServiceConvert } from '../../../../services/1C/api/convert/planner-full-api-convert-1c.service';
 import { EventsService } from '../../../../services/events.service';
 import { AlertService } from '../../../../services/alert/alert.service';
 import { RoomsService } from '../../../../services/rooms.service';
@@ -39,7 +39,7 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
     constructor(
         private customerService: CustomerService,
         private apiEventService: EventsService,
-        private planerFullApiService: PlannerFullApiServiceConvert,
+        private eventApiServiceConvert: EventApiServiceConvert,
         private alertService: AlertService,
         private roomsService: RoomsService,
         private userService: UsersService
@@ -85,7 +85,7 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
     
     
     test(a?: any) {
-    
+        console.log('дата окончания');
     }
     
     filteredEventsForRooms(room: IRoom) {
@@ -121,6 +121,8 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
             next: value => {
                 this.rooms.push(this.selectRoom);
                 this.rooms = this.rooms.concat(value);
+            }, error: err => {
+                this.alertService.errorApi(err);
             }
         });
         this.apiEventService.getAllEventsShort().subscribe({
@@ -254,6 +256,16 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
         }
     }
     
-    
-
+    copyThisEvent() {
+        let copyEventDetail = this.eventDetail;
+        if (copyEventDetail.id === '') {
+            this.alertService.error('Копия уже создана');
+        } else {
+            copyEventDetail.title = 'Копия ' + this.eventDetail.title;
+            copyEventDetail.id = '';
+            this.eventDetail = copyEventDetail;
+            this.alertService.success('Копия ' + copyEventDetail.title + ' успешно создана');
+        }
+        
+    }
 }

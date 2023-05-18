@@ -1,24 +1,53 @@
+<h4 *ngIf="!isChange">{{'Карточка события мероприятия: ' + eventDetail.title}}</h4>
+<textarea *ngIf="isChange"
+          [(ngModel)]="eventDetail.title"
+          [autoResize]="true"
+          class="w-full"
+          pInputTextarea
+          rows="1"></textarea>
 <div *ngIf="eventDetail"
      class="card">
     <div class="grid formgrid">
         <div class="col mb-5">
-            <h5>Название события</h5>
-            <input *ngIf="isChange"
-                   [(ngModel)]="eventDetail"
-                   class="w-full"
-                   pInputText
-                   type="text"
-            />
-            <p *ngIf="!isChange">{{eventDetail.title!}}</p>
+            <h5>Тип события</h5>
+            <p-autoComplete (completeMethod)="filterEventType($event)"
+                            *ngIf="isChange"
+                            [(ngModel)]="eventDetail.typeEvent"
+                            [dropdown]="true"
+                            [suggestions]="filteredEventsType"
+                            field="name"
+                            styleClass="w-full"
+            ></p-autoComplete>
+            <p *ngIf="!isChange">{{eventDetail.typeEvent.name}}</p>
         </div>
         <div class="col mb-5 w-full">
-            <h5>Начало события</h5>
-            <p-calendar *ngIf="isChange"
-                        [(ngModel)]="dateStart"
-                        [showTime]="true"
-                        styleClass="w-full"
-            ></p-calendar>
-            <p *ngIf="!isChange">{{dateStart | date: 'dd.MM.YY HH:mm'}}</p>
+            <div *ngIf="!isChange">
+                <h5>Период проведения события</h5>
+                <p
+                >{{dateStart | date: 'dd.MM.YY HH:mm' }} - {{dateEnd | date:'dd.MM.YY HH:mm' }}</p>
+            </div>
+            <div *ngIf="isChange"
+                 class="flex justify-content-between">
+                <div>
+                    <h5>Начало события</h5>
+                    <p-calendar
+                            [(ngModel)]="dateStart"
+                            [showTime]="true"
+                            dateFormat="dd.mm.yy"
+                            styleClass="w-full"
+                    ></p-calendar>
+                </div>
+                <div>
+                    <h5>Конец события</h5>
+                    <p-calendar
+                            [(ngModel)]="dateEnd"
+                            [showTime]="true"
+                            dateFormat="dd.mm.yy"
+                            styleClass="w-full"
+                    ></p-calendar>
+                </div>
+            </div>
+
         </div>
     </div>
     <div class="grid formgrid">
@@ -33,11 +62,11 @@
         </div>
         <div class="col mb-2">
             <h5>Помещение</h5>
-            <p-autoComplete (completeMethod)="filterCountry($event)"
+            <p-autoComplete (completeMethod)="filterRoom($event)"
                             *ngIf="isChange"
-                            [(ngModel)]="eventDetail.room.name"
+                            [(ngModel)]="eventDetail.room"
                             [dropdown]="true"
-                            [suggestions]="filteredCountries"
+                            [suggestions]="filteredRooms"
                             field="name"
                             styleClass="w-full"
             ></p-autoComplete>
@@ -45,20 +74,20 @@
         </div>
     </div>
     <div class="grid formgrid">
-        <div class="col mb-5">
+        <div class="col ">
             <h5>Организация</h5>
-            <p-autoComplete (completeMethod)="filterCountry($event)"
+            <p-autoComplete (completeMethod)="filterOrganization($event)"
                             *ngIf="isChange"
-                            [(ngModel)]="selectedOrganisation"
+                            [(ngModel)]="eventDetail.organization"
                             [dropdown]="true"
-                            [suggestions]="filteredCountries"
+                            [suggestions]="filteredOrganization"
                             field="name"
                             styleClass="w-full"
             ></p-autoComplete>
             <p *ngIf="!isChange"
             >{{selectedOrganisation ? selectedOrganisation : 'Поле не указано'}}</p>
         </div>
-        <div class="col mb-2">
+        <div class="col">
             <h5>Компания</h5>
             <p-dropdown *ngIf="isChange"
                         [(ngModel)]="eventDetail.room.name"
@@ -77,24 +106,55 @@
 ></p-tabMenu>
 <div class="card mt-5">
     <div *ngIf="this.activeItem.label === 'Участники'">
-        <h5>{{activeItem.label}}</h5>
-        <p-table #dt1
-                 [globalFilterFields]="['dateStart', 'eventTitle', 'venue', 'author']"
-                 [loading]="loading"
-                 [paginator]="true"
-                 [rowHover]="true"
-                 [rows]="10"
-                 [value]="people"
-                 dataKey="id"
-                 responsiveLayout="scroll"
-                 styleClass="p-datatable-gridlines"
-        >
-            <ng-template
-                    class="flex"
-                    pTemplate="caption"
-            >
-                <div class="flex align-items-center justify-content-end">
-              <span class="p-input-icon-left mb-2">
+        <div *ngIf="visibleAddNewParticipants"
+             class="card mb-5">
+            <div class="flex mb-5 justify-content-between">
+                <h4>Добавить нового участника</h4>
+                <div>
+                    <button
+                            (click)="addNewParticipants()"
+                            class="p-button-outlined p-button-info mr-3"
+                            icon="pi pi-plus"
+                            label="Добавить"
+                            pButton
+                            pTooltip="Добавить нового участника"
+                    ></button>
+                    <button
+                            (click)="visibleAddNewParticipants = false"
+                            class="p-button-outlined p-button-danger"
+                            icon="pi pi-plus"
+                            pButton
+                            pTooltip="Закрыть"
+                    ></button>
+                </div>
+            </div>
+            <div class="flex justify-content-between">
+                <p-autoComplete (completeMethod)="filterUsers($event)"
+                                [(ngModel)]="selectUser"
+                                [dropdown]="true"
+                                [size]="40"
+                                [suggestions]="filteredUsers"
+                                [virtualScrollItemSize]="40"
+                                [virtualScroll]="true"
+                                field="name"
+                                placeholder="Выбрать сотрудника"
+                ></p-autoComplete>
+                <p-autoComplete (completeMethod)="filterRole($event)"
+                                [(ngModel)]="selectRole"
+                                [dropdown]="true"
+                                [size]="40"
+                                [suggestions]="filteredRole"
+                                [virtualScrollItemSize]="40"
+                                [virtualScroll]="true"
+                                field="name"
+                                placeholder="Выбрать роль"
+                ></p-autoComplete>
+            </div>
+
+        </div>
+        <div class="mb-5">
+            <h5>{{activeItem.label}}</h5>
+            <span class="p-input-icon-left mb-2">
             <i class="pi pi-search"></i>
             <input #filter
                    (input)="onGlobalFilter(dt1, $event)"
@@ -104,58 +164,78 @@
                    type="text"
             />
           </span>
-                </div>
-            </ng-template>
+        </div>
+        <p-table #dt1
+                 [globalFilterFields]="['user.name']"
+                 [loading]="loading"
+                 [paginator]="true"
+                 [rowHover]="true"
+                 [rows]="10"
+                 [value]="participants"
+                 dataKey="id"
+                 responsiveLayout="scroll"
+                 styleClass="p-datatable-gridlines"
+        >
             <ng-template pTemplate="header">
                 <tr>
                     <th class="text-center">№</th>
-
                     <th>
-                        <div class="flex justify-content-between align-items-center">Уведомлен
-                        </div>
+                        <span>Уведомление</span>
                     </th>
-
                     <th style="min-width: 14rem">
                         <div class="flex justify-content-between align-items-center">
                             <span>Сотрудник</span>
-                            <p-columnFilter
-                                    display="menu"
-                                    field="author"
-                                    placeholder="Поиск месту проведения"
-                                    type="text"
-                            ></p-columnFilter>
                         </div>
                     </th>
                     <th class="text-center">
-                        <span>Дополнительно</span>
+                        <button
+                                (click)="addParticipants()"
+                                class="p-button-outlined p-button-success"
+                                icon="pi pi-plus"
+                                label="Добавить"
+                                pButton
+                                pTooltip="Добавить нового сотрудника"
+                        ></button>
                     </th>
                 </tr>
             </ng-template>
             <ng-template
-                let-event
-                pTemplate="body"
+                    [ngForOf]="participants"
+                    let-participant
+
+                    ngFor
+                    pTemplate="body"
             >
                 <tr>
-                    <td>
-                        {{ 1 }}
-                    </td>
-                    <td>
-                        {{ 'done' }}
-                    </td>
-                    <td>
-                        <p-avatar
-                                [label]="event.author[0]"
-                                shape="circle"
-                                size="small"
-                        ></p-avatar>
-                        <span
-                                class="image-text ml-2"
-                        >{{ event.author }}
-                            </span>
-                    </td>
-
                     <td class="text-center">
-                        <!--                            <app-event-card [event]="event"></app-event-card>-->
+                        {{ participants.indexOf(participant) + 1 }}
+                    </td>
+                    <td>
+                        {{ participant.isKnow }}
+                    </td>
+                    <td>
+                        {{ participant.user.name }}
+                    </td>
+                    <td class="text-center">
+                        <div class="flex ">
+                            <button class="p-button-rounded p-button-outlined mr-2"
+                                    icon="pi pi-user"
+                                    pButton
+                                    pTooltip="Делегировать"
+                                    style="font-size: 1rem"
+                                    type="button"
+                            ></button>
+                            <p-toast></p-toast>
+                            <button (click)="deleteParticipant($event, participants.indexOf(participant))"
+                                    class="p-button-rounded p-button-danger p-button-outlined"
+                                    icon="pi pi-trash"
+                                    pButton
+                                    pTooltip="Удалить"
+                                    style="font-size: 1rem"
+                                    type="button"
+                            ></button>
+                            <p-confirmPopup key="deleteParticipant"></p-confirmPopup>
+                        </div>
                     </td>
                 </tr>
             </ng-template>
@@ -269,125 +349,99 @@
         </p-table>
     </div>
 
-    <div *ngIf="this.activeItem.label === 'Оценка'">
-        <h5>{{activeItem.label}}</h5>
+    <!--    <div *ngIf="this.activeItem.label === 'Оценка'">-->
+    <!--        <h5>{{activeItem.label}}</h5>-->
 
-        <div class="flex justify-content-between mb-3">
-            <p-autoComplete
-                    (completeMethod)="filterCountry($event)"
-                    [(ngModel)]="selectedOrganisation"
-                    [dropdown]="true"
-                    [suggestions]="filteredCountries"
-                    class="w-8"
-                    field="name"
-                    placeholder="Нарушение"
-                    styleClass="w-12"
-            ></p-autoComplete>
-            <input
-                    class="w-3"
-                    pInputText
-                    placeholder="Сумма"
-                    type="text"
-            />
-        </div>
-        <div class="flex justify-content-between mb-3">
-            <p-autoComplete
-                    (completeMethod)="filterCountry($event)"
-                    [(ngModel)]="selectedOrganisation"
-                    [dropdown]="true"
-                    [suggestions]="filteredCountries"
-                    class="w-8"
-                    field="name"
-                    placeholder="Участник"
-                    styleClass="w-12"
-            ></p-autoComplete>
-            <input
-                    class="w-3"
-                    pInputText
-                    placeholder="Часов просрочки"
-                    type="text"
-            />
-        </div>
-        <div class="flex justify-content-between mb-3">
-            <input
-                    class="w-8"
-                    pInputText
-                    placeholder="Комментарий"
-                    type="text"
-            />
-            <button pButton>Добавить</button>
-        </div>
-    </div>
+    <!--        <div class="flex justify-content-between mb-3">-->
+    <!--            <p-autoComplete-->
+    <!--                    (completeMethod)="filterCountry($event)"-->
+    <!--                    [(ngModel)]="selectedOrganisation"-->
+    <!--                    [dropdown]="true"-->
+    <!--                    [suggestions]="filteredCountries"-->
+    <!--                    class="w-8"-->
+    <!--                    field="name"-->
+    <!--                    placeholder="Нарушение"-->
+    <!--                    styleClass="w-12"-->
+    <!--            ></p-autoComplete>-->
+    <!--            <input-->
+    <!--                    class="w-3"-->
+    <!--                    pInputText-->
+    <!--                    placeholder="Сумма"-->
+    <!--                    type="text"-->
+    <!--            />-->
+    <!--        </div>-->
+    <!--        <div class="flex justify-content-between mb-3">-->
+    <!--            <p-autoComplete-->
+    <!--                    (completeMethod)="filterCountry($event)"-->
+    <!--                    [(ngModel)]="selectedOrganisation"-->
+    <!--                    [dropdown]="true"-->
+    <!--                    [suggestions]="filteredCountries"-->
+    <!--                    class="w-8"-->
+    <!--                    field="name"-->
+    <!--                    placeholder="Участник"-->
+    <!--                    styleClass="w-12"-->
+    <!--            ></p-autoComplete>-->
+    <!--            <input-->
+    <!--                    class="w-3"-->
+    <!--                    pInputText-->
+    <!--                    placeholder="Часов просрочки"-->
+    <!--                    type="text"-->
+    <!--            />-->
+    <!--        </div>-->
+    <!--        <div class="flex justify-content-between mb-3">-->
+    <!--            <input-->
+    <!--                    class="w-8"-->
+    <!--                    pInputText-->
+    <!--                    placeholder="Комментарий"-->
+    <!--                    type="text"-->
+    <!--            />-->
+    <!--            <button pButton>Добавить</button>-->
+    <!--        </div>-->
+    <!--    </div>-->
 
-    <div *ngIf="this.activeItem.label === 'Протокол'">
-        <h5>{{activeItem.label}}</h5>
-        <div>
-            <p-fileUpload
-                    (onUpload)="onUpload($event)"
-                    [maxFileSize]="1000000"
-                    [multiple]="true"
-                    accept=".pdf, .doc, .docx"
-                    name="demo[]"
-                    url="./upload.php">
-                <ng-template pTemplate="content">
-                    <ul *ngIf="uploadedFiles.length">
-                        <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}}
-                                                                             байт
-                        </li>
-                    </ul>
-                </ng-template>
-            </p-fileUpload>
-        </div>
-        <div>
-            <div class="flex justify-content-between mb-5">
-                <p>Название файла</p>
-                <button
-                        class="p-button-warning"
-                        icon="pi pi-save"
-                        pButton>
-                </button>
-            </div>
-            <div class="flex justify-content-end">
-                <button
-                        (click)="visibleModification = true"
-                        class="p-button-danger mr-2"
-                        icon="pi pi-exclamation-circle"
-                        label="Отправить на доработку"
-                        pButton>
-                </button>
-                <button
-                        icon="pi pi-check"
-                        label="Утвердить"
-                        pButton>
-                </button>
+    <!--    <div *ngIf="this.activeItem.label === 'Протокол'">-->
+    <!--        <h5>{{activeItem.label}}</h5>-->
+    <!--        <div>-->
+    <!--            <p-fileUpload-->
+    <!--                    (onUpload)="onUpload($event)"-->
+    <!--                    [maxFileSize]="1000000"-->
+    <!--                    [multiple]="true"-->
+    <!--                    accept=".pdf, .doc, .docx"-->
+    <!--                    name="demo[]"-->
+    <!--                    url="./upload.php">-->
+    <!--                <ng-template pTemplate="content">-->
+    <!--                    <ul *ngIf="uploadedFiles.length">-->
+    <!--                        <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}}-->
+    <!--                                                                             байт-->
+    <!--                        </li>-->
+    <!--                    </ul>-->
+    <!--                </ng-template>-->
+    <!--            </p-fileUpload>-->
+    <!--        </div>-->
+    <!--        <div>-->
+    <!--            <div class="flex justify-content-between mb-5">-->
+    <!--                <p>Название файла</p>-->
+    <!--                <button-->
+    <!--                        class="p-button-warning"-->
+    <!--                        icon="pi pi-save"-->
+    <!--                        pButton>-->
+    <!--                </button>-->
+    <!--            </div>-->
+    <!--            <div class="flex justify-content-end">-->
+    <!--                <button-->
+    <!--                        (click)="visibleModification = true"-->
+    <!--                        class="p-button-danger mr-2"-->
+    <!--                        icon="pi pi-exclamation-circle"-->
+    <!--                        label="Отправить на доработку"-->
+    <!--                        pButton>-->
+    <!--                </button>-->
+    <!--                <button-->
+    <!--                        icon="pi pi-check"-->
+    <!--                        label="Утвердить"-->
+    <!--                        pButton>-->
+    <!--                </button>-->
 
-            </div>
-        </div>
-    </div>
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
 </div>
-<ng-template pTemplate="footer">
-    <button (click)="isChange = !isChange"
-            pButton>Изменить
-    </button>
-    <button
-            (click)="display = false"
-            class="p-button-outlined p-button-danger"
-            icon="pi pi-times"
-            label="Отменить"
-            pButton
-    ></button>
-    <button
-            (click)="display = false"
-            class="p-button-outlined"
-            icon="pi pi-copy"
-            label="Копировать"
-            pButton
-    ></button>
-    <button
-            (click)="display = false"
-            class="p-button-outlined p-button-success"
-            icon="pi pi-check"
-            label="Сохранить"
-            pButton
-    ></button>
-</ng-template>

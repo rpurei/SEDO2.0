@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
-import { IEventDetailsFrom1C, IEventFromApi1C, IParticipants1C } from '../../../../models/1C/IEvent-1C';
+import { IEventDetailsFrom1C, IEventFromApi1C } from '../../../../models/1C/IEvent-1C';
 import { CalendarEvent, EventColor } from 'calendar-utils';
 import { addDays, format } from 'date-fns';
 import { IEventDetails } from '../../../../models/IEvent';
-import { IFiles1C, IOptions1C, IViolations1C } from '../../../../models/1C/IOptions-1C';
-import { IOption, IViolation } from '../../../../models/IOption';
+import { IFiles1C, IViolations1C } from '../../../../models/1C/IOptions-1C';
+import { IViolation } from '../../../../models/IOption';
 import { IFileEvent } from '../../../../models/IFiles';
-import { IParticipant } from '../../../../models/IUser';
+import { OptionConvert1cService } from './option-convert-1c.service';
 
 
 @Injectable({
     providedIn: 'root',
 })
-export class PlannerFullApiServiceConvert {
+export class EventApiServiceConvert {
+    constructor(private optionConvert: OptionConvert1cService) {
+    }
     
     colors: Record<string, EventColor> = {
         red: {
@@ -49,10 +51,10 @@ export class PlannerFullApiServiceConvert {
         return violations.map(violation => ({
             delayTime: violation.delayTime,
             note: violation.note,
-            participant: this.changeOptionsType(violation.participant),
+            participant: this.optionConvert.changeOptionsType(violation.participant),
             sum: violation.sum,
             violationNumber: violation.violationNumber,
-            violationType: this.changeOptionsType(violation.violationType),
+            violationType: this.optionConvert.changeOptionsType(violation.violationType),
         }));
     }
     
@@ -68,48 +70,28 @@ export class PlannerFullApiServiceConvert {
         }));
     }
     
-    public changeParticipantsType(participants: IParticipants1C[]): IParticipant[] {
-        return participants.map(participant => ({
-            deputy: this.changeOptionsType(participant.deputy),
-            isAbsent: participant.isAbsent,
-            isKnow: participant.isKnow,
-            isMust: participant.isMust,
-            user: this.changeOptionsType(participant.name),
-            order: participant.order,
-            role: this.changeOptionsType(participant.role),
-            presence: participant.typePart,
-            presenceRus: participant.typePartRus,
-        }));
-    }
-    
-    private changeOptionsType(option1c: IOptions1C): IOption {
-        return {
-            id: option1c.guid!,
-            name: option1c.name!,
-        };
-    }
     
     convertApiEventDetail(eventDetail: IEventDetailsFrom1C): IEventDetails {
         return {
-            room: this.changeOptionsType(eventDetail.className),
-            meetingType: this.changeOptionsType(eventDetail.committeeType),
+            room: this.optionConvert.changeOptionsType(eventDetail.className),
+            meetingType: this.optionConvert.changeOptionsType(eventDetail.committeeType),
             descriptionEvent: eventDetail.desc,
             duration: eventDetail.duration,
             dateEnd: eventDetail.end,
             files: this.changeFileType(eventDetail.files),
             id: eventDetail.guid,
             importance: eventDetail.importance,
-            initiator: this.changeOptionsType(eventDetail.initiator),
-            leader: this.changeOptionsType(eventDetail.leader),
+            initiator: this.optionConvert.changeOptionsType(eventDetail.initiator),
+            leader: this.optionConvert.changeOptionsType(eventDetail.leader),
             notification: eventDetail.notification!, //TODO: Узнать точный тип массива
-            organization: this.changeOptionsType(eventDetail.org),
-            participants: this.changeParticipantsType(eventDetail.participants),
-            secretary: this.changeOptionsType(eventDetail.secretary),
+            organization: this.optionConvert.changeOptionsType(eventDetail.org),
+            participants: this.optionConvert.changeParticipantsType(eventDetail.participants),
+            secretary: this.optionConvert.changeOptionsType(eventDetail.secretary),
             softId: eventDetail.softId,
             dateStart: eventDetail.start,
-            subDiv: this.changeOptionsType(eventDetail.subdiv),
+            subDiv: this.optionConvert.changeOptionsType(eventDetail.subdiv),
             title: eventDetail.title,
-            typeEvent: this.changeOptionsType(eventDetail.type),
+            typeEvent: this.optionConvert.changeOptionsType(eventDetail.type),
             violations: this.changeViolationsType(eventDetail.violations!),
         };
     }

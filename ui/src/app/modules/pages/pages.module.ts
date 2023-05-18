@@ -60,6 +60,8 @@ import localeRU from '@angular/common/locales/ru-MD';
 import { AlertService } from '../../services/alert/alert.service';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { EventDetailsComponent } from './planners/planner-calendar-full-screen/event-details/event-details.component';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { SidebarModule } from 'primeng/sidebar';
 
 registerLocaleData(localeRU);
 
@@ -122,6 +124,8 @@ registerLocaleData(localeRU);
         EditorModule,
         CalendarModule,
         KeyFilterModule,
+        ConfirmPopupModule,
+        SidebarModule,
     ],
     providers: [
         NodeService,

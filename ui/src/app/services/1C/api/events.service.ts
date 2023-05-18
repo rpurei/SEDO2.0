@@ -49,26 +49,26 @@ export class Events1CService {
     // }
     
     
-   //  public verifyToken(): Observable<any> {
-   //      const formData = new FormData()
-   //      formData.append('username', 'kyrgansky.ku@zdmail.ru')
-   //      formData.append('guid', this.guid)
-   //      formData.append('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imt5cmdhbnNreS5rdUB6ZG1haWwucnUiLCJndWlkIjoiOTZmMzI3NTctY2I3MC0xMWVjLWI1YjMtMDA1MDU2OWE5ODExIiwiaWF0IjoxNjgzODg0NDk5LCJleHAiOjE2ODUwOTQwOTl9.n8_ZpA6fYFBiEq-WHrLLCqvSced9NTDFrxoQMSieRQo');
-   // return this.http.post<any>('https://api.zdmail.ru/verifytoken', formData)
-   //  }
-   //
-    public eventTypes(): Observable<any> {
-        const formData = new FormData()
-        formData.append(this.method, 'eventTypes')
-        formData.append('user', this.guid)
-        return this.http.get<IOptions1C[]>('http://localhost:3000/eventTypes')
+    //  public verifyToken(): Observable<any> {
+    //      const formData = new FormData()
+    //      formData.append('username', 'kyrgansky.ku@zdmail.ru')
+    //      formData.append('guid', this.guid)
+    //      formData.append('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imt5cmdhbnNreS5rdUB6ZG1haWwucnUiLCJndWlkIjoiOTZmMzI3NTctY2I3MC0xMWVjLWI1YjMtMDA1MDU2OWE5ODExIiwiaWF0IjoxNjgzODg0NDk5LCJleHAiOjE2ODUwOTQwOTl9.n8_ZpA6fYFBiEq-WHrLLCqvSced9NTDFrxoQMSieRQo');
+    // return this.http.post<any>('https://api.zdmail.ru/verifytoken', formData)
+    //  }
+    //
+    public getEventTypes(): Observable<any> {
+        const formData = new FormData();
+        formData.append(this.method, 'eventTypes');
+        formData.append('user', this.guid);
+        return this.http.get<IOptions1C[]>('http://localhost:3000/eventTypes');
     }
     
     public roomsList(): Observable<any> {
-        const formData = new FormData()
-        formData.append(this.method, 'roomsList')
-        formData.append('user', this.guid)
-        return this.http.get<IRoomsList1C[]>('http://localhost:3000/roomsList')
+        const formData = new FormData();
+        formData.append(this.method, 'roomsList');
+        formData.append('user', this.guid);
+        return this.http.get<IRoomsList1C[]>('http://localhost:3000/roomsList');
     }
-
+    
 }

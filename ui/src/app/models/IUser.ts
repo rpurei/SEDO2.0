@@ -39,7 +39,7 @@ export interface IParticipant {
     isKnow: string;
     isMust: boolean;
     user: IOption;
-    order: number;
+    order?: number;
     role: IOption;
     presence: string;
     presenceRus: string;

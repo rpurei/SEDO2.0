@@ -75,7 +75,7 @@ export class EventCardComponent implements OnInit {
     this.items = [
       { label: 'Участники', icon: 'pi pi-fw pi-user' },
       { label: 'Информация к событию', icon: 'pi pi-fw pi-info-circle' },
-      { label: 'Оценка', icon: 'pi pi-fw pi-dollar' },
+      // { label: 'Оценка', icon: 'pi pi-fw pi-dollar' },
       { label: 'Протокол', icon: 'pi pi-fw pi-file' },
     ];
 
