@@ -1,8 +1,8 @@
 <div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
     <div class="flex flex-column align-items-center justify-content-center">
-        <img src="assets/demo/images/primeng-logo.png"
+        <img class="mb-5 w-30rem flex-shrink-0"
              alt="Лого"
-             class="mb-5 w-6rem flex-shrink-0">
+             src="assets/images/logo.svg">
         <div style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
             <div class="w-full surface-card py-8 px-5 sm:px-8"
                  style="border-radius:53px">
@@ -37,15 +37,34 @@
                             <label for="rememberme1">Запомнить</label>
                         </div>
                         <a class="font-medium no-underline ml-2 text-right cursor-pointer"
+                           (click)="display = true"
                            style="color: var(--primary-color)">Восстановить пароль</a>
                     </div>
                     <button pButton
                             pRipple
                             label="Вход"
                             class="w-full p-3 text-xl"
-                            [routerLink]="['/']"></button>
+                            (click)="onSubmit()"
+                    ></button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<p-dialog [(visible)]="display"
+          [breakpoints]="{'960px': '75vw'}"
+          [modal]="true"
+          [style]="{width: '30vw'}"
+          header="Способ восстановления пароля"
+          showEffect="fade">
+    <p class="line-height-3 m-0">
+        Это не наши проблемы.
+    </p>
+    <ng-template pTemplate="footer">
+        <button (click)="display=false"
+                class="p-button-outlined"
+                icon="pi pi-check"
+                label="ОК"
+                pButton></button>
+    </ng-template>
+</p-dialog>
