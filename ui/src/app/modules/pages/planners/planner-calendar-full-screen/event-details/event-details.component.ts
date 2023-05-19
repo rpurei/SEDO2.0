@@ -24,7 +24,7 @@ export class EventDetailsComponent implements OnInit {
         private alertService: AlertService,
         private organizationService: OrganizationService,
         private confirmationService: ConfirmationService,
-        private roleService: RoleService
+        private roleService: RoleService,
     ) {
     }
     
@@ -47,6 +47,7 @@ export class EventDetailsComponent implements OnInit {
     filteredRole: IRole[] = [];
     selectRole: IRole = {} as IRole;
     visibleAddNewParticipants: boolean = false;
+    visibleAddNewFiles: boolean = false;
     
     
     filteredCountries: any;
@@ -61,11 +62,15 @@ export class EventDetailsComponent implements OnInit {
     display: boolean = false;
     
     test() {
-        console.log('Привет из ребенка');
+        console.log(this.eventDetail.files);
     }
     
     addParticipants() {
         this.visibleAddNewParticipants = true;
+    }
+    
+    addFile() {
+        this.visibleAddNewFiles = true;
     }
     
     addNewParticipants() {
@@ -128,6 +133,19 @@ export class EventDetailsComponent implements OnInit {
         });
     }
     
+    deleteFile(event: Event, fileNumber: number) {
+        this.confirmationService.confirm({
+            key: 'deleteFile',
+            target: event.target || new EventTarget,
+            message: 'Вы уверены?',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.alertService.success('Файл успешно удален из события');
+                this.eventDetail.files.splice(fileNumber, 1);
+            },
+        });
+    }
+    
     onGlobalFilter(table: Table, event: Event) {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }
@@ -137,10 +155,26 @@ export class EventDetailsComponent implements OnInit {
         console.log(this.activeItem);
     }
     
-    onUpload(event: any) {
+    onDownload(event: any) {
+        console.log(event);
+        event.files.map((file: any) => this.getBase64(file));
+        console.log(1);
         for (const file of event.files) {
             this.uploadedFiles.push(file);
+            console.log(2);
+            this.alertService.success('Файл успешно загружен');
         }
+    }
+    
+    getBase64(file: any) {
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+            console.log(reader.result);
+        };
+        reader.onerror = function (error) {
+            console.log('Error: ', error);
+        };
     }
     
     filterEventType(event: any) {
@@ -202,8 +236,9 @@ export class EventDetailsComponent implements OnInit {
                 this.alertService.errorApi(err);
             }
         });
+    
         this.rooms.splice(0, 1);
-        this.participants = this.eventDetail.participants;
+    
         this.dateStart = new Date(this.eventDetail.dateStart);
         this.dateEnd = new Date(this.eventDetail.dateEnd);
         this.selectedOrganisation = this.eventDetail.organization.name;

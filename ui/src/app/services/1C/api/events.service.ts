@@ -67,8 +67,13 @@ export class Events1CService {
     public roomsList(): Observable<any> {
         const formData = new FormData();
         formData.append(this.method, 'roomsList');
-        formData.append('user', this.guid);
         return this.http.get<IRoomsList1C[]>('http://localhost:3000/roomsList');
     }
     
+    public deleteEvent(id: string): Observable<any> {
+        const formData = new FormData();
+        formData.append(this.method, 'eventDetail');
+        formData.append('user', id);
+        return this.http.post('http://localhost:3000/roomsList', formData);
+    }
 }

@@ -83,6 +83,7 @@
                 </span>
                 <div class=" mb-5">
                     <p-splitButton [model]="options"
+                                   (click)="addNewEvent()"
                                    icon="pi pi-plus"
                                    label="Добавить событие"
                                    styleClass="p-button-success w-full"
@@ -143,11 +144,17 @@
         <button (click)="isChange = !isChange"
                 pButton>Изменить
         </button>
+        <button (click)="deleteEvent()"
+                class="p-button-outlined p-button-danger"
+                icon="pi pi-trash"
+                pButton
+                pTooltip="Удалить событие"
+        ></button>
         <button
                 (click)="display = false"
                 class="p-button-outlined p-button-danger"
                 icon="pi pi-times"
-                label="Отменить"
+                label="Отменить изменения"
                 pButton
         ></button>
         <button

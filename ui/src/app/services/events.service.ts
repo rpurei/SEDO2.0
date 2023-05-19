@@ -67,4 +67,8 @@ export class EventsService {
         }
         return of([] as IOption[]);
     }
+    
+    public deleteEvent(id: string): Observable<any> {
+        return this.event1CService.deleteEvent(id);
+    }
 }

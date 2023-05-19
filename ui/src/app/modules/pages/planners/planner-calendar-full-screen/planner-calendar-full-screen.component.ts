@@ -266,6 +266,38 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
             this.eventDetail = copyEventDetail;
             this.alertService.success('Копия ' + copyEventDetail.title + ' успешно создана');
         }
-        
+    
+    }
+    
+    addNewEvent() {
+        this.endLoading = true;
+        this.display = true;
+        this.eventDetail = {
+            dateEnd: String(new Date),
+            dateStart: String(new Date),
+            descriptionEvent: '',
+            duration: 0,
+            files: [],
+            id: '',
+            importance: '',
+            initiator: {name: '', id: ''},
+            leader: {name: '', id: ''},
+            meetingType: {name: '', id: ''},
+            notification: [],
+            organization: {name: '', id: ''},
+            participants: [],
+            room: {name: '', id: ''},
+            secretary: {name: '', id: ''},
+            softId: '',
+            subDiv: {name: '', id: ''},
+            title: '',
+            typeEvent: {name: '', id: ''},
+            violations: []
+            
+        };
+    }
+    
+    deleteEvent() {
+        this.apiEventService.deleteEvent(this.eventDetail.id);
     }
 }
