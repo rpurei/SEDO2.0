@@ -62,6 +62,7 @@ import { KeyFilterModule } from 'primeng/keyfilter';
 import { EventDetailsComponent } from './planners/planner-calendar-full-screen/event-details/event-details.component';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { SidebarModule } from 'primeng/sidebar';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 registerLocaleData(localeRU);
 
@@ -126,6 +127,8 @@ registerLocaleData(localeRU);
         KeyFilterModule,
         ConfirmPopupModule,
         SidebarModule,
+        ProgressSpinnerModule,
+
     ],
     providers: [
         NodeService,
@@ -133,6 +136,7 @@ registerLocaleData(localeRU);
         CountryService,
         MessageService,
         AlertService,
+        ProgressBarModule,
         {
             provide: LOCALE_ID,
             useValue: 'ru-MD'

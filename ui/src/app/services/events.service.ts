@@ -4,7 +4,7 @@ import { EventApiServiceConvert } from './1C/api/convert/planner-full-api-conver
 import { CalendarEvent } from 'calendar-utils';
 import { catchError, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
-import { IEventFromApi1C } from '../models/1C/IEvent-1C';
+import { IEventDetailsFrom1C, IEventFromApi1C } from '../models/1C/IEvent-1C';
 import { environment } from '../../environments/environment';
 import { IEventDetails } from '../models/IEvent';
 import { IOption } from '../models/IOption';
@@ -18,13 +18,27 @@ export class EventsService {
     constructor(
         private event1CService: Events1CService,
         private eventApiServiceConvert: EventApiServiceConvert,
-        private optionConvert: OptionConvert1cService
+        private optionConvert: OptionConvert1cService,
     ) {
     }
     
-    public getAllEventsShort(): Observable<CalendarEvent[]> {
+    // public getAllEventsShort(userId: string, allUsers: boolean): Observable<CalendarEvent[]> {
+    //     if (environment.backend === '1c') {
+    //         const events$: Observable<IEventFromApi1C[]> = this.event1CService.getAllEventsShortFrom1C(userId, allUsers);
+    //         return events$.pipe(
+    //             map(apiEvents => this.eventApiServiceConvert.convertApiShortToCalendarEventAction(apiEvents)),
+    //             catchError(error => {
+    //                 console.log(error);
+    //                 return of([] as CalendarEvent[]);
+    //             })
+    //         );
+    //     }
+    //     return of([] as CalendarEvent[]);
+    // }
+    
+    public getEventsShort(id: string, allUsers: boolean): Observable<CalendarEvent[]> {
         if (environment.backend === '1c') {
-            const events$: Observable<IEventFromApi1C[]> = this.event1CService.getAllEventsShortFrom1C();
+            const events$: Observable<IEventFromApi1C[]> = this.event1CService.getEventsShortFrom1C(id, allUsers);
             return events$.pipe(
                 map(apiEvents => this.eventApiServiceConvert.convertApiShortToCalendarEventAction(apiEvents)),
                 catchError(error => {
@@ -36,25 +50,10 @@ export class EventsService {
         return of([] as CalendarEvent[]);
     }
     
-    public getUserEventsShort(id: string): Observable<CalendarEvent[]> {
+    public getEventDetailsById(id: string, userId: string): Observable<IEventDetails> {
         if (environment.backend === '1c') {
-            const events$: Observable<IEventFromApi1C[]> = this.event1CService.getUsersEventsShortFrom1C(id);
-            return events$.pipe(
-                map(apiEvents => this.eventApiServiceConvert.convertApiShortToCalendarEventAction(apiEvents)),
-                catchError(error => {
-                    console.log(error);
-                    return of([] as CalendarEvent[]);
-                })
-            );
-        }
-        return of([] as CalendarEvent[]);
-    }
-    
-    public getEventDetailsById(id: string): Observable<IEventDetails> {
-        if (environment.backend === '1c') {
-            return this.event1CService.getEventDetailsFrom1CByEventId(id).pipe(
-                map(eventDetails => this.eventApiServiceConvert.convertApiEventDetail(eventDetails[0]))
-            );
+            return this.event1CService.getEventDetailsFrom1CByEventId(id, userId).pipe(
+                map(eventDetails => this.eventApiServiceConvert.convertApiEventDetail(eventDetails)));
         }
         return of({} as IEventDetails);
     }
@@ -69,6 +68,18 @@ export class EventsService {
     }
     
     public deleteEvent(id: string): Observable<any> {
-        return this.event1CService.deleteEvent(id);
+        if (environment.backend === '1c') {
+            return this.event1CService.deleteEvent(id);
+        }
+        return ({} as Observable<any>);
+    }
+    
+    public createEvent(eventDetails: IEventDetails): Observable<any> {
+        if (environment.backend === '1c') {
+            let sendDataEventDetails: IEventDetailsFrom1C = this.eventApiServiceConvert.convertApiEventDetailFroCreateEvent(eventDetails);
+            return this.event1CService.createNewEvent(sendDataEventDetails);
+        }
+        return ({} as Observable<any>);
+        
     }
 }

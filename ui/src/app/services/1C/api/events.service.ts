@@ -17,26 +17,41 @@ export class Events1CService {
     method: string = 'method';
     guid: string = '96f32757-cb70-11ec-b5b3-0050569a9811';
     
-    public getAllEventsShortFrom1C(): Observable<any> {
-        // const formData = new FormData()
-        // formData.append(this.method, 'userEdoEvents')
-        // formData.append('user', this.guid)
-        // formData.append('formData[allUsers]', 'false');
-        // return this.http.post<IEventFromApi1C[]>('https://api.zdmail.ru/service', formData);
-        return this.http.get<IEventFromApi1C[]>('http://localhost:3000/eventsShort');
+    public getAllEventsShortFrom1C(id: string): Observable<any> {
+        return this.http.post<IEventFromApi1C[]>('https://api.zdmail.ru/service', {
+            method: 'userEdoEvents',
+            user: id,
+            params: {
+                allUsers: false
+            }
+        });
     }
     
-    public getUsersEventsShortFrom1C(id: string): Observable<any> {
-        const formData = new FormData();
-        formData.append(this.method, 'userEdoEvents');
-        formData.append('user', id);
-        formData.append('params[allUsers]', 'false');
-        return this.http.post('https://api.zdmail.ru/service', formData);
+    public getEventsShortFrom1C(id: string, allUsers: boolean): Observable<any> {
+        return this.http.post('https://api.zdmail.ru/service', {
+            method: 'userEdoEvents',
+            user: id,
+            params: {
+                allUsers: allUsers
+            }
+        });
     }
     
-    public getEventDetailsFrom1CByEventId(id: string): Observable<any> {
-        console.log(id);
-        return this.http.get<IEventDetailsFrom1C[]>('http://localhost:3000/eventDetails');
+    public getEventDetailsFrom1CByEventId(id: string, userId: string): Observable<any> {
+        return this.http.post<IEventDetailsFrom1C[]>('https://api.zdmail.ru/service', {
+            method: 'eventDetails',
+            user: userId,
+            params: {
+                eventId: id,
+                softId: 'DO'
+            }
+        });
+    }
+    
+    public createNewEvent(eventDetails: IEventDetailsFrom1C): Observable<any> {
+        return this.http.post('https://api.zdmail.ru/service', {
+            data: eventDetails
+        });
     }
     
     // public getAllEventsShortForRoomFrom1C(id: string): Observable<any> {
@@ -65,9 +80,9 @@ export class Events1CService {
     }
     
     public roomsList(): Observable<any> {
-        const formData = new FormData();
-        formData.append(this.method, 'roomsList');
-        return this.http.get<IRoomsList1C[]>('http://localhost:3000/roomsList');
+        return this.http.post<IRoomsList1C[]>('https://api.zdmail.ru/service', {
+            method: 'roomsList'
+        });
     }
     
     public deleteEvent(id: string): Observable<any> {

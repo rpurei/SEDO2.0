@@ -16,6 +16,13 @@ export class OptionConvert1cService {
         };
     }
     
+    public convertOptionToOption1C(option: IOption): IOptions1C {
+        return <IOptions1C>{
+            guid: option.id,
+            name: option.name,
+        };
+    }
+    
     public convertOptions(options: IOptions1C[]): IOption[] {
         if (!Array.isArray(options)) {
             return [] as IOption[];
@@ -35,5 +42,21 @@ export class OptionConvert1cService {
             presence: participant.typePart,
             presenceRus: participant.typePartRus,
         }));
+    }
+    
+    // @ts-ignore
+    public convertParticipantsType(participants: IParticipant[]): IParticipants1C[] {
+        // return participants.map(participant => ({
+        //     deputy: this.convertOptionToOption1C(participant.deputy),
+        //     substitute: { id: '', name: '' }, // Добавьте необходимую логику для преобразования substitute, если требуется
+        //     isAbsent: participant.isAbsent,
+        //     isKnow: participant.isKnow,
+        //     isMust: participant.isMust,
+        //     name: this.convertOptionToOption1C(participant.user),
+        //     order: participant.order,
+        //     role: this.convertOptionToOption1C(participant.role),
+        //     typePart: participant.presence,
+        //     typePartRus: participant.presenceRus,
+        // }));
     }
 }

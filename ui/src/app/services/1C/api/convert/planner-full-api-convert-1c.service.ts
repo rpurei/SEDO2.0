@@ -70,6 +70,22 @@ export class EventApiServiceConvert {
         }));
     }
     
+    public convertFileEventToFile(files: IFileEvent[]): IFiles1C[] {
+        return files.map(file => ({
+            guid: file.id,
+            name: file.name,
+            title: '', // TODO: Добавить соответствующее значение
+            type: file.type,
+            size: 0, // TODO: Добавить соответствующее значение
+            createDate: file.createDate,
+            author: {
+                guid: '', // TODO: Добавить соответствующее значение
+                name: file.author
+            },
+            order: file.order,
+            typeDoc: '' // TODO: Добавить соответствующее значение
+        }));
+    }
     
     convertApiEventDetail(eventDetail: IEventDetailsFrom1C): IEventDetails {
         return {
@@ -94,6 +110,32 @@ export class EventApiServiceConvert {
             typeEvent: this.optionConvert.changeOptionsType(eventDetail.type),
             violations: this.changeViolationsType(eventDetail.violations!),
         };
+    }
+    
+    // @ts-ignore
+    convertApiEventDetailFroCreateEvent(eventDetail: IEventDetails): IEventDetailsFrom1C {
+        // return {
+        //     className: this.optionConvert.convertOptionToOption1C(eventDetail.room),
+        //     committeeType: this.optionConvert.convertOptionToOption1C(eventDetail.meetingType),
+        //     desc: eventDetail.descriptionEvent,
+        //     duration: eventDetail.duration,
+        //     end: eventDetail.dateEnd,
+        //     files: this.convertFileEventToFile(eventDetail.files),
+        //     guid: eventDetail.id,
+        //     importance: eventDetail.importance,
+        //     initiator: this.optionConvert.convertOptionToOption1C(eventDetail.initiator),
+        //     leader: this.optionConvert.convertOptionToOption1C(eventDetail.leader),
+        //     notification: eventDetail.notification,
+        //     org: this.optionConvert.convertOptionToOption1C(eventDetail.organization),
+        //     participants: this.optionConvert.changeParticipantsType(eventDetail.participants),
+        //     secretary: this.optionConvert.convertOptionToOption1C(eventDetail.secretary),
+        //     softId: eventDetail.softId,
+        //     start: eventDetail.dateStart,
+        //     subdiv: this.optionConvert.convertOptionToOption1C(eventDetail.subDiv),
+        //     title: eventDetail.title,
+        //     type: this.optionConvert.convertOptionToOption1C(eventDetail.typeEvent),
+        //     violations: this.changeViolationsType(eventDetail.violations),
+        // };
     }
     
 }

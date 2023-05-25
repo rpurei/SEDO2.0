@@ -2,12 +2,13 @@
     <div class="row text-center">
         <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):locale }}</h3>
         <div class="flex justify-content-between mb-5">
-            <div class="text-left">
+            <div class="flex flex-column align-items-start">
                 <div class="text-left mb-3">
                     <p-autoComplete (completeMethod)="filterRooms($event)"
                                     [(ngModel)]="selectRoom"
                                     [dropdown]="true"
                                     [suggestions]="filteredRooms"
+                                    *ngIf="searchInEvent"
                                     [size]="40"
                                     [virtualScroll]="true"
                                     [virtualScrollItemSize]="40"
@@ -15,8 +16,21 @@
                                     field="name"
                                     placeholder="Выбрать помещение"
                     ></p-autoComplete>
+                    <p-autoComplete (completeMethod)="filterRooms($event)"
+                                    (onSelect)="getEventFroRoom(selectRoom)"
+                                    (onSelect)="filteredEventsForRooms(selectRoom)"
+                                    *ngIf="!searchInEvent"
+                                    [(ngModel)]="selectRoom"
+                                    [dropdown]="true"
+                                    [size]="40"
+                                    [suggestions]="filteredRooms"
+                                    [virtualScrollItemSize]="40"
+                                    [virtualScroll]="true"
+                                    field="name"
+                                    placeholder="Выбрать помещение"
+                    ></p-autoComplete>
                 </div>
-                <span class="p-buttonset">
+                <span class="p-buttonset mb-3">
 				<button (viewDateChange)="closeOpenMonthViewDay()"
                         [(viewDate)]="viewDate"
                         [view]="view"
@@ -43,17 +57,34 @@
                     pRipple
             ></button>
     </span>
+                <button (click)="getAllEvent()"
+                        [loading]="(loaderService.isLoading | async) || false"
+                        pButton
+                >Получить все события
+                </button>
             </div>
-            <div>
+            <div class="text-right">
                 <div class="text-left mb-3 ">
                     <p-autoComplete (completeMethod)="filterUsers($event)"
-                                    (onSelect)="getEventFroUser(selectUser)"
                                     [dropdown]="true"
                                     [(ngModel)]="selectUser"
+                                    *ngIf="searchInEvent"
                                     [virtualScroll]="true"
                                     [virtualScrollItemSize]="40"
                                     [size]="40"
                                     [suggestions]="filteredUsers"
+                                    field="name"
+                                    placeholder="Выбрать сотрудника"
+                    ></p-autoComplete>
+                    <p-autoComplete (completeMethod)="filterUsers($event)"
+                                    (onSelect)="getEventFroUser(selectUser)"
+                                    *ngIf="!searchInEvent"
+                                    [(ngModel)]="selectUser"
+                                    [dropdown]="true"
+                                    [size]="40"
+                                    [suggestions]="filteredUsers"
+                                    [virtualScrollItemSize]="40"
+                                    [virtualScroll]="true"
                                     field="name"
                                     placeholder="Выбрать сотрудника"
                     ></p-autoComplete>
@@ -81,20 +112,18 @@
                             pRipple
                     ></button>
                 </span>
-                <div class=" mb-5">
-                    <p-splitButton [model]="options"
-                                   (click)="addNewEvent()"
-                                   icon="pi pi-plus"
-                                   label="Добавить событие"
-                                   styleClass="p-button-success w-full"
-                    ></p-splitButton>
-                </div>
+                <button (click)="addNewEvent()"
+                        icon="pi pi-plus"
+                        label="Добавить событие"
+                        pButton
+                ></button>
             </div>
         </div>
         <p-divider></p-divider>
     </div>
     <div [ngSwitch]="view"
          class="mt-5">
+
         <mwl-calendar-month-view (dayClicked)="dayClicked($event.day)"
                                  (eventClicked)="handleEvent('Clicked', $event.event)"
                                  (eventTimesChanged)="eventTimesChanged($event)"
@@ -165,7 +194,7 @@
                 pButton
         ></button>
         <button
-                (click)="display = false"
+                (click)="createEvent()"
                 class="p-button-outlined p-button-success"
                 icon="pi pi-check"
                 label="Сохранить"

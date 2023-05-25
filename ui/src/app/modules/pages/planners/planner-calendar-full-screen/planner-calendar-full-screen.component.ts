@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { isSameDay, isSameMonth } from 'date-fns';
-import { Subject } from 'rxjs';
+import { finalize, forkJoin, Subject } from 'rxjs';
 import {
     CalendarDateFormatter,
     CalendarEvent,
@@ -21,6 +21,8 @@ import { IRoom } from '../../../../models/IRoom';
 import { UsersService } from '../../../../services/users.service';
 import { IUserDetail } from '../../../../models/IUser';
 import { IEventDetails } from '../../../../models/IEvent';
+import { AuthService } from '../../../../services/auth.service';
+import { LoaderService } from '../../../../services/loader.service';
 
 @Component({
     selector: 'app-planner-calendar-full-screen',
@@ -42,7 +44,9 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
         private eventApiServiceConvert: EventApiServiceConvert,
         private alertService: AlertService,
         private roomsService: RoomsService,
-        private userService: UsersService
+        private userService: UsersService,
+        private authService: AuthService,
+        public loaderService: LoaderService
     ) {
     }
     
@@ -64,6 +68,8 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
     locale: string = 'ru-MD';
     refresh = new Subject<void>();
     weekStartsOn = DAYS_OF_WEEK.MONDAY;
+    loading: boolean = false;
+    searchInEvent: boolean = false;
     
     
     eventDetail!: IEventDetails;
@@ -72,21 +78,14 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
     activeItem: any;
     people!: any[]; // TODO: создать интерфейс
     uploadedFiles: any[] = [];
-    visibleModification: boolean = false;
     endLoading: boolean = false;
     isChange: boolean = false;
-    selectedItem: any;
     items: any[] = [];
-    filteredItems: any;
     modalData!: {
         action: string;
         event: CalendarEvent;
     };
     
-    
-    test(a?: any) {
-        console.log('дата окончания');
-    }
     
     filteredEventsForRooms(room: IRoom) {
         this.events = room.name === 'Все помещения' ? this.allEvents : this.allEvents.filter(event => event.meta === room.name);
@@ -101,48 +100,76 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
     }
     
     getEventFroUser(selectUser: IUserDetail) {
-        this.apiEventService.getUserEventsShort(selectUser.id).subscribe(value => {
-            console.log(value);
-        })
+        this.loaderService.isLoading.next(true);
+        console.log('getEventForUser');
+        console.log(selectUser);
+        this.apiEventService.getEventsShort(selectUser.id, false).subscribe(value => {
+            this.events = value;
+            this.allEvents = value;
+            this.loaderService.isLoading.next(false);
+        });
     }
     
+    getEventFroRoom(selectRoom: IRoom) {
+    
+    }
+    
+    getAllEvent() {
+        this.loaderService.isLoading.next(true);
+        this.apiEventService.getEventsShort(this.authService.getUserId(), true)
+            .pipe(
+                finalize(() => this.loaderService.isLoading.next(false)))
+            .subscribe({
+                next: value => {
+                    if (value.length === 0) {
+                        this.loading = false;
+                        this.alertService.error('Ошибка. Обратитесь в поддержку');
+                    } else {
+                        this.searchInEvent = true;
+                        this.events = value;
+                        this.allEvents = value;
+                        this.loading = false;
+                        this.alertService.success('Все события успешно загружены');
+                    }
+                }
+            });
+    }
+    
+    initService() {
+        this.loaderService.isLoading.next(true);
+        
+        forkJoin([
+            this.authService.verifyToken(),
+            this.userService.getAllUsersDetail(),
+            this.roomsService.getAllRooms(),
+            this.apiEventService.getEventsShort(this.authService.getUserId(), false),
+        ]).pipe(
+            finalize(() => this.loaderService.isLoading.next(false))
+        ).subscribe(
+            ([data1, users, rooms, events]) => {
+                this.users = users;
+                this.rooms.push(this.selectRoom);
+                this.rooms = this.rooms.concat(rooms);
+                this.events = events;
+                this.allEvents = events;
+            },
+            err => {
+                this.alertService.errorApi(err);
+            }
+        );
+        
+    }
     
     ngOnInit() {
-        this.userService.getAllUsersDetail().subscribe({
-            next: value => {
-                this.users = value;
-                console.log(value);
-            }, error: err => {
-                this.alertService.errorApi(err);
-            }
-        });
-        
-        this.roomsService.getAllRooms().subscribe({
-            next: value => {
-                this.rooms.push(this.selectRoom);
-                this.rooms = this.rooms.concat(value);
-            }, error: err => {
-                this.alertService.errorApi(err);
-            }
-        });
-        this.apiEventService.getAllEventsShort().subscribe({
-            next: value => {
-                if (value.length === 0) {
-                    this.alertService.error('Ошибка. Обратитесь в поддержку');
-                } else {
-                    this.events = value;
-                    this.allEvents = value
-                    this.alertService.success('ok');
-                }
-            }
-        });
+        this.initService();
+        console.log(this.items.length);
         this.items = [
             {label: 'Участники', icon: 'pi pi-fw pi-user'},
             {label: 'Информация к событию', icon: 'pi pi-fw pi-info-circle'},
             {label: 'Оценка', icon: 'pi pi-fw pi-dollar'},
             {label: 'Протокол', icon: 'pi pi-fw pi-file'},
         ];
-        this.activeItem = this.items[0];
+        this.activeItem = this.items;
         this.options = [
             {
                 label: 'Все события', command: () => {
@@ -183,9 +210,12 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
           },
       },
   ];
+    visible: any = true;
     
     showEventDetails(id: string) {
-        this.apiEventService.getEventDetailsById(id).subscribe({
+        console.log(id);
+        let userId = JSON.parse(localStorage.getItem('user')!).id;
+        this.apiEventService.getEventDetailsById(id, userId).subscribe({
             next: eventDetails => {
                 console.log(eventDetails);
                 this.eventDetail = eventDetails;
@@ -293,11 +323,16 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
             title: '',
             typeEvent: {name: '', id: ''},
             violations: []
-            
+    
         };
     }
     
     deleteEvent() {
         this.apiEventService.deleteEvent(this.eventDetail.id);
+    }
+    
+    
+    createEvent() {
+        this.apiEventService.createEvent(this.eventDetail);
     }
 }
