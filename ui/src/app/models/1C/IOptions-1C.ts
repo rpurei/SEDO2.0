@@ -1,5 +1,5 @@
 export interface IOptions1C {
-    type?: string;
+    type: string | ' ';
     guid: string;
     name: string;
 }

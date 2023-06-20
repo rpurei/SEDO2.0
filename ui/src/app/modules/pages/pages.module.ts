@@ -35,7 +35,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { CountryService } from '../demo/service/country.service';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { FileUploadModule } from 'primeng/fileupload';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { BadgeModule } from 'primeng/badge';
 import { StyleClassModule } from 'primeng/styleclass';
 import { TaskShortComponent } from './task-short/task-short.component';
@@ -140,6 +140,8 @@ registerLocaleData(localeRU);
         {
             provide: LOCALE_ID,
             useValue: 'ru-MD'
-        }],
+        },
+        ConfirmationService
+    ],
 })
 export class PagesModule {}

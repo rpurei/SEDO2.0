@@ -58,6 +58,7 @@ export class EventApiServiceConvert {
         }));
     }
     
+    
     public changeFileType(files: IFiles1C[]): IFileEvent[] {
         return files.map(file => ({
             author: file.author.name!,
@@ -80,7 +81,8 @@ export class EventApiServiceConvert {
             createDate: file.createDate,
             author: {
                 guid: '', // TODO: Добавить соответствующее значение
-                name: file.author
+                name: file.author,
+                type: 'Справочник.Пользователи'
             },
             order: file.order,
             typeDoc: '' // TODO: Добавить соответствующее значение
@@ -114,28 +116,39 @@ export class EventApiServiceConvert {
     
     // @ts-ignore
     convertApiEventDetailFroCreateEvent(eventDetail: IEventDetails): IEventDetailsFrom1C {
-        // return {
-        //     className: this.optionConvert.convertOptionToOption1C(eventDetail.room),
-        //     committeeType: this.optionConvert.convertOptionToOption1C(eventDetail.meetingType),
-        //     desc: eventDetail.descriptionEvent,
-        //     duration: eventDetail.duration,
-        //     end: eventDetail.dateEnd,
-        //     files: this.convertFileEventToFile(eventDetail.files),
-        //     guid: eventDetail.id,
-        //     importance: eventDetail.importance,
-        //     initiator: this.optionConvert.convertOptionToOption1C(eventDetail.initiator),
-        //     leader: this.optionConvert.convertOptionToOption1C(eventDetail.leader),
-        //     notification: eventDetail.notification,
-        //     org: this.optionConvert.convertOptionToOption1C(eventDetail.organization),
-        //     participants: this.optionConvert.changeParticipantsType(eventDetail.participants),
-        //     secretary: this.optionConvert.convertOptionToOption1C(eventDetail.secretary),
-        //     softId: eventDetail.softId,
-        //     start: eventDetail.dateStart,
-        //     subdiv: this.optionConvert.convertOptionToOption1C(eventDetail.subDiv),
-        //     title: eventDetail.title,
-        //     type: this.optionConvert.convertOptionToOption1C(eventDetail.typeEvent),
-        //     violations: this.changeViolationsType(eventDetail.violations),
-        // };
+        return {
+            className: this.optionConvert.convertOptionToOption1C(eventDetail.room),
+            committeeType: this.optionConvert.convertOptionToOption1C(eventDetail.meetingType),
+            desc: eventDetail.descriptionEvent,
+            duration: eventDetail.duration,
+            end: eventDetail.dateEnd,
+            files: this.convertFileEventToFile(eventDetail.files),
+            guid: eventDetail.id,
+            importance: eventDetail.importance,
+            initiator: this.optionConvert.convertOptionToOption1C(eventDetail.initiator),
+            leader: this.optionConvert.convertOptionToOption1C(eventDetail.leader),
+            notification: eventDetail.notification,
+            org: this.optionConvert.convertOptionToOption1C(eventDetail.organization),
+            participants: this.optionConvert.changeParticipantsTypeTo1C(eventDetail.participants),
+            secretary: this.optionConvert.convertOptionToOption1C(eventDetail.secretary),
+            softId: eventDetail.softId,
+            start: eventDetail.dateStart,
+            subdiv: this.optionConvert.convertOptionToOption1C(eventDetail.subDiv),
+            title: eventDetail.title,
+            type: this.optionConvert.convertOptionToOption1C(eventDetail.typeEvent),
+            violations: this.changeViolationsTypeTo1C(eventDetail.violations),
+        };
+    }
+    
+    public changeViolationsTypeTo1C(violations: IViolation[]): IViolations1C[] {
+        return violations.map(violation => ({
+            delayTime: violation.delayTime,
+            note: violation.note,
+            participant: this.optionConvert.convertOptionToOption1C(violation.participant),
+            sum: violation.sum,
+            violationNumber: violation.violationNumber,
+            violationType: this.optionConvert.convertOptionToOption1C(violation.violationType),
+        }));
     }
     
 }

@@ -48,6 +48,7 @@ export class EventDetailsComponent implements OnInit {
     selectRole: IRole = {} as IRole;
     visibleAddNewParticipants: boolean = false;
     visibleAddNewFiles: boolean = false;
+    countParticipants: number = 0;
     
     
     filteredCountries: any;
@@ -79,14 +80,20 @@ export class EventDetailsComponent implements OnInit {
         } else if (!this.selectUser || !this.selectUser) {
             this.alertService.error('Поле "участник" или "роль" не может быть пустым.');
         } else {
+            let userInfo: IOption = {
+                name: this.selectUser.name,
+                type: 'Справочник.Пользователи',
+                id: this.selectUser.id
+            };
             let user: IParticipant = {
-                deputy: {name: '', id: ''},
-                user: this.selectUser,
+                deputy: {name: '', id: '', type: ''},
+                order: this.eventDetail.participants.length + 1,
+                user: userInfo,
                 role: this.selectRole,
                 isAbsent: false,
                 isKnow: 'Не принято',
                 isMust: false,
-                presence: 'pesonal1',
+                presence: 'personal',
                 presenceRus: 'Личное присутствие'
             };
             this.eventDetail.participants.push(user);

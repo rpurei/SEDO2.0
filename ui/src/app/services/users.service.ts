@@ -3,7 +3,7 @@ import { catchError, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Users1CService } from './1C/api/users.service';
-import { IUserDetail,  } from '../models/IUser';
+import { IUserDetail, } from '../models/IUser';
 import { UserConvert1cService } from './1C/api/convert/user-convert-1c.service';
 import { IUserDetailFrom1C } from '../models/1C/IUser-1C';
 
@@ -37,5 +37,9 @@ export class UsersService {
             }
         }
         return filtered;
+    }
+    
+    public getUser() {
+        return JSON.parse(localStorage.getItem('user')!);
     }
 }

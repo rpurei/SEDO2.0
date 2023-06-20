@@ -1,18 +1,11 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { isSameDay, isSameMonth } from 'date-fns';
-import { finalize, forkJoin, Subject } from 'rxjs';
-import {
-    CalendarDateFormatter,
-    CalendarEvent,
-    CalendarEventAction,
-    CalendarEventTimesChangedEvent,
-    CalendarView,
-} from 'angular-calendar';
+import { EMPTY, finalize, forkJoin, Subject, tap } from 'rxjs';
+import { CalendarDateFormatter, CalendarEvent, CalendarEventTimesChangedEvent, CalendarView, } from 'angular-calendar';
 import { DAYS_OF_WEEK } from 'calendar-utils';
 import { CustomDateFormatter } from './custom-date-formatter.provider';
 import { CustomerService } from '../../../demo/service/customer.service';
-import { Table } from 'primeng/table';
-import { MenuItem } from 'primeng/api';
+import { ConfirmationService, MenuItem } from 'primeng/api';
 import { EventApiServiceConvert } from '../../../../services/1C/api/convert/planner-full-api-convert-1c.service';
 import { EventsService } from '../../../../services/events.service';
 import { AlertService } from '../../../../services/alert/alert.service';
@@ -23,6 +16,8 @@ import { IUserDetail } from '../../../../models/IUser';
 import { IEventDetails } from '../../../../models/IEvent';
 import { AuthService } from '../../../../services/auth.service';
 import { LoaderService } from '../../../../services/loader.service';
+import { catchError } from 'rxjs/operators';
+import { IOption } from '../../../../models/IOption';
 
 @Component({
     selector: 'app-planner-calendar-full-screen',
@@ -46,7 +41,8 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
         private roomsService: RoomsService,
         private userService: UsersService,
         private authService: AuthService,
-        public loaderService: LoaderService
+        public loaderService: LoaderService,
+        private confirmationService: ConfirmationService,
     ) {
     }
     
@@ -70,17 +66,11 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
     weekStartsOn = DAYS_OF_WEEK.MONDAY;
     loading: boolean = false;
     searchInEvent: boolean = false;
-    
-    
-    eventDetail!: IEventDetails;
-    filteredCountries: any;
-    cities: any;
+    eventDetail = {} as IEventDetails;
+    items: any[] = [];
     activeItem: any;
-    people!: any[]; // TODO: создать интерфейс
-    uploadedFiles: any[] = [];
     endLoading: boolean = false;
     isChange: boolean = false;
-    items: any[] = [];
     modalData!: {
         action: string;
         event: CalendarEvent;
@@ -101,8 +91,6 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
     
     getEventFroUser(selectUser: IUserDetail) {
         this.loaderService.isLoading.next(true);
-        console.log('getEventForUser');
-        console.log(selectUser);
         this.apiEventService.getEventsShort(selectUser.id, false).subscribe(value => {
             this.events = value;
             this.allEvents = value;
@@ -111,7 +99,7 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
     }
     
     getEventFroRoom(selectRoom: IRoom) {
-    
+        this.filteredEventsForRooms(selectRoom);
     }
     
     getAllEvent() {
@@ -144,23 +132,22 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
             this.roomsService.getAllRooms(),
             this.apiEventService.getEventsShort(this.authService.getUserId(), false),
         ]).pipe(
-            finalize(() => this.loaderService.isLoading.next(false))
-        ).subscribe(
-            ([data1, users, rooms, events]) => {
+            tap(([data1, users, rooms, events]) => {
                 this.users = users;
-                this.rooms.push(this.selectRoom);
-                this.rooms = this.rooms.concat(rooms);
+                this.rooms = [...this.rooms, this.selectRoom, ...rooms];
                 this.events = events;
                 this.allEvents = events;
-            },
-            err => {
+            }),
+            catchError(err => {
                 this.alertService.errorApi(err);
-            }
-        );
-        
+                return EMPTY;
+            }),
+            finalize(() => this.loaderService.isLoading.next(false))
+        ).subscribe();
     }
     
     ngOnInit() {
+        this.selectUser = JSON.parse(localStorage.getItem('user')!).name;
         this.initService();
         console.log(this.items.length);
         this.items = [
@@ -170,74 +157,31 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
             {label: 'Протокол', icon: 'pi pi-fw pi-file'},
         ];
         this.activeItem = this.items;
-        this.options = [
-            {
-                label: 'Все события', command: () => {
-                    console.log('Все события');
-                }
-            },
-            {
-                label: 'Обновить страницу', command: () => {
-                    console.log('Обновить страницу');
-                }
-            }
-        ];
     }
     
     
-    onGlobalFilter(table: Table, event: Event) {
-        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
-    }
-    
-    
-
-
-
-  actions: CalendarEventAction[] = [
-      {
-          label: '<i class="fas fa-fw fa-pencil-alt"></i>',
-          a11yLabel: 'Edit',
-          onClick: ({event}: { event: CalendarEvent }): void => {
-              this.handleEvent('Edited', event);
-          },
-      },
-      {
-          label: '<i class="fas fa-fw fa-trash-alt"></i>',
-          a11yLabel: 'Delete',
-          onClick: ({event}: { event: CalendarEvent }): void => {
-              this.events = this.events.filter((iEvent) => iEvent !== event);
-              this.handleEvent('Deleted', event);
-          },
-      },
-  ];
-    visible: any = true;
+    // onGlobalFilter(table: Table, event: Event) {
+    //     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    // }
     
     showEventDetails(id: string) {
-        console.log(id);
         let userId = JSON.parse(localStorage.getItem('user')!).id;
+        this.isChange = false;
         this.apiEventService.getEventDetailsById(id, userId).subscribe({
             next: eventDetails => {
-                console.log(eventDetails);
                 this.eventDetail = eventDetails;
                 this.endLoading = true;
                 this.display = true;
+                console.log(id);
             }, error: err => {
                 this.alertService.errorApi(err);
+                console.log(id);
+                
             }
         });
-        // this.customerService.getEventsDetail().then((eventDetails) => {
-        //   this.eventDetail = eventDetails;
-        //   this.endLoading = true;
-        //   this.display = true;
-        //   // this.events.forEach((customer) => (customer.end = new Date(customer.end)));
-        // });
     }
     
-    
-    showDetails() {
-        this.display = true;
-    }
-    
+
     dayClicked({date, events}: { date: Date; events: CalendarEvent[] }): void {
         if (isSameMonth(date, this.viewDate)) {
             this.activeDayIsOpen = !((isSameDay(this.viewDate, date) && this.activeDayIsOpen) || events.length === 0);
@@ -261,8 +205,7 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
 
   handleEvent(action: string, event: CalendarEvent): void {
       this.modalData = {event, action};
-      this.showDetails();
-      console.log(event);
+      this.display = true;
       let id: string = String(event.id);
       this.showEventDetails(id);
   }
@@ -275,64 +218,105 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
     this.activeDayIsOpen = false;
   }
     
-    onActiveItemChange(event: any) {
-        this.activeItem = event;
-        console.log(this.activeItem);
-    }
-    
-    onUpload(event: any) {
-        for (const file of event.files) {
-            this.uploadedFiles.push(file);
-        }
-    }
-    
     copyThisEvent() {
         let copyEventDetail = this.eventDetail;
-        if (copyEventDetail.id === '') {
+        if (copyEventDetail.title.includes('Копия ')) {
             this.alertService.error('Копия уже создана');
+        } else if (copyEventDetail.id === '') {
+            this.alertService.error('Нельзя создать копию пустого события');
         } else {
+            this.alertService.success('Копия ' + copyEventDetail.title + ' успешно создана');
             copyEventDetail.title = 'Копия ' + this.eventDetail.title;
             copyEventDetail.id = '';
             this.eventDetail = copyEventDetail;
-            this.alertService.success('Копия ' + copyEventDetail.title + ' успешно создана');
         }
-    
     }
     
     addNewEvent() {
         this.endLoading = true;
         this.display = true;
+        this.isChange = true;
+        let user = JSON.parse(localStorage.getItem('user')!);
+        let author: IOption = {
+            name: user.name,
+            id: user.id,
+            type: 'Справочник.Пользователи'
+        };
         this.eventDetail = {
-            dateEnd: String(new Date),
-            dateStart: String(new Date),
+            dateEnd: String(new Date().toISOString()),
+            dateStart: String(new Date().toISOString()),
             descriptionEvent: '',
             duration: 0,
             files: [],
             id: '',
-            importance: '',
-            initiator: {name: '', id: ''},
-            leader: {name: '', id: ''},
-            meetingType: {name: '', id: ''},
+            importance: 'Обычная важность',
+            initiator: author,
+            leader: {name: '', id: '', type: ''} as IOption,
+            meetingType: {name: '', id: '', type: ''} as IOption,
             notification: [],
-            organization: {name: '', id: ''},
+            organization: {name: '', id: '', type: ''} as IOption,
             participants: [],
-            room: {name: '', id: ''},
-            secretary: {name: '', id: ''},
+            room: {name: '', id: '', type: ''} as IOption,
+            secretary: {name: '', id: '', type: ''} as IOption,
             softId: '',
-            subDiv: {name: '', id: ''},
+            subDiv: {name: '', id: '', type: ''} as IOption,
             title: '',
-            typeEvent: {name: '', id: ''},
+            typeEvent: {name: '', id: '', type: ''} as IOption,
             violations: []
-    
         };
     }
     
-    deleteEvent() {
-        this.apiEventService.deleteEvent(this.eventDetail.id);
+    deleteEvent(event: any) {
+        this.confirmationService.confirm({
+            key: 'deleteEvent',
+            target: event.target || new EventTarget,
+            message: 'Вы желаете продолжить?',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                const eventId = this.eventDetail.id;
+                
+                this.apiEventService.deleteEvent(eventId).subscribe({
+                    next: () => {
+                        const indexEvents = this.events.findIndex(event => event.id === eventId);
+                        if (indexEvents !== -1) {
+                            this.events.splice(indexEvents, 1);
+                        }
+                        
+                        const indexAllEvents = this.allEvents.findIndex(event => event.id === eventId);
+                        if (indexAllEvents !== -1) {
+                            this.allEvents.splice(indexAllEvents, 1);
+                        }
+                        this.alertService.success('Событие успешно удалено');
+                        this.refresh.next();
+                        this.display = false;
+                        
+                    }, error: err => {
+                        this.alertService.errorApi(err);
+                    }
+                });
+            },
+        });
+        
     }
     
-    
     createEvent() {
-        this.apiEventService.createEvent(this.eventDetail);
+        this.loaderService.isLoading.next(true);
+        this.apiEventService.createEvent(this.eventDetail).subscribe({
+            next: value => {
+                if (value.result === 'success') {
+                    this.alertService.success(`Событие ${this.eventDetail.title} успешно добавлено`);
+                    this.initService();
+                    this.loaderService.isLoading.next(false);
+                    this.display = false;
+                } else {
+                    this.alertService.error(value.result);
+                }
+                console.log(value);
+            }, error: err => {
+                console.log(err);
+                this.display = false;
+                this.loaderService.isLoading.next(false);
+            }
+        });
     }
 }

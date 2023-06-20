@@ -1,5 +1,4 @@
 import { IFiles1C, IOptions1C, IViolations1C } from './IOptions-1C';
-import { IOption, IViolation } from '../IOption';
 
 export interface IEvent1C {
     className: string;
@@ -15,6 +14,8 @@ export interface IEvent1C {
 }
 
 export interface IEventDetailsFrom1C {
+    isFilesVisible?: boolean;
+    userId?: string;
     guid: string;
     softId: string;
     title: string;
@@ -35,9 +36,9 @@ export interface IEventDetailsFrom1C {
     files: IFiles1C[];
     violations?: IViolations1C[];
     notification?: any[]; //TODO: Выяснить точно какой тип данных в массиве:)
-    changeOptionsType(option1C: IOptions1C): IOption;
-    
-    changeViolationsType(violations1C: IViolations1C): IViolation;
+    // changeOptionsType(option1C: IOptions1C): IOption;
+    //
+    // changeViolationsType(violations1C: IViolations1C): IViolation;
 }
 
 export interface IParticipants1C {

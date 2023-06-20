@@ -36,11 +36,11 @@ export class PagesComponent implements OnDestroy, OnInit {
                     icon: 'pi pi-fw pi-folder',
                     routerLink: ['/page/task'],
                 },
-                {
-                    label: 'Планировщик (1 версия)',
-                    icon: 'pi pi-fw pi-list',
-                    routerLink: ['/page/plannerOld'],
-                },
+                // {
+                //     label: 'Планировщик (1 версия)',
+                //     icon: 'pi pi-fw pi-list',
+                //     routerLink: ['/page/plannerOld'],
+                // },
             ],
         },
     ];

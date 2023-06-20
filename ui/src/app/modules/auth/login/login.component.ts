@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { AlertService } from '../../../services/alert/alert.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
@@ -19,12 +19,11 @@ import { first } from 'rxjs';
 })
 export class LoginComponent {
     
-    formGroup!: FormGroup;
     loading = false;
     submitted = false;
     password!: string;
     display: boolean = false;
-    username: any;
+    username: string = '';
     
     constructor(
         private formBuilder: FormBuilder,
@@ -39,23 +38,25 @@ export class LoginComponent {
     }
     
     onSubmit() {
+        let username = this.username.trim();
+        if (!username.includes('@zdmail.ru')) {
+            username = username + '@zdmail.ru';
+        }
         this.loading = true;
-        this.authService.login(this.username, this.password).pipe(first()).subscribe({
-            next: value => {
-                if (value.code === 200) {
-                    localStorage.setItem('user', JSON.stringify(value.data));
-                    location.reload();
-                } else if (value.code === 401) {
-                    this.alertService.error('Ошибка авторизации');
-                    this.loading = false;
-                } else {
-                    this.alertService.errorApi(value.meta.error);
+        this.authService.login(username, this.password)
+            .pipe(first())
+            .subscribe({
+                next: value => {
+                    if (value.code === 200) {
+                        localStorage.setItem('user', JSON.stringify(value.data));
+                        location.reload();
+                    } else this.alertService.error(value.code === 401 ? 'Ошибка авторизации. Неверный логин или пароль' : value.meta.error);
+                }, error: err => {
+                    this.alertService.errorApi(err);
+                }, complete: () => {
                     this.loading = false;
                 }
-            }, error: err => {
-                this.alertService.errorApi(err);
-            }
-        });
+            });
     
     }
 }

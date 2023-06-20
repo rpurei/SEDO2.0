@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IEventDetailsFrom1C, IEventFromApi1C } from '../../../models/1C/IEvent-1C';
 import { IOptions1C, IRoomsList1C } from '../../../models/1C/IOptions-1C';
+import { UsersService } from '../../users.service';
 
 
 @Injectable({
@@ -11,7 +12,8 @@ import { IOptions1C, IRoomsList1C } from '../../../models/1C/IOptions-1C';
 export class Events1CService {
     url = '/events';
     
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient,
+                private userService: UsersService) {
     }
     
     method: string = 'method';
@@ -49,9 +51,19 @@ export class Events1CService {
     }
     
     public createNewEvent(eventDetails: IEventDetailsFrom1C): Observable<any> {
-        return this.http.post('https://api.zdmail.ru/service', {
-            data: eventDetails
-        });
+        let user = JSON.parse(localStorage.getItem('user')!);
+        eventDetails.userId = user.id;
+        eventDetails.isFilesVisible = true;
+        // eventDetails.org.type =
+        console.log(eventDetails.start);
+        return this.http.post('https://api.zdmail.ru/service',
+            {
+                method: 'createEvent',
+                params: {
+                    data: eventDetails
+                }
+            
+            });
     }
     
     // public getAllEventsShortForRoomFrom1C(id: string): Observable<any> {
@@ -85,10 +97,15 @@ export class Events1CService {
         });
     }
     
-    public deleteEvent(id: string): Observable<any> {
-        const formData = new FormData();
-        formData.append(this.method, 'eventDetail');
-        formData.append('user', id);
-        return this.http.post('http://localhost:3000/roomsList', formData);
+    public deleteEvent(eventId: string): Observable<any> {
+        
+        return this.http.post('https://api.zdmail.ru/service', {
+            method: 'eventCancel',
+            user: '96f32757-cb70-11ec-b5b3-0050569a9811',
+            params: {
+                eventId: eventId,
+                cause: 'Delete'
+            }
+        });
     }
 }

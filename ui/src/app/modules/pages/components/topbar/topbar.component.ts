@@ -33,9 +33,6 @@ export class TopbarComponent implements OnInit {
         this.configComponent.onConfigButtonClick();
     }
     
-    test() {
-    }
-    
     ngOnInit(): void {
         this.userFunctions = [
             {

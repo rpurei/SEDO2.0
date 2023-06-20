@@ -1,14 +1,17 @@
-<h4 *ngIf="!isChange">{{'Карточка события мероприятия: '}}{{ eventDetail.title ? eventDetail.title : 'Поле не указано'}}</h4>
-<h4 *ngIf="isChange">{{'Карточка события мероприятия: '}}</h4>
-<textarea *ngIf="isChange"
-          [(ngModel)]="eventDetail.title"
-          [autoResize]="true"
-          class="w-full"
-          pInputTextarea
-          rows="1"></textarea>
+
 <div *ngIf="eventDetail"
      class="card">
+    <div>
+        <h4 *ngIf="isChange">{{'Карточка события мероприятия: '}}</h4>
+        <textarea *ngIf="isChange"
+                  [(ngModel)]="eventDetail.title"
+                  [autoResize]="true"
+                  class="w-full mb-5"
+                  pInputTextarea
+                  rows="1"></textarea>
+    </div>
     <div class="grid formgrid">
+
         <div class="col mb-5">
             <h5>Тип события</h5>
             <p-autoComplete (completeMethod)="filterEventType($event)"
@@ -28,14 +31,15 @@
                 >{{dateStart | date: 'dd.MM.YY HH:mm' }} - {{dateEnd | date:'dd.MM.YY HH:mm' }}</p>
             </div>
             <div *ngIf="isChange"
-                 class="flex justify-content-between">
-                <div>
+                 class="flex ">
+                <div class="mr-5">
                     <h5>Начало события</h5>
                     <p-calendar
                             [(ngModel)]="dateStart"
                             [showTime]="true"
                             dateFormat="dd.mm.yy"
                             styleClass="w-full"
+
                     ></p-calendar>
                 </div>
                 <div>
@@ -112,24 +116,10 @@
             <div class="flex mb-5 justify-content-between">
                 <h4>Добавить нового участника</h4>
                 <div>
-                    <button
-                            (click)="addNewParticipants()"
-                            class="p-button-outlined p-button-info mr-3"
-                            icon="pi pi-plus"
-                            label="Добавить"
-                            pButton
-                            pTooltip="Добавить нового участника"
-                    ></button>
-                    <button
-                            (click)="visibleAddNewParticipants = false"
-                            class="p-button-outlined p-button-danger"
-                            icon="pi pi-plus"
-                            pButton
-                            pTooltip="Закрыть"
-                    ></button>
+
                 </div>
             </div>
-            <div class="flex justify-content-between">
+            <div class="flex ">
                 <p-autoComplete (completeMethod)="filterUsers($event)"
                                 [(ngModel)]="selectUser"
                                 [dropdown]="true"
@@ -138,6 +128,7 @@
                                 [virtualScrollItemSize]="40"
                                 [virtualScroll]="true"
                                 field="name"
+                                class="mr-5"
                                 placeholder="Выбрать сотрудника"
                 ></p-autoComplete>
                 <p-autoComplete (completeMethod)="filterRole($event)"
@@ -148,8 +139,24 @@
                                 [virtualScrollItemSize]="40"
                                 [virtualScroll]="true"
                                 field="name"
+                                class="mr-5"
                                 placeholder="Выбрать роль"
                 ></p-autoComplete>
+                <button
+                        (click)="addNewParticipants()"
+                        class="p-button-outlined p-button-info mr-5"
+                        icon="pi pi-plus"
+                        label="Добавить"
+                        pButton
+                        pTooltip="Добавить нового участника"
+                ></button>
+                <button
+                        (click)="visibleAddNewParticipants = false"
+                        class="p-button-outlined p-button-danger  mr-5"
+                        icon="pi pi-times"
+                        pButton
+                        pTooltip="Закрыть"
+                ></button>
             </div>
 
         </div>
@@ -226,7 +233,7 @@
                             <!--                            ></button>-->
                             <p-toast></p-toast>
                             <button (click)="deleteParticipant($event, participants.indexOf(participant))"
-                                    class="p-button-rounded p-button-danger p-button-outlined"
+                                    class="p-button-danger p-button-outlined"
                                     icon="pi pi-trash"
                                     pButton
                                     pTooltip="Удалить"

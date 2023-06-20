@@ -13,6 +13,7 @@ export class OptionConvert1cService {
         return <IOption>{
             id: option1c.guid,
             name: option1c.name,
+            type: option1c.type
         };
     }
     
@@ -20,6 +21,7 @@ export class OptionConvert1cService {
         return <IOptions1C>{
             guid: option.id,
             name: option.name,
+            type: option.type
         };
     }
     
@@ -45,18 +47,19 @@ export class OptionConvert1cService {
     }
     
     // @ts-ignore
-    public convertParticipantsType(participants: IParticipant[]): IParticipants1C[] {
-        // return participants.map(participant => ({
-        //     deputy: this.convertOptionToOption1C(participant.deputy),
-        //     substitute: { id: '', name: '' }, // Добавьте необходимую логику для преобразования substitute, если требуется
-        //     isAbsent: participant.isAbsent,
-        //     isKnow: participant.isKnow,
-        //     isMust: participant.isMust,
-        //     name: this.convertOptionToOption1C(participant.user),
-        //     order: participant.order,
-        //     role: this.convertOptionToOption1C(participant.role),
-        //     typePart: participant.presence,
-        //     typePartRus: participant.presenceRus,
-        // }));
+    public changeParticipantsTypeTo1C(participants: IParticipant[]): IParticipants1C[] {
+        return participants.map(participant => ({
+            deputy: this.convertOptionToOption1C(participant.deputy),
+            substitute: this.convertOptionToOption1C({id: '', name: '', type: ''}), // Добавьте необходимую логику для преобразования substitute, если требуется
+            isAbsent: participant.isAbsent,
+            isKnow: participant.isKnow,
+            isMust: participant.isMust,
+            name: this.convertOptionToOption1C(participant.user),
+            order: participant.order!,
+            role: this.convertOptionToOption1C(participant.role),
+            typePart: participant.presence,
+            typePartRus: participant.presenceRus,
+        }));
     }
+    
 }

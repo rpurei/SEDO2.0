@@ -67,9 +67,9 @@ export class EventsService {
         return of([] as IOption[]);
     }
     
-    public deleteEvent(id: string): Observable<any> {
+    public deleteEvent(eventId: string): Observable<any> {
         if (environment.backend === '1c') {
-            return this.event1CService.deleteEvent(id);
+            return this.event1CService.deleteEvent(eventId);
         }
         return ({} as Observable<any>);
     }
@@ -77,9 +77,11 @@ export class EventsService {
     public createEvent(eventDetails: IEventDetails): Observable<any> {
         if (environment.backend === '1c') {
             let sendDataEventDetails: IEventDetailsFrom1C = this.eventApiServiceConvert.convertApiEventDetailFroCreateEvent(eventDetails);
+            sendDataEventDetails.className.type = 'Справочник.ТерриторииИПомещения';
+            sendDataEventDetails.participants[0].role.type = 'Справочник.гкРолиВСовещании';
+            console.log(sendDataEventDetails);
             return this.event1CService.createNewEvent(sendDataEventDetails);
         }
         return ({} as Observable<any>);
-        
     }
 }

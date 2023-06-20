@@ -15,7 +15,8 @@ export class OrganizationConvert1cService {
         return apiEvents.map(org => ({
             id: org.guid,
             name: org.name,
-            children: this.optionConvert.convertOptions(org.children)
+            type: org.type!,
+            children: this.optionConvert.convertOptions(org.children),
         }));
     }
     
