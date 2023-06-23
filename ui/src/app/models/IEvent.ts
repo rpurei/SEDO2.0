@@ -16,7 +16,7 @@ export interface IEventDetails {
     notification: any[]; //TODO: Узнать точный тип массива
     organization: IOption;
     participants: IParticipant[];
-    secretary: IOption;
+    secretary?: IOption;
     softId: string;
     dateStart: string;
     subDiv: IOption;

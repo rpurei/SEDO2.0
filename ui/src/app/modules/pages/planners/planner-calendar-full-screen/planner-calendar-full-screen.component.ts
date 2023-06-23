@@ -98,6 +98,15 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
         });
     }
     
+    // getEventFroUserInList(selectUser: IUserDetail) {
+    //     console.log(this.allEvents);
+    //     console.log(selectUser);
+    // this.loaderService.isLoading.next(true);
+    // this.allEvents.filter((event) => {
+    //     return event.meta
+    // })
+    // }
+    
     getEventFroRoom(selectRoom: IRoom) {
         this.filteredEventsForRooms(selectRoom);
     }
@@ -149,7 +158,6 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
     ngOnInit() {
         this.selectUser = JSON.parse(localStorage.getItem('user')!).name;
         this.initService();
-        console.log(this.items.length);
         this.items = [
             {label: 'Участники', icon: 'pi pi-fw pi-user'},
             {label: 'Информация к событию', icon: 'pi pi-fw pi-info-circle'},
@@ -270,18 +278,18 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
         this.confirmationService.confirm({
             key: 'deleteEvent',
             target: event.target || new EventTarget,
-            message: 'Вы желаете продолжить?',
+            message: 'Вы уверены что хотите удалить мероприятие?',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
                 const eventId = this.eventDetail.id;
-                
+                this.loaderService.isLoading.next(true);
                 this.apiEventService.deleteEvent(eventId).subscribe({
                     next: () => {
                         const indexEvents = this.events.findIndex(event => event.id === eventId);
                         if (indexEvents !== -1) {
                             this.events.splice(indexEvents, 1);
+                            this.loaderService.isLoading.next(false);
                         }
-                        
                         const indexAllEvents = this.allEvents.findIndex(event => event.id === eventId);
                         if (indexAllEvents !== -1) {
                             this.allEvents.splice(indexAllEvents, 1);
@@ -289,34 +297,59 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
                         this.alertService.success('Событие успешно удалено');
                         this.refresh.next();
                         this.display = false;
-                        
+                        this.loaderService.isLoading.next(false);
                     }, error: err => {
                         this.alertService.errorApi(err);
+                        this.loaderService.isLoading.next(false);
                     }
                 });
             },
         });
-        
+    
     }
     
-    createEvent() {
-        this.loaderService.isLoading.next(true);
-        this.apiEventService.createEvent(this.eventDetail).subscribe({
-            next: value => {
-                if (value.result === 'success') {
-                    this.alertService.success(`Событие ${this.eventDetail.title} успешно добавлено`);
-                    this.initService();
-                    this.loaderService.isLoading.next(false);
+    createEvent(method: string) {
+        let dateStart = new Date(this.eventDetail.dateStart);
+        let dateEnd = new Date(this.eventDetail.dateEnd);
+        let differenceInMilliseconds = dateStart.getTime() - dateEnd.getTime();
+        if (!this.eventDetail.title) {
+            this.alertService.errorEmptyInput('Название события');
+        } else if (!this.eventDetail.typeEvent.name) {
+            this.alertService.errorEmptyInput('Тип события');
+        } else if (differenceInMilliseconds >= 0) {
+            this.alertService.error('Пожалуйста, проверте дату начала и окончания мероприятия');
+        } else if (!this.eventDetail.descriptionEvent) {
+            this.alertService.errorEmptyInput('Описание события');
+        } else if (!this.eventDetail.room.name) {
+            this.alertService.errorEmptyInput('Помещение');
+        } else if ((this.eventDetail.organization.name !== '') && (!this.eventDetail.subDiv.name)) {
+            this.alertService.errorEmptyInput('Выберете компанию');
+        } else if (this.eventDetail.participants.length === 0) {
+            this.alertService.error('Недостаточно участников для проведения мероприятия');
+        } else {
+            this.loaderService.isLoading.next(true);
+            this.apiEventService.createEvent(method, this.eventDetail).subscribe({
+                next: value => {
+                    if (value.result === 'success') {
+                        if (method === 'editEvent') {
+                            this.alertService.success(`Событие ${this.eventDetail.title} успешно обновлено`);
+                        } else {
+                            this.alertService.success(`Событие ${this.eventDetail.title} успешно добавлено`);
+                        }
+                        this.initService();
+                        this.loaderService.isLoading.next(false);
+                        this.display = false;
+                    } else {
+                        this.alertService.error(value.text);
+                        this.loaderService.isLoading.next(false);
+                    }
+                    console.log(value);
+                }, error: err => {
+                    console.log(err);
                     this.display = false;
-                } else {
-                    this.alertService.error(value.result);
+                    this.loaderService.isLoading.next(false);
                 }
-                console.log(value);
-            }, error: err => {
-                console.log(err);
-                this.display = false;
-                this.loaderService.isLoading.next(false);
-            }
-        });
+            });
+        }
     }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { IOptions1C } from '../../../../models/1C/IOptions-1C';
-import { IOption } from '../../../../models/IOption';
+import { ICommittee1C, IOptions1C } from '../../../../models/1C/IOptions-1C';
+import { ICommittee, IOption } from '../../../../models/IOption';
 import { IParticipants1C } from '../../../../models/1C/IEvent-1C';
 import { IParticipant } from '../../../../models/IUser';
 
@@ -9,13 +9,6 @@ import { IParticipant } from '../../../../models/IUser';
 })
 export class OptionConvert1cService {
     
-    public changeOptionsType(option1c: IOptions1C): IOption {
-        return <IOption>{
-            id: option1c.guid,
-            name: option1c.name,
-            type: option1c.type
-        };
-    }
     
     public convertOptionToOption1C(option: IOption): IOptions1C {
         return <IOptions1C>{
@@ -31,6 +24,35 @@ export class OptionConvert1cService {
         }
         return options.map(option => this.changeOptionsType(option));
     }
+    
+    public convertCommitteeTypes(committeeTypes: ICommittee1C[]): ICommittee[] {
+        return committeeTypes.map(committeeType => {
+            const committee: ICommittee = {
+                id: committeeType.guid,
+                name: committeeType.name,
+                type: committeeType.type,
+                participants: committeeType.participants.map(element => ({
+                    name: this.changeOptionsType(element.name),
+                    role: this.changeOptionsType(element.role)
+                }))
+            };
+            
+            if (committeeType.secretary) {
+                committee.secretary = this.changeOptionsType(committeeType.secretary);
+            }
+            
+            return committee;
+        });
+    }
+    
+    public changeOptionsType(option1c: IOptions1C): IOption {
+        return <IOption>{
+            id: option1c.guid,
+            name: option1c.name,
+            type: option1c.type
+        };
+    }
+    
     
     public changeParticipantsType(participants: IParticipants1C[]): IParticipant[] {
         return participants.map(participant => ({

@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 import { IEventDetailsFrom1C, IEventFromApi1C } from '../models/1C/IEvent-1C';
 import { environment } from '../../environments/environment';
 import { IEventDetails } from '../models/IEvent';
-import { IOption } from '../models/IOption';
+import { ICommittee, IOption } from '../models/IOption';
 import { OptionConvert1cService } from './1C/api/convert/option-convert-1c.service';
 
 
@@ -67,6 +67,15 @@ export class EventsService {
         return of([] as IOption[]);
     }
     
+    public getCommitteeTypes(): Observable<ICommittee[]> {
+        if (environment.backend === '1c') {
+            return this.event1CService.getCommitteeTypes().pipe(
+                map(committeeTypes => this.optionConvert.convertCommitteeTypes(committeeTypes))
+            );
+        }
+        return of([] as ICommittee[]);
+    }
+    
     public deleteEvent(eventId: string): Observable<any> {
         if (environment.backend === '1c') {
             return this.event1CService.deleteEvent(eventId);
@@ -74,14 +83,15 @@ export class EventsService {
         return ({} as Observable<any>);
     }
     
-    public createEvent(eventDetails: IEventDetails): Observable<any> {
+    public createEvent(method: string, eventDetails: IEventDetails): Observable<any> {
         if (environment.backend === '1c') {
             let sendDataEventDetails: IEventDetailsFrom1C = this.eventApiServiceConvert.convertApiEventDetailFroCreateEvent(eventDetails);
             sendDataEventDetails.className.type = 'Справочник.ТерриторииИПомещения';
             sendDataEventDetails.participants[0].role.type = 'Справочник.гкРолиВСовещании';
             console.log(sendDataEventDetails);
-            return this.event1CService.createNewEvent(sendDataEventDetails);
+            return this.event1CService.createNewEvent(method, sendDataEventDetails);
         }
         return ({} as Observable<any>);
     }
+    
 }

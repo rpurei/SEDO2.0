@@ -28,3 +28,14 @@ export interface IViolations1C {
     violationNumber: number;
     violationType: IOptions1C;
 }
+
+interface MeetingParticipant1C {
+    name: IOptions1C;
+    role: IOptions1C;
+}
+
+export interface ICommittee1C extends IOptions1C {
+    participants: MeetingParticipant1C[];
+    secretary?: IOptions1C;
+    
+}

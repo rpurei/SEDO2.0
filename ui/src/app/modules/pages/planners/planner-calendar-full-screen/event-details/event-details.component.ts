@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Table } from 'primeng/table';
 import { IEventDetails } from '../../../../../models/IEvent';
 import { EventsService } from '../../../../../services/events.service';
-import { IOption } from '../../../../../models/IOption';
+import { ICommittee, IOption } from '../../../../../models/IOption';
 import { AlertService } from '../../../../../services/alert/alert.service';
 import { IRoom } from '../../../../../models/IRoom';
 import { OrganizationService } from '../../../../../services/organization.service';
@@ -38,6 +38,8 @@ export class EventDetailsComponent implements OnInit {
     eventsType: IOption[] = [];
     filteredEventsType: IOption[] = [];
     filteredRooms: IRoom[] = [];
+    filteredCommitteeTypes: ICommittee[] = [];
+    
     organization: IOrganization[] = [];
     filteredOrganization: IOrganization[] = [];
     participants: IParticipant[] = [];
@@ -48,8 +50,10 @@ export class EventDetailsComponent implements OnInit {
     selectRole: IRole = {} as IRole;
     visibleAddNewParticipants: boolean = false;
     visibleAddNewFiles: boolean = false;
-    countParticipants: number = 0;
-    
+    committeeTypes: ICommittee[] = [];
+    committeeType: any;
+    companyName: IOption[] = [];
+    selectedOrganization: IOrganization = {} as IOrganization;
     
     filteredCountries: any;
     countries: any[] = [];
@@ -62,8 +66,21 @@ export class EventDetailsComponent implements OnInit {
     visibleModification: boolean = false;
     display: boolean = false;
     
-    test() {
-        console.log(this.eventDetail.files);
+    test(a: any) {
+        console.log(a);
+    }
+    
+    selectOrganization(organization: IOrganization) {
+        this.eventDetail.organization = {
+            name: organization.name,
+            type: 'Справочник.СтруктураПредприятия',
+            id: organization.id
+        };
+    }
+    
+    selectCompany(company: IOption) {
+        this.eventDetail.subDiv = company;
+        this.eventDetail.subDiv.type = 'Справочник.СтруктураПредприятия';
     }
     
     addParticipants() {
@@ -77,7 +94,7 @@ export class EventDetailsComponent implements OnInit {
     addNewParticipants() {
         if (this.eventDetail.participants.some(participant => participant.user.name === this.selectUser.name)) {
             this.alertService.error('Участник уже добавлен.');
-        } else if (!this.selectUser || !this.selectUser) {
+        } else if (this.selectRole.name === undefined || this.selectUser.name === undefined) {
             this.alertService.error('Поле "участник" или "роль" не может быть пустым.');
         } else {
             let userInfo: IOption = {
@@ -85,6 +102,12 @@ export class EventDetailsComponent implements OnInit {
                 type: 'Справочник.Пользователи',
                 id: this.selectUser.id
             };
+            if (this.selectRole.name === 'Председатель') {
+                this.eventDetail.leader = userInfo;
+            } else if (this.selectRole.name === 'Секретарь') {
+                this.eventDetail.secretary = userInfo;
+            }
+        
             let user: IParticipant = {
                 deputy: {name: '', id: '', type: ''},
                 order: this.eventDetail.participants.length + 1,
@@ -96,10 +119,12 @@ export class EventDetailsComponent implements OnInit {
                 presence: 'personal',
                 presenceRus: 'Личное присутствие'
             };
+            user.role.type = 'Справочник.гкРолиВСовещании';
             this.eventDetail.participants.push(user);
             this.selectRole = {} as IRole;
             this.selectUser = {} as IUserDetail;
             this.alertService.success('Пользователь успешно добавлен. Для сохранения изменений нажмите кнопку "Сохранить"');
+            console.log(this.eventDetail.participants);
         }
     }
     
@@ -134,8 +159,9 @@ export class EventDetailsComponent implements OnInit {
             message: 'Вы уверены?',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                this.alertService.success('Участник успешно удален из события');
                 this.eventDetail.participants.splice(participantNumber, 1);
+                this.alertService.success('Участник успешно удален из события');
+                console.log(participantNumber);
             },
         });
     }
@@ -184,8 +210,35 @@ export class EventDetailsComponent implements OnInit {
         };
     }
     
+    changeCommittee(committeeType: ICommittee) {
+        this.eventDetail.title = committeeType.name;
+        this.eventDetail.meetingType.type = committeeType.type;
+        this.eventDetail.meetingType.id = committeeType.id;
+        this.eventDetail.meetingType.name = committeeType.name;
+        this.eventDetail.secretary = committeeType.secretary;
+        committeeType.participants.forEach(participant => {
+            const participant1: IParticipant = {
+                deputy: {
+                    name: '',
+                    type: ''
+                },
+                isAbsent: false,
+                order: this.eventDetail.participants.length + 1,
+                isKnow: 'Не принято',
+                isMust: false,
+                presence: '',
+                presenceRus: '',
+                role: participant.role,
+                user: participant.name
+            };
+            this.eventDetail.participants.push(participant1);
+            console.log(participant1);
+        });
+        console.log(this.eventDetail.participants);
+        console.log(committeeType);
+    }
+    
     filterEventType(event: any) {
-        console.log(event);
         const filteredType: IOption[] = [];
         const query = event.query;
         for (let i = 0; i < this.eventsType.length; i++) {
@@ -207,6 +260,7 @@ export class EventDetailsComponent implements OnInit {
             }
         }
         this.filteredOrganization = filteredType;
+        console.log(this.companyName);
     }
     
     
@@ -222,8 +276,21 @@ export class EventDetailsComponent implements OnInit {
         this.filteredRooms = filteredRooms;
     }
     
+    filterCommitteeType(event: any) {
+        const filteredType: ICommittee[] = [];
+        const query = event.query;
+        for (let i = 0; i < this.committeeTypes.length; i++) {
+            const type = this.committeeTypes[i];
+            if (type.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+                filteredType.push(type);
+            }
+        }
+        this.filteredCommitteeTypes = filteredType;
+    }
+    
     
     ngOnInit(): void {
+        
         this.roleService.getAllRolesByEvent().subscribe({
             next: value => {
                 this.roleEvent = value;
@@ -243,9 +310,14 @@ export class EventDetailsComponent implements OnInit {
                 this.alertService.errorApi(err);
             }
         });
-    
+        this.eventsService.getCommitteeTypes().subscribe({
+            next: value => {
+                this.committeeTypes = value;
+            }
+        });
+        
         this.rooms.splice(0, 1);
-    
+        
         this.dateStart = new Date(this.eventDetail.dateStart);
         this.dateEnd = new Date(this.eventDetail.dateEnd);
         this.selectedOrganisation = this.eventDetail.organization.name;

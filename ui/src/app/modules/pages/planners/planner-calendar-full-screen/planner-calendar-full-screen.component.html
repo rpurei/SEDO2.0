@@ -13,6 +13,7 @@
                                     [virtualScroll]="true"
                                     [virtualScrollItemSize]="40"
                                     (onSelect)="filteredEventsForRooms(selectRoom)"
+                                    [disabled]="(loaderService.isLoading | async) || false"
                                     field="name"
                                     placeholder="Выбрать помещение"
                     ></p-autoComplete>
@@ -25,6 +26,7 @@
                                     [suggestions]="filteredRooms"
                                     [virtualScrollItemSize]="40"
                                     [virtualScroll]="true"
+                                    [disabled]="(loaderService.isLoading | async) || false"
                                     field="name"
                                     placeholder="Выбрать помещение"
                     ></p-autoComplete>
@@ -33,6 +35,7 @@
 				<button (viewDateChange)="closeOpenMonthViewDay()"
                         [(viewDate)]="viewDate"
                         [view]="view"
+                        [loading]="(loaderService.isLoading | async) || false"
                         icon="pi pi-chevron-left"
                         label="Назад"
                         mwlCalendarPreviousView
@@ -40,6 +43,7 @@
                         pRipple
                 ></button>
 				<button [(viewDate)]="viewDate"
+                        [loading]="(loaderService.isLoading | async) || false"
                         class="p-button-outlined"
                         mwlCalendarToday
                         pButton
@@ -48,6 +52,7 @@
             <button (viewDateChange)="closeOpenMonthViewDay()"
                     [(viewDate)]="viewDate"
                     [view]="view"
+                    [loading]="(loaderService.isLoading | async) || false"
                     icon="pi pi-chevron-right"
                     iconPos="right"
                     label="Вперед"
@@ -64,26 +69,27 @@
             </div>
             <div class="text-right">
                 <div class="text-left mb-3 ">
-                    <p-autoComplete (completeMethod)="filterUsers($event)"
-                                    [dropdown]="true"
-                                    [(ngModel)]="selectUser"
-                                    *ngIf="searchInEvent"
-                                    [virtualScroll]="true"
-                                    [virtualScrollItemSize]="40"
-                                    [size]="40"
-                                    [suggestions]="filteredUsers"
-                                    field="name"
-                                    placeholder="Выбрать сотрудника"
-                    ></p-autoComplete>
+                    <!--                    <p-autoComplete (completeMethod)="filterUsers($event)"-->
+                    <!--                                    (onSelect)="getEventFroUserInList(selectUser)"-->
+                    <!--                                    [dropdown]="true"-->
+                    <!--                                    [(ngModel)]="selectUser"-->
+                    <!--                                    *ngIf="searchInEvent"-->
+                    <!--                                    [virtualScroll]="true"-->
+                    <!--                                    [virtualScrollItemSize]="40"-->
+                    <!--                                    [size]="40"-->
+                    <!--                                    [suggestions]="filteredUsers"-->
+                    <!--                                    field="name"-->
+                    <!--                                    placeholder="Выбрать сотрудника"-->
+                    <!--                    ></p-autoComplete>-->
                     <p-autoComplete (completeMethod)="filterUsers($event)"
                                     (onSelect)="getEventFroUser(selectUser)"
-                                    *ngIf="!searchInEvent"
                                     [(ngModel)]="selectUser"
                                     [dropdown]="true"
                                     [size]="40"
                                     [suggestions]="filteredUsers"
                                     [virtualScrollItemSize]="40"
                                     [virtualScroll]="true"
+                                    [disabled]="(loaderService.isLoading | async) || false"
                                     field="name"
                                     placeholder="Выбрать сотрудника"
                     ></p-autoComplete>
@@ -91,6 +97,7 @@
                 <span class="p-buttonset flex mb-3">
 				    <button (click)="setView(CalendarView.Month)"
                             [class.active]="view === CalendarView.Month"
+                            [loading]="(loaderService.isLoading | async) || false"
                             class="w-10"
                             label="Месяц"
                             pButton
@@ -98,6 +105,7 @@
                     ></button>
                     <button (click)="setView(CalendarView.Week)"
                             [class.active]="view === CalendarView.Week"
+                            [loading]="(loaderService.isLoading | async) || false"
                             class="w-10"
                             label="Неделя"
                             pButton
@@ -105,6 +113,7 @@
                     ></button>
                     <button (click)="setView(CalendarView.Day)"
                             [class.active]="view === CalendarView.Day"
+                            [loading]="(loaderService.isLoading | async) || false"
                             class="w-10"
                             label="День"
                             pButton
@@ -112,6 +121,7 @@
                     ></button>
                 </span>
                 <button (click)="addNewEvent()"
+                        [loading]="(loaderService.isLoading | async) || false"
                         icon="pi pi-plus"
                         label="Добавить событие"
                         pButton
@@ -135,8 +145,8 @@
                                  [weekStartsOn]="weekStartsOn"
         ></mwl-calendar-month-view>
         <mwl-calendar-week-view (eventClicked)="handleEvent('Clicked', $event.event)"
-                                [dayEndHour]="20"
                                 [dayStartHour]="7"
+                                [dayEndHour]="20"
                                 (eventTimesChanged)="eventTimesChanged($event)"
                                 *ngSwitchCase="CalendarView.Week"
                                 [events]="events"
@@ -147,8 +157,8 @@
         <mwl-calendar-day-view (eventClicked)="handleEvent('Clicked', $event.event)"
                                (eventTimesChanged)="eventTimesChanged($event)"
                                *ngSwitchCase="CalendarView.Day"
-                               [dayEndHour]="20"
                                [dayStartHour]="7"
+                               [dayEndHour]="20"
                                [events]="events"
                                [locale]="locale"
                                [refresh]="refresh"
@@ -158,7 +168,7 @@
 </div>
 <p-dialog *ngIf="endLoading"
           [(visible)]="display"
-          [header]="eventDetail.title ? eventDetail.title : 'Поле не указано'"
+          [header]="eventDetail.title ? eventDetail.title : 'Название не указано'"
           [breakpoints]="{ '960px': '75vw' }"
           [maximizeIcon]="'0px'"
           [modal]="true"
@@ -172,7 +182,10 @@
     <ng-template pTemplate="footer">
         <button (click)="isChange = !isChange"
                 *ngIf="!isChange"
-                pButton>Изменить
+                [loading]="(loaderService.isLoading | async) || false"
+                label="Изменить"
+                pButton
+        >
         </button>
         <p-toast></p-toast>
         <button (click)="deleteEvent($event)"
@@ -212,11 +225,21 @@
                 pButton
         ></button>
         <button
-                (click)="createEvent()"
+                (click)="createEvent('createEvent')"
                 class="p-button-outlined p-button-success"
                 icon="pi pi-check"
-                label="Сохранить"
+                *ngIf="isChange"
+                label="Создать мероприятие"
                 [loading]="(loaderService.isLoading | async) || false"
+                pButton
+        ></button>
+        <button
+                (click)="createEvent('editEvent')"
+                *ngIf="!isChange"
+                [loading]="(loaderService.isLoading | async) || false"
+                class="p-button-outlined p-button-success"
+                icon="pi pi-check"
+                label="Сохранить изменения"
                 pButton
         ></button>
     </ng-template>

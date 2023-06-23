@@ -2,8 +2,9 @@
 <div *ngIf="eventDetail"
      class="card">
     <div>
-        <h4 *ngIf="isChange">{{'Карточка события мероприятия: '}}</h4>
+        <!--        <h4 *ngIf="isChange">Карточка события мероприятия:</h4>-->
         <textarea *ngIf="isChange"
+                  placeholder="Название события"
                   [(ngModel)]="eventDetail.title"
                   [autoResize]="true"
                   class="w-full mb-5"
@@ -13,9 +14,10 @@
     <div class="grid formgrid">
 
         <div class="col mb-5">
-            <h5>Тип события</h5>
+            <h5 *ngIf="!isChange">Тип события</h5>
             <p-autoComplete (completeMethod)="filterEventType($event)"
                             *ngIf="isChange"
+                            placeholder="Тип события"
                             [(ngModel)]="eventDetail.typeEvent"
                             [dropdown]="true"
                             [suggestions]="filteredEventsType"
@@ -23,6 +25,20 @@
                             styleClass="w-full"
             ></p-autoComplete>
             <p *ngIf="!isChange">{{eventDetail.typeEvent.name ? eventDetail.typeEvent.name : 'Поле не указано'}}</p>
+            <div *ngIf="eventDetail.typeEvent.name === 'Комитет'"
+                 class="mt-5">
+                <h5 *ngIf="!isChange">Вид комитета</h5>
+                <p-autoComplete (completeMethod)="filterCommitteeType($event)"
+                                (onSelect)="changeCommittee(committeeType)"
+                                *ngIf="isChange"
+                                [(ngModel)]="committeeType"
+                                [dropdown]="true"
+                                [suggestions]="filteredCommitteeTypes"
+                                field="name"
+                                placeholder="Вид комитета"
+                                styleClass="w-full"
+                ></p-autoComplete>
+            </div>
         </div>
         <div class="col mb-5 w-full">
             <div *ngIf="!isChange">
@@ -33,9 +49,11 @@
             <div *ngIf="isChange"
                  class="flex ">
                 <div class="mr-5">
-                    <h5>Начало события</h5>
+                    <h5 *ngIf="!isChange">Начало события</h5>
                     <p-calendar
-                            [(ngModel)]="dateStart"
+                            [(ngModel)]="this.eventDetail.dateStart"
+                            pTooltip="Начало события"
+                            placeholder="Начало события"
                             [showTime]="true"
                             dateFormat="dd.mm.yy"
                             styleClass="w-full"
@@ -43,9 +61,11 @@
                     ></p-calendar>
                 </div>
                 <div>
-                    <h5>Конец события</h5>
+                    <h5 *ngIf="!isChange">Конец события</h5>
                     <p-calendar
-                            [(ngModel)]="dateEnd"
+                            [(ngModel)]="this.eventDetail.dateEnd"
+                            pTooltip="Конец события"
+                            placeholder="Конец события"
                             [showTime]="true"
                             dateFormat="dd.mm.yy"
                             styleClass="w-full"
@@ -57,20 +77,22 @@
     </div>
     <div class="grid formgrid">
         <div class="col mb-5">
-            <h5>Описание события</h5>
+            <h5 *ngIf="!isChange">Описание события</h5>
             <textarea *ngIf="isChange"
                       [(ngModel)]="eventDetail.descriptionEvent"
                       pInputTextarea
+                      placeholder="Описание события"
                       style="width: 100%"
             ></textarea>
             <p *ngIf="!isChange">{{eventDetail.descriptionEvent ? eventDetail.descriptionEvent : 'Поле не указано'}}</p>
         </div>
         <div class="col mb-2">
-            <h5>Помещение</h5>
+            <h5 *ngIf="!isChange">Помещение</h5>
             <p-autoComplete (completeMethod)="filterRoom($event)"
                             *ngIf="isChange"
                             [(ngModel)]="eventDetail.room"
                             [dropdown]="true"
+                            placeholder="Помещение"
                             [suggestions]="filteredRooms"
                             field="name"
                             styleClass="w-full"
@@ -80,27 +102,33 @@
     </div>
     <div class="grid formgrid">
         <div class="col ">
-            <h5>Организация</h5>
+            <h5 *ngIf="!isChange">Организация</h5>
             <p-autoComplete (completeMethod)="filterOrganization($event)"
                             *ngIf="isChange"
-                            [(ngModel)]="eventDetail.organization"
+                            (onSelect)="selectOrganization(selectedOrganization)"
+                            [(ngModel)]="selectedOrganization"
+                            placeholder="Организация"
                             [dropdown]="true"
                             [suggestions]="filteredOrganization"
                             field="name"
                             styleClass="w-full"
             ></p-autoComplete>
             <p *ngIf="!isChange"
-            >{{selectedOrganisation ? selectedOrganisation : 'Поле не указано'}}</p>
+            >{{eventDetail.organization.name ? eventDetail.organization.name : 'Поле не указано'}}</p>
         </div>
         <div class="col">
-            <h5>Компания</h5>
+            <h5 *ngIf="!isChange">Компания</h5>
             <p-dropdown *ngIf="isChange"
-                        [(ngModel)]="eventDetail.room.name"
-                        [options]="cities"
+                        (onChange)="selectCompany(eventDetail.organization)"
+                        [(ngModel)]="eventDetail.organization"
+                        [options]="selectedOrganization.children"
+                        placeholder="Выберете компанию"
                         optionLabel="name"
                         styleClass="w-full"
             ></p-dropdown>
-            <p *ngIf="!isChange">{{eventDetail.room.name ? eventDetail.room.name : 'Поле не указано'}}</p>
+            <p
+                    *ngIf="!isChange">{{eventDetail.subDiv.name ? eventDetail.subDiv.name :
+                'Поле не указано'}}</p>
         </div>
     </div>
 </div>
@@ -115,11 +143,8 @@
              class="card mb-5">
             <div class="flex mb-5 justify-content-between">
                 <h4>Добавить нового участника</h4>
-                <div>
-
-                </div>
             </div>
-            <div class="flex ">
+            <div>
                 <p-autoComplete (completeMethod)="filterUsers($event)"
                                 [(ngModel)]="selectUser"
                                 [dropdown]="true"
@@ -161,7 +186,6 @@
 
         </div>
         <div class="mb-5">
-            <h5>{{activeItem.label}}</h5>
             <span class="p-input-icon-left mb-2">
             <i class="pi pi-search"></i>
             <input #filter
@@ -191,9 +215,13 @@
                         <span>Уведомление</span>
                     </th>
                     <th style="min-width: 14rem">
-                            <span>Сотрудник</span>
+                        <span>Сотрудник</span>
                     </th>
-                    <th class="text-center">
+                    <th>
+                        <span>Роль</span>
+                    </th>
+                    <th class="text-right"
+                        style="max-width: 10rem">
                         <button
                                 (click)="addParticipants()"
                                 class="p-button-outlined p-button-success"
@@ -222,8 +250,11 @@
                     <td>
                         {{ participant.user.name }}
                     </td>
-                    <td class="text-center">
-                        <div class="flex ">
+                    <td>
+                        {{ participant.role.name }}
+                    </td>
+                    <td class="text-right">
+                        <div>
                             <!--                            <button class="p-button-rounded p-button-outlined mr-2"-->
                             <!--                                    icon="pi pi-user"-->
                             <!--                                    pButton-->
@@ -232,7 +263,8 @@
                             <!--                                    type="button"-->
                             <!--                            ></button>-->
                             <p-toast></p-toast>
-                            <button (click)="deleteParticipant($event, participants.indexOf(participant))"
+                            <button (click)="deleteParticipant($event,
+                            this.eventDetail.participants.indexOf(participant))"
                                     class="p-button-danger p-button-outlined"
                                     icon="pi pi-trash"
                                     pButton
@@ -247,7 +279,7 @@
             </ng-template>
             <ng-template pTemplate="emptymessage">
                 <tr>
-                    <td colspan="8">Данные не найдены</td>
+                    <td colspan="8">Список сотрудников пуст</td>
                 </tr>
             </ng-template>
             <ng-template pTemplate="loadingbody">

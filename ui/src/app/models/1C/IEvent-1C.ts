@@ -30,7 +30,7 @@ export interface IEventDetailsFrom1C {
     subdiv: IOptions1C;
     className: IOptions1C;
     leader: IOptions1C;
-    secretary: IOptions1C;
+    secretary?: IOptions1C;
     duration: number;
     participants: IParticipants1C[];
     files: IFiles1C[];

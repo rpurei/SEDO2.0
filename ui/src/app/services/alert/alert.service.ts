@@ -18,6 +18,15 @@ export class AlertService {
         this.service.add({key: this.defaultKey, severity: 'error', summary: 'Ошибка', detail: message});
     }
     
+    errorEmptyInput(message: string) {
+        this.service.add({
+            key: this.defaultKey,
+            severity: 'error',
+            summary: 'Ошибка',
+            detail: `Пожалуйста, заполните поле "${message}"`
+        });
+    }
+    
     errorApi(error: any) {
         this.service.add({
             key: this.defaultKey,

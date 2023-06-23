@@ -29,16 +29,111 @@ export class EventApiServiceConvert {
             primary: '#e3bc08',
             secondary: '#FDF1BA',
         },
-    };
+        green: {
+            primary: '#008000',
+            secondary: '#B9E9B9',
+        },
+        orange: {
+            primary: '#ff6600',
+            secondary: '#FFD8AD',
+        },
+        purple: {
+            primary: '#800080',
+            secondary: '#E8CCFF',
+        },
+        pink: {
+            primary: '#ff69b4',
+            secondary: '#FFDAF0',
+        },
+        teal: {
+            primary: '#008080',
+            secondary: '#B9E9E9',
+        },
+        gray: {
+            primary: '#808080',
+            secondary: '#E6E6E6',
+        },
+        brown: {
+            primary: '#964B00',
+            secondary: '#F5DEB3',
+        },
+        cyan: {
+            primary: '#00FFFF',
+            secondary: '#E0FFFF',
+        },
+        lime: {
+            primary: '#00FF00',
+            secondary: '#CCFFCC',
+        },
+        indigo: {
+            primary: '#4B0082',
+            secondary: '#D9B3FF',
+        },
+        magenta: {
+            primary: '#FF00FF',
+            secondary: '#FFC0CB',
+        },
+        silver: {
+            primary: '#C0C0C0',
+            secondary: '#F2F2F2',
+        },
+        gold: {
+            primary: '#FFD700',
+            secondary: '#FFECB3',
+        },
+        black: {
+            primary: '#000000',
+            secondary: '#C0C0C0',
+        },
+    }
+    
+    changeColor(typeEvent: any) {
+        switch (typeEvent) {
+            case 'Переговоры':
+                return {...this.colors['red']};
+            case 'Комитет':
+                return {...this.colors['blue']};
+            case 'Обучение':
+                return {...this.colors['yellow']};
+            case 'Аудит':
+                return {...this.colors['green']};
+            case 'Вебинар':
+                return {...this.colors['orange']};
+            case 'Инвентаризация':
+                return {...this.colors['purple']};
+            case 'Выездное обучение':
+                return {...this.colors['pink']};
+            case 'Обучение ПП-Ромашка':
+                return {...this.colors['teal']};
+            case 'Планерка':
+                return {...this.colors['gray']};
+            case 'Рабочая встреча':
+                return {...this.colors['brown']};
+            case 'Рабочее совещание':
+                return {...this.colors['cyan']};
+            case 'Рабочий час':
+                return {...this.colors['lime']};
+            case 'Собеседование':
+                return {...this.colors['indigo']};
+            case 'Тестирование':
+                return {...this.colors['magenta']};
+            case 'Бизнес-совещание':
+                return {...this.colors['silver']};
+            case 'Встреча с ЭФКО':
+                return {...this.colors['gold']};
+            default:
+                return {...this.colors['black']};
+        }
+    }
     
     convertApiShortToCalendarEventAction(apiEvents: IEventFromApi1C[]): CalendarEvent[] {
         return apiEvents.map(event => ({
             start: addDays(new Date(event.start), 0),
             id: event.guid,
             end: addDays(new Date(event.end), 0),
-            title: `${format(new Date(event.start), 'HH:mm')} ${event.type} ${event.title} ${event.className}`, //TODO: Добавить автора события из 1С
+            title: `Начало мероприятия в <b>${format(new Date(event.start), 'HH:mm')}</b> ${event.type} ${event.title} ${event.className}`, //TODO: Добавить автора события из 1С
             meta: event.className,
-            color: {...(this.colors)['blue']}, //TODO: Добавить настройки цвета в зависимости от типа мероприятия
+            color: this.changeColor(event.type), //TODO: Добавить настройки цвета в зависимости от типа мероприятия
         }));
     }
     
@@ -90,7 +185,7 @@ export class EventApiServiceConvert {
     }
     
     convertApiEventDetail(eventDetail: IEventDetailsFrom1C): IEventDetails {
-        return {
+        const convertedEventDetail: IEventDetails = {
             room: this.optionConvert.changeOptionsType(eventDetail.className),
             meetingType: this.optionConvert.changeOptionsType(eventDetail.committeeType),
             descriptionEvent: eventDetail.desc,
@@ -101,10 +196,9 @@ export class EventApiServiceConvert {
             importance: eventDetail.importance,
             initiator: this.optionConvert.changeOptionsType(eventDetail.initiator),
             leader: this.optionConvert.changeOptionsType(eventDetail.leader),
-            notification: eventDetail.notification!, //TODO: Узнать точный тип массива
+            notification: eventDetail.notification!, // TODO: Узнать точный тип массива
             organization: this.optionConvert.changeOptionsType(eventDetail.org),
             participants: this.optionConvert.changeParticipantsType(eventDetail.participants),
-            secretary: this.optionConvert.changeOptionsType(eventDetail.secretary),
             softId: eventDetail.softId,
             dateStart: eventDetail.start,
             subDiv: this.optionConvert.changeOptionsType(eventDetail.subdiv),
@@ -112,11 +206,16 @@ export class EventApiServiceConvert {
             typeEvent: this.optionConvert.changeOptionsType(eventDetail.type),
             violations: this.changeViolationsType(eventDetail.violations!),
         };
+    
+        if (eventDetail.secretary) {
+            convertedEventDetail.secretary = this.optionConvert.changeOptionsType(eventDetail.secretary);
+        }
+    
+        return convertedEventDetail;
     }
     
-    // @ts-ignore
     convertApiEventDetailFroCreateEvent(eventDetail: IEventDetails): IEventDetailsFrom1C {
-        return {
+        const convertedEventDetail: IEventDetailsFrom1C = {
             className: this.optionConvert.convertOptionToOption1C(eventDetail.room),
             committeeType: this.optionConvert.convertOptionToOption1C(eventDetail.meetingType),
             desc: eventDetail.descriptionEvent,
@@ -130,7 +229,6 @@ export class EventApiServiceConvert {
             notification: eventDetail.notification,
             org: this.optionConvert.convertOptionToOption1C(eventDetail.organization),
             participants: this.optionConvert.changeParticipantsTypeTo1C(eventDetail.participants),
-            secretary: this.optionConvert.convertOptionToOption1C(eventDetail.secretary),
             softId: eventDetail.softId,
             start: eventDetail.dateStart,
             subdiv: this.optionConvert.convertOptionToOption1C(eventDetail.subDiv),
@@ -138,6 +236,12 @@ export class EventApiServiceConvert {
             type: this.optionConvert.convertOptionToOption1C(eventDetail.typeEvent),
             violations: this.changeViolationsTypeTo1C(eventDetail.violations),
         };
+        
+        if (eventDetail.secretary) {
+            convertedEventDetail.secretary = this.optionConvert.convertOptionToOption1C(eventDetail.secretary);
+        }
+        
+        return convertedEventDetail;
     }
     
     public changeViolationsTypeTo1C(violations: IViolation[]): IViolations1C[] {

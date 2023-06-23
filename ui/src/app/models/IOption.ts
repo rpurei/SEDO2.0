@@ -1,3 +1,4 @@
+
 export interface IOption {
     name: string;
     id?: string;
@@ -14,9 +15,16 @@ export interface IViolation {
     violationType: IOption;
 }
 
+export interface ICommittee extends IOption {
+    participants: MeetingParticipant[];
+    secretary?: IOption;
+    
+}
 
-
-
+interface MeetingParticipant {
+    name: IOption;
+    role: IOption;
+}
 
 
 
