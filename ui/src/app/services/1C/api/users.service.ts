@@ -12,8 +12,13 @@ export class Users1CService {
     constructor(private http: HttpClient) {
     }
     
+    URL: string = 'https://api.zdmail.ru/service';
+    
     public getAllUsersDetail(): Observable<any> {
-        return this.http.get<IUserDetailFrom1C[]>('http://localhost:3000/phonebook');
+        return this.http.post<IUserDetailFrom1C[]>(this.URL, {
+            method: 'phonebookFile',
+            user: JSON.parse(localStorage.getItem('user')!).id
+        });
     }
     
     // public getAllUsers(): Observable<any> {
@@ -29,7 +34,7 @@ export class Users1CService {
     // }
     //
     public getUserById(id: string): Observable<any> {
-        return this.http.post<IUserDetailFrom1C>(`https://api.zdmail.ru/service`, {
+        return this.http.post<IUserDetailFrom1C>(this.URL, {
             method: 'userDetails',
             user: id
         });

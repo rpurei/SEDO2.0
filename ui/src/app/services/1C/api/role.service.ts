@@ -7,13 +7,18 @@ import { IRole1C } from '../../../models/1C/IRole-1C';
     providedIn: 'root'
 })
 export class Role1CService {
-    url = '/api/roles/';
     
     constructor(private http: HttpClient) {
     }
     
+    URL: string = 'https://api.zdmail.ru/service';
+    
+    
     public getAllForEvent(): Observable<any> {
-        return this.http.get<IRole1C[]>(`http://localhost:3000/role`);
+        return this.http.post<IRole1C[]>(this.URL, {
+            method: 'eventRoles',
+            user: JSON.parse(localStorage.getItem('user')!).id
+        });
     }
     
 }

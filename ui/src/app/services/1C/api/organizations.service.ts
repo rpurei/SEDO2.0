@@ -11,8 +11,14 @@ export class Organizations1CService {
     constructor(private http: HttpClient) {
     }
     
+    URL: string = 'https://api.zdmail.ru/service';
+    
+    
     public getAllOrganizations(): Observable<any> {
-        return this.http.get<IOrganization1C[]>('http://localhost:3000/organization');
+        return this.http.post<IOrganization1C[]>(this.URL, {
+            method: 'org',
+            user: JSON.parse(localStorage.getItem('user')!).id
+        });
     }
     
     // public getAllUsers(): Observable<any> {
