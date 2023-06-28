@@ -1,0 +1,177 @@
+<div class="card" *ngIf="!loading">
+  <h3>
+    Ознакомиться "Приказ о стимулировании деятельности УК март 2023 (№ 70-ЛС от
+    24.04.2023) (Приказ по личному составу)"
+  </h3>
+  <div class="flex justify-content-around">
+    <div class="mx-1">
+      <p-chip [label]="'Иванова Ивана Ивановна'"
+              image="assets/demo/images/avatar/amyelsner.png"
+      ></p-chip>
+      <p class="text-gray-500">Постановщик</p>
+    </div>
+    <div class="mx-1">
+      <p-chip [label]="'Asiya Javayant'"
+              image="assets/demo/images/avatar/asiyajavayant.png"
+              styleClass="bg-blue"
+      ></p-chip>
+      <p class="text-gray-500">Исполнитель</p>
+    </div>
+
+    <div class="mx-1">
+      <p-chip [label]="'10.04.2023 07:59:00'"></p-chip>
+      <p class="text-gray-500">Срок исполнения</p>
+    </div>
+    <div class="mx-1">
+      <p-chip [label]="'Не исполнена'"></p-chip>
+
+      <p class="text-gray-500">Факт исполнения</p>
+    </div>
+  </div>
+  <div class="mt-5">
+    <p>Курганский Кирилл Юрьевич:</p>
+    <p><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. At culpa eius est inventore ipsa labore, necessitatibus quia repellat sed sit? Amet debitis dignissimos doloribus ea excepturi, illo laborum mollitia sint.</span><span>Ab beatae blanditiis consequatur deserunt doloremque eligendi enim ex in incidunt iste laborum, maiores maxime minima minus modi molestiae necessitatibus nostrum odit omnis pariatur similique sint sit ullam voluptates voluptatibus?</span>
+    </p>
+  </div>
+  <p-divider align="center"
+             layout="horizontal">
+  </p-divider>
+  <div class="mt-5">
+    <p-accordion>
+      <p-accordionTab header="Дополнительно">
+        <p-tabView>
+          <p-tabPanel header="Журнал">
+            <div>
+              <p>
+                Журнал пуст
+              </p>
+              <p-divider align="center"
+                         layout="horizontal">
+              </p-divider>
+              <div>
+                <p-button (click)="display = true"
+                          icon="pi pi-envelope"
+                          label="Ответить"
+                          styleClass="p-button-warning p-button-outlined"
+                ></p-button>
+                <p-dialog [(visible)]="display"
+                          [breakpoints]="{'960px': '75vw'}"
+                          [modal]="true"
+                          [style]="{width: '40vw'}"
+                          header="Ответ"
+                          showEffect="fade">
+                  <p-editor [(ngModel)]="text"
+                            [style]="{ height:'200px'}"
+                  ></p-editor>
+
+                  <ng-template pTemplate="footer">
+                    <button (click)="display=false"
+                            class="p-button-outlined p-button-success"
+                            icon="pi pi-check"
+                            label="Отправить"
+                            pButton
+                    ></button>
+                    <button (click)="display=false"
+                            class="p-button-outlined p-button-danger"
+                            icon="pi pi-times"
+                            label="Отменить"
+                            pButton
+                    ></button>
+                  </ng-template>
+                </p-dialog>
+              </div>
+            </div>
+            <div>
+
+            </div>
+          </p-tabPanel>
+          <p-tabPanel [header]="'Файлы ' + '(' + 12 + ')'">
+            <p>
+              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam
+              rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt
+              explicabo. Nemo enim
+              ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos
+              qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non numquam eius modi.
+            </p>
+          </p-tabPanel>
+        </p-tabView>
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+  <div class="mt-4">
+    <p-menu #menu
+            [model]="menuItems"
+            [popup]="true"></p-menu>
+    <button (click)="menu.toggle($event)"
+            class="mr-2 p-button-outlined p-button-success"
+            icon="pi pi-chevron-down"
+            label="Основные"
+            pButton
+            style="width:auto"
+            type="button"></button>
+    <p-menu #menu
+            [model]="menuItems"
+            [popup]="true"></p-menu>
+    <button (click)="menu.toggle($event)"
+            class="mr-2 p-button-outlined p-button-success"
+            icon="pi pi-chevron-down"
+            label="Правки"
+            pButton
+            style="width:auto"
+            type="button"></button>
+    <p-menu #menu
+            [model]="menuItems"
+            [popup]="true"></p-menu>
+    <button (click)="menu.toggle($event)"
+            class="mr-2 p-button-outlined p-button-success"
+            icon="pi pi-chevron-down"
+            label="Дополнительные"
+            pButton
+            style="width:auto"
+            type="button"></button>
+
+    <button
+      class="p-button-outlined p-button-success"
+      icon="pi pi-file"
+      label="Загрузить файл"
+      pButton
+      type="button"></button>
+  </div>
+</div>
+
+<div *ngIf="loading">
+  <div class="card">
+    <p-skeleton height="2rem" styleClass="mb-4"></p-skeleton>
+    <div class="flex">
+      <div class="mx-1">
+        <p-skeleton width="10rem" height="4rem" borderRadius="16px" styleClass="mb-2"></p-skeleton>
+        <p-skeleton width="5rem"></p-skeleton>
+      </div>
+      <div class="mx-1">
+        <p-skeleton width="10rem" height="4rem" borderRadius="16px" styleClass="mb-2"></p-skeleton>
+        <p-skeleton width="5rem"></p-skeleton>
+      </div>
+      <div class="mx-1">
+        <p-skeleton width="10rem" height="4rem" borderRadius="16px" styleClass="mb-2"></p-skeleton>
+        <p-skeleton width="5rem"></p-skeleton>
+      </div>
+      <div class="mx-1">
+        <p-skeleton width="10rem" height="4rem" borderRadius="16px" styleClass="mb-2"></p-skeleton>
+        <p-skeleton width="5rem"></p-skeleton>
+      </div>
+    </div>
+    <div class="mt-5">
+      <p-skeleton width="30rem" styleClass="mb-2"></p-skeleton>
+      <p-skeleton height="10rem"></p-skeleton>
+    </div>
+    <div class="mt-5">
+      <p-skeleton height="5rem"></p-skeleton>
+    </div>
+    <div class="mt-4 flex">
+      <p-skeleton class="mr-1" width="10rem" height="3rem"></p-skeleton>
+      <p-skeleton class="mr-1" width="10rem" height="3rem"></p-skeleton>
+      <p-skeleton class="mr-1" width="10rem" height="3rem"></p-skeleton>
+      <p-skeleton width="10rem" height="3rem"></p-skeleton>
+    </div>
+  </div>
+</div>

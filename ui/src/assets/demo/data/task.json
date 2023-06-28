@@ -1,0 +1,59 @@
+{
+  "data": [
+    {
+      "ExcludedFromProcess": true,
+      "accepted": true,
+      "author": "Курганский Кирилл Юрьевич",
+      "buttons": [
+        {
+          "name": "Исполнено",
+          "color": "success",
+          "url": "http://172.16.0.128/HSsedo/hs/taskManager/executeTask?&userId=96f32757-cb70-11ec-b5b3-0050569a9811&taskId=b3498277-e362-11ed-b672-0050569a9811&variant=done",
+          "comment": false
+        }
+      ],
+      "completed": false,
+      "dateAcceptanceExecution": "",
+      "dateCreated": "2023-04-25T15:14:22",
+      "dateEnd": "2023-04-28T00:00:00",
+      "dateExecution": "",
+      "dateStart": "Date",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquid animi at atque autem enim est\n    expedita, illum, iste modi optio perferendis provident quas quos recusandae reiciendis sapiente tenetur\n    voluptatibus?",
+      "executors": [
+        {
+          "type": "Справочник.Пользователи",
+          "guid": "96f32757-cb70-11ec-b5b3-0050569a9811",
+          "name": "Курганский Кирилл Юрьевич"
+        }
+      ],
+      "files": [
+        {
+          "guid": "b3498275-e362-11ed-b672-0050569a9811",
+          "name": "20230425\\АНКЕТА АЛЬФА_2a32841f-12e9-469d-b82f-1a01ea3e4456.1.pdf",
+          "title": "АНКЕТА АЛЬФА",
+          "type": "pdf",
+          "size": "435626"
+        }
+      ],
+      "guid": "b3498277-e362-11ed-b672-0050569a9811",
+      "importance": "Обычная важность",
+      "logbook": [
+        {
+          "title": "string",
+          "data": [],
+          "created": "2023-04-25T15:14:22",
+          "user": [
+            {
+              "type": "Справочник.Пользователи",
+              "guid": "96f32757-cb70-11ec-b5b3-0050569a9811",
+              "name": "Курганский Кирилл Юрьевич"
+            }
+          ]
+        }
+      ],
+      "project": "",
+      "stateProcess": "string",
+      "title": "Очень длинное имя задачи от этого числа вот для этого гражданина"
+    }
+  ]
+}

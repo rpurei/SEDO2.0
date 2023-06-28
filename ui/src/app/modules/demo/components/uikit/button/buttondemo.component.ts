@@ -12,7 +12,7 @@ export class ButtonDemoComponent implements OnInit {
 
     ngOnInit() {
         this.items = [
-            { label: 'Обноваить', icon: 'pi pi-refresh' },
+            { label: 'Обновить', icon: 'pi pi-refresh' },
             { label: 'Удалить', icon: 'pi pi-times' },
             { label: 'Angular.io', icon: 'pi pi-info', url: 'http://angular.io' },
             { separator: true },

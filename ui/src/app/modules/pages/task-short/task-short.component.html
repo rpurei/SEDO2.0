@@ -1,0 +1,144 @@
+<div class="card">
+    <p-menubar [model]="tieredItems">
+      <ng-template pTemplate="end">
+        <button (click)="display=true" pButton label="Создать задачу"></button>
+      </ng-template>
+    </p-menubar>
+  <div class="grid mt-5">
+    <div class="col-12 md:col-4">
+      <div class="card">
+        <div class="m-2 flex">
+          <button
+            class="p-button-outlined p-button-info mr-2"
+            icon="pi pi-sort-alpha-down"
+            (click)="sort('text')"
+            pButton
+            type="button"
+          ></button>
+          <button
+            class="p-button-outlined p-button-info mr-2"
+            icon="pi pi-sort-numeric-down"
+            (click)="sort('date')"
+            pButton
+            type="button"
+          ></button>
+          <span class="pi p-input-icon-right p-fluid"
+                style="width: 100%">
+                        <input
+                          (input)="filterTasks(search)"
+                          [(ngModel)]="search"
+                          placeholder="Название события"
+                          style="height: 37px; width: 100%"
+                          type="text">
+                        <i class="pi pi-search"></i>
+                    </span>
+        </div>
+        <div *ngIf="loading">
+          <div class="border-round border-1 surface-border p-4 mb-2 mt-2">
+            <div class="flex mb-3">
+              <p-skeleton width="10rem" styleClass="mb-2"></p-skeleton>
+              <p-skeleton width="5rem" styleClass="ml-2"></p-skeleton>
+            </div>
+            <p-skeleton width="10rem" styleClass="mt-5"></p-skeleton>
+          </div>
+          <div class="border-round border-1 surface-border p-4 mb-2 mt-2">
+            <div class="flex mb-3">
+              <p-skeleton width="10rem" styleClass="mb-2"></p-skeleton>
+              <p-skeleton width="5rem" styleClass="ml-2"></p-skeleton>
+            </div>
+            <p-skeleton width="10rem" styleClass="mt-5"></p-skeleton>
+          </div>
+          <div class="border-round border-1 surface-border p-4 mb-2 mt-2">
+            <div class="flex mb-3">
+              <p-skeleton width="10rem" styleClass="mb-2"></p-skeleton>
+              <p-skeleton width="5rem" styleClass="ml-2"></p-skeleton>
+            </div>
+            <p-skeleton width="10rem" styleClass="mt-5"></p-skeleton>
+          </div>
+          <div class="border-round border-1 surface-border p-4 mb-2 mt-2">
+            <div class="flex mb-3">
+              <p-skeleton width="10rem" styleClass="mb-2"></p-skeleton>
+              <p-skeleton width="5rem" styleClass="ml-2"></p-skeleton>
+            </div>
+            <p-skeleton width="10rem" styleClass="mt-5"></p-skeleton>
+          </div>
+          <div class="border-round border-1 surface-border p-4 mb-2 mt-2">
+            <div class="flex mb-3">
+              <p-skeleton width="10rem" styleClass="mb-2"></p-skeleton>
+              <p-skeleton width="5rem" styleClass="ml-2"></p-skeleton>
+            </div>
+            <p-skeleton width="10rem" styleClass="mt-5"></p-skeleton>
+          </div>
+        </div>
+        <div *ngIf="!loading">
+          <div *ngFor="let taskShort of tasksShort"
+               class="hover:shadow-1 transition-delay-50 transition-colors transition-duration-300 hover:bg-gray-100 active:bg-gray-200 hover:text-gray-900
+    border-round cursor-pointer my-3 mx-2 p-4 border-1 border-gray-500">
+            <div class="flex justify-content-between">
+              <p>{{taskShort.title}}</p>
+              <p>{{taskShort.dateStart | date: 'dd.MM.YYYY HH:MM' }}</p>
+            </div>
+            <p>{{taskShort.author}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-task class="col-12 md:col-8"></app-task>
+  </div>
+</div>
+<p-dialog header="Создать задачу на исполнение" [(visible)]="display" [modal]="true" showEffect="fade"
+          [style]="{width: '70vw'}" [breakpoints]="{'960px': '75vw'}">
+  <!--    [(ngModel)]="eventDetail.className.name"-->
+
+  <p-dropdown
+    [options]="cities"
+    optionLabel="name"
+    styleClass="w-full mb-2"
+  ></p-dropdown>
+  <p-dropdown
+    [options]="cities"
+    optionLabel="name"
+    styleClass="w-full mb-2"
+  ></p-dropdown>
+  <div class="card">
+    <h4>Список исполнителей</h4>
+    <div class="flex">
+      <p-dropdown
+        [options]="cities"
+        optionLabel="name"
+        class="mr-3"
+        styleClass="w-full"
+      ></p-dropdown>
+      <p-calendar
+        [showTime]="true"
+        class="mr-3"
+        styleClass="w-full"
+      ></p-calendar>
+      <button pButton>Добавить</button>
+      <!--        [value]="customers3"-->
+      <!--        (onSort)="onSort()"-->
+    </div>
+    <div>
+      <p-table [value]="people" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Имя</th>
+            <th>Дата</th>
+            <th>Действия</th>
+
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-people>
+          <tr>
+            <td>{{ people.name }}</td>
+            <td>{{ people.date | date: 'dd.MM.YYYY HH:MM' }}</td>
+            <td><button pButton>Удалить</button></td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <button pButton icon="pi pi-check" (click)="display=false" label="Да" class="p-button-outlined"></button>
+  </ng-template>
+</p-dialog>

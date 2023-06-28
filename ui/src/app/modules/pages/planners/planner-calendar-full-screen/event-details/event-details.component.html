@@ -1,0 +1,502 @@
+
+<div *ngIf="eventDetail"
+     class="card">
+    <div>
+        <!--        <h4 *ngIf="isChange">Карточка события мероприятия:</h4>-->
+        <textarea *ngIf="isChange"
+                  placeholder="Название события"
+                  [(ngModel)]="eventDetail.title"
+                  [autoResize]="true"
+                  class="w-full mb-5"
+                  pInputTextarea
+                  rows="1"></textarea>
+    </div>
+    <div class="grid formgrid">
+
+        <div class="col mb-5">
+            <h5 *ngIf="!isChange">Тип события</h5>
+            <p-autoComplete (completeMethod)="filterEventType($event)"
+                            *ngIf="isChange"
+                            placeholder="Тип события"
+                            [(ngModel)]="eventDetail.typeEvent"
+                            [dropdown]="true"
+                            [suggestions]="filteredEventsType"
+                            field="name"
+                            styleClass="w-full"
+            ></p-autoComplete>
+            <p *ngIf="!isChange">{{eventDetail.typeEvent.name ? eventDetail.typeEvent.name : 'Поле не указано'}}</p>
+            <div *ngIf="eventDetail.typeEvent.name === 'Комитет'"
+                 class="mt-5">
+                <h5 *ngIf="!isChange">Вид комитета</h5>
+                <p-autoComplete (completeMethod)="filterCommitteeType($event)"
+                                (onSelect)="changeCommittee(committeeType)"
+                                *ngIf="isChange"
+                                [(ngModel)]="committeeType"
+                                [dropdown]="true"
+                                [suggestions]="filteredCommitteeTypes"
+                                field="name"
+                                placeholder="Вид комитета"
+                                styleClass="w-full"
+                ></p-autoComplete>
+            </div>
+        </div>
+        <div class="col mb-5 w-full">
+            <div *ngIf="!isChange">
+                <h5>Период проведения события</h5>
+                <p
+                >{{dateStart | date: 'dd.MM.YY HH:mm' }} - {{dateEnd | date:'dd.MM.YY HH:mm' }}</p>
+            </div>
+            <div *ngIf="isChange"
+                 class="flex ">
+                <div class="mr-5">
+                    <h5 *ngIf="!isChange">Начало события</h5>
+                    <p-calendar
+                            [(ngModel)]="this.eventDetail.dateStart"
+                            pTooltip="Начало события"
+                            placeholder="Начало события"
+                            [showTime]="true"
+                            dateFormat="dd.mm.yy"
+                            styleClass="w-full"
+
+                    ></p-calendar>
+                </div>
+                <div>
+                    <h5 *ngIf="!isChange">Конец события</h5>
+                    <p-calendar
+                            [(ngModel)]="this.eventDetail.dateEnd"
+                            pTooltip="Конец события"
+                            placeholder="Конец события"
+                            [showTime]="true"
+                            dateFormat="dd.mm.yy"
+                            styleClass="w-full"
+                    ></p-calendar>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="grid formgrid">
+        <div class="col mb-5">
+            <h5 *ngIf="!isChange">Описание события</h5>
+            <textarea *ngIf="isChange"
+                      [(ngModel)]="eventDetail.descriptionEvent"
+                      pInputTextarea
+                      placeholder="Описание события"
+                      style="width: 100%"
+            ></textarea>
+            <p *ngIf="!isChange">{{eventDetail.descriptionEvent ? eventDetail.descriptionEvent : 'Поле не указано'}}</p>
+        </div>
+        <div class="col mb-2">
+            <h5 *ngIf="!isChange">Помещение</h5>
+            <p-autoComplete (completeMethod)="filterRoom($event)"
+                            *ngIf="isChange"
+                            [(ngModel)]="eventDetail.room"
+                            [dropdown]="true"
+                            placeholder="Помещение"
+                            [suggestions]="filteredRooms"
+                            field="name"
+                            styleClass="w-full"
+            ></p-autoComplete>
+            <p *ngIf="!isChange">{{eventDetail.room.name ? eventDetail.room.name : 'Поле не указано'}}</p>
+        </div>
+    </div>
+    <div class="grid formgrid">
+        <div class="col ">
+            <h5 *ngIf="!isChange">Организация</h5>
+            <p-autoComplete (completeMethod)="filterOrganization($event)"
+                            *ngIf="isChange"
+                            (onSelect)="selectOrganization(selectedOrganization)"
+                            [(ngModel)]="selectedOrganization"
+                            placeholder="Организация"
+                            [dropdown]="true"
+                            [suggestions]="filteredOrganization"
+                            field="name"
+                            styleClass="w-full"
+            ></p-autoComplete>
+            <p *ngIf="!isChange"
+            >{{eventDetail.organization.name ? eventDetail.organization.name : 'Поле не указано'}}</p>
+        </div>
+        <div class="col">
+            <h5 *ngIf="!isChange">Компания</h5>
+            <p-dropdown *ngIf="isChange"
+                        (onChange)="selectCompany(eventDetail.organization)"
+                        [(ngModel)]="eventDetail.organization"
+                        [options]="selectedOrganization.children"
+                        placeholder="Выберете компанию"
+                        optionLabel="name"
+                        styleClass="w-full"
+            ></p-dropdown>
+            <p
+                    *ngIf="!isChange">{{eventDetail.subDiv.name ? eventDetail.subDiv.name :
+                'Поле не указано'}}</p>
+        </div>
+    </div>
+</div>
+<p-tabMenu (activeItemChange)="onActiveItemChange($event)"
+           [activeItem]="activeItem"
+           [model]="items"
+           styleClass="align-center"
+></p-tabMenu>
+<div class="card mt-5">
+    <div *ngIf="this.activeItem.label === 'Участники'">
+        <div *ngIf="visibleAddNewParticipants"
+             class="card mb-5">
+            <div class="flex mb-5 justify-content-between">
+                <h4>Добавить нового участника</h4>
+            </div>
+            <div>
+                <p-autoComplete (completeMethod)="filterUsers($event)"
+                                [(ngModel)]="selectUser"
+                                [dropdown]="true"
+                                [size]="40"
+                                [suggestions]="filteredUsers"
+                                [virtualScrollItemSize]="40"
+                                [virtualScroll]="true"
+                                field="name"
+                                class="mr-5"
+                                placeholder="Выбрать сотрудника"
+                ></p-autoComplete>
+                <p-autoComplete (completeMethod)="filterRole($event)"
+                                [(ngModel)]="selectRole"
+                                [dropdown]="true"
+                                [size]="40"
+                                [suggestions]="filteredRole"
+                                [virtualScrollItemSize]="40"
+                                [virtualScroll]="true"
+                                field="name"
+                                class="mr-5"
+                                placeholder="Выбрать роль"
+                ></p-autoComplete>
+                <button
+                        (click)="addNewParticipants()"
+                        class="p-button-outlined p-button-info mr-5"
+                        icon="pi pi-plus"
+                        label="Добавить"
+                        pButton
+                        pTooltip="Добавить нового участника"
+                ></button>
+                <button
+                        (click)="visibleAddNewParticipants = false"
+                        class="p-button-outlined p-button-danger  mr-5"
+                        icon="pi pi-times"
+                        pButton
+                        pTooltip="Закрыть"
+                ></button>
+            </div>
+
+        </div>
+        <div class="mb-5">
+            <span class="p-input-icon-left mb-2">
+            <i class="pi pi-search"></i>
+            <input #filter
+                   (input)="onGlobalFilter(dt1, $event)"
+                   class="w-full"
+                   pInputText
+                   placeholder="Поиск"
+                   type="text"
+            />
+          </span>
+        </div>
+        <p-table #dt1
+                 [globalFilterFields]="['user.name']"
+                 [loading]="loading"
+                 [paginator]="true"
+                 [rowHover]="true"
+                 [rows]="10"
+                 [value]="this.eventDetail.participants"
+                 dataKey="id"
+                 responsiveLayout="scroll"
+                 styleClass="p-datatable-gridlines"
+        >
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="text-center">№</th>
+                    <th>
+                        <span>Уведомление</span>
+                    </th>
+                    <th style="min-width: 14rem">
+                        <span>Сотрудник</span>
+                    </th>
+                    <th>
+                        <span>Роль</span>
+                    </th>
+                    <th class="text-right"
+                        style="max-width: 10rem">
+                        <button
+                                (click)="addParticipants()"
+                                class="p-button-outlined p-button-success"
+                                icon="pi pi-plus"
+                                label="Добавить"
+                                pButton
+                                pTooltip="Добавить нового сотрудника"
+                        ></button>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template
+                    [ngForOf]="this.eventDetail.participants"
+                    let-participant
+
+                    ngFor
+                    pTemplate="body"
+            >
+                <tr>
+                    <td class="text-center">
+                        {{ this.eventDetail.participants.indexOf(participant) + 1 }}
+                    </td>
+                    <td>
+                        {{ participant.isKnow }}
+                    </td>
+                    <td>
+                        {{ participant.user.name }}
+                    </td>
+                    <td>
+                        {{ participant.role.name }}
+                    </td>
+                    <td class="text-right">
+                        <div>
+                            <!--                            <button class="p-button-rounded p-button-outlined mr-2"-->
+                            <!--                                    icon="pi pi-user"-->
+                            <!--                                    pButton-->
+                            <!--                                    pTooltip="Делегировать"-->
+                            <!--                                    style="font-size: 1rem"-->
+                            <!--                                    type="button"-->
+                            <!--                            ></button>-->
+                            <p-toast></p-toast>
+                            <button (click)="deleteParticipant($event,
+                            this.eventDetail.participants.indexOf(participant))"
+                                    class="p-button-danger p-button-outlined"
+                                    icon="pi pi-trash"
+                                    pButton
+                                    pTooltip="Удалить"
+                                    style="font-size: 1rem"
+                                    type="button"
+                            ></button>
+                            <p-confirmPopup key="deleteParticipant"></p-confirmPopup>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8">Список сотрудников пуст</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="8">Загрузка данных...</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <div *ngIf="this.activeItem.label === 'Информация к событию'">
+        <div class="mb-5">
+            <div *ngIf="visibleAddNewFiles">
+                <p-toast></p-toast>
+                <p-fileUpload (onUpload)="onDownload($event)"
+                              [maxFileSize]="1000000"
+                              [multiple]="true"
+                              name="demo[]"
+                              url="http://localhost:3000/file">
+                    <ng-template pTemplate="content">
+                        <ul *ngIf="uploadedFiles.length">
+                            <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }}
+                                                                                   bytes
+                            </li>
+                        </ul>
+                    </ng-template>
+                </p-fileUpload>
+            </div>
+            <h5>{{activeItem.label}}</h5>
+            <span class="p-input-icon-left mb-2">
+            <i class="pi pi-search"></i>
+            <input #filter
+                   (input)="onGlobalFilter(dt1, $event)"
+                   class="w-full"
+                   pInputText
+                   placeholder="Поиск"
+                   type="text"
+            />
+          </span>
+        </div>
+        <p-table
+            #dt1
+            [globalFilterFields]="['name', 'author']"
+            [loading]="loading"
+            [paginator]="true"
+            [rowHover]="true"
+            [rows]="10"
+            [value]="this.eventDetail.files"
+            dataKey="id"
+            responsiveLayout="scroll"
+            styleClass="p-datatable-gridlines"
+        >
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="text-center">№</th>
+                    <th style="min-width: 14rem">
+                        <span>Файл</span>
+                    </th>
+                    <th style="min-width: 14rem">
+                        <span>Сотрудник</span>
+                    </th>
+                    <th>
+                        <button
+                                (click)="addFile()"
+                                class="p-button-outlined p-button-success"
+                                icon="pi pi-plus"
+                                label="Добавить файл"
+                                pButton
+                                pTooltip="Добавить файл"
+                        ></button>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template
+                let-file
+                pTemplate="body"
+            >
+                <tr>
+                    <td>
+                        {{ this.eventDetail.files.indexOf(file) + 1 }}
+                    </td>
+                    <td>
+                        {{ file.name }}
+                    </td>
+                    <td>
+                        {{ file.author }}
+                    </td>
+                    <td class="text-center">
+                        <div class="flex ">
+                            <button class="p-button-rounded p-button-outlined mr-2"
+                                    icon="pi pi-save"
+                                    pButton
+                                    pTooltip="Скачать файл"
+                                    style="font-size: 1rem"
+                                    type="button"
+                            ></button>
+                            <p-toast></p-toast>
+                            <button (click)="deleteFile($event,
+                            this.eventDetail.files.indexOf(file))"
+                                    class="p-button-rounded p-button-danger p-button-outlined"
+                                    icon="pi pi-trash"
+                                    pButton
+                                    pTooltip="Удалить"
+                                    style="font-size: 1rem"
+                                    type="button"
+                            ></button>
+                            <p-confirmPopup key="deleteFile"></p-confirmPopup>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8">Данные не найдены</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="8">Загрузка данных...</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <!--    <div *ngIf="this.activeItem.label === 'Оценка'">-->
+    <!--        <h5>{{activeItem.label}}</h5>-->
+
+    <!--        <div class="flex justify-content-between mb-3">-->
+    <!--            <p-autoComplete-->
+    <!--                    (completeMethod)="filterCountry($event)"-->
+    <!--                    [(ngModel)]="selectedOrganisation"-->
+    <!--                    [dropdown]="true"-->
+    <!--                    [suggestions]="filteredCountries"-->
+    <!--                    class="w-8"-->
+    <!--                    field="name"-->
+    <!--                    placeholder="Нарушение"-->
+    <!--                    styleClass="w-12"-->
+    <!--            ></p-autoComplete>-->
+    <!--            <input-->
+    <!--                    class="w-3"-->
+    <!--                    pInputText-->
+    <!--                    placeholder="Сумма"-->
+    <!--                    type="text"-->
+    <!--            />-->
+    <!--        </div>-->
+    <!--        <div class="flex justify-content-between mb-3">-->
+    <!--            <p-autoComplete-->
+    <!--                    (completeMethod)="filterCountry($event)"-->
+    <!--                    [(ngModel)]="selectedOrganisation"-->
+    <!--                    [dropdown]="true"-->
+    <!--                    [suggestions]="filteredCountries"-->
+    <!--                    class="w-8"-->
+    <!--                    field="name"-->
+    <!--                    placeholder="Участник"-->
+    <!--                    styleClass="w-12"-->
+    <!--            ></p-autoComplete>-->
+    <!--            <input-->
+    <!--                    class="w-3"-->
+    <!--                    pInputText-->
+    <!--                    placeholder="Часов просрочки"-->
+    <!--                    type="text"-->
+    <!--            />-->
+    <!--        </div>-->
+    <!--        <div class="flex justify-content-between mb-3">-->
+    <!--            <input-->
+    <!--                    class="w-8"-->
+    <!--                    pInputText-->
+    <!--                    placeholder="Комментарий"-->
+    <!--                    type="text"-->
+    <!--            />-->
+    <!--            <button pButton>Добавить</button>-->
+    <!--        </div>-->
+    <!--    </div>-->
+
+    <!--    <div *ngIf="this.activeItem.label === 'Протокол'">-->
+    <!--        <h5>{{activeItem.label}}</h5>-->
+    <!--        <div>-->
+    <!--            <p-fileUpload-->
+    <!--                    (onUpload)="onUpload($event)"-->
+    <!--                    [maxFileSize]="1000000"-->
+    <!--                    [multiple]="true"-->
+    <!--                    accept=".pdf, .doc, .docx"-->
+    <!--                    name="demo[]"-->
+    <!--                    url="./upload.php">-->
+    <!--                <ng-template pTemplate="content">-->
+    <!--                    <ul *ngIf="uploadedFiles.length">-->
+    <!--                        <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}}-->
+    <!--                                                                             байт-->
+    <!--                        </li>-->
+    <!--                    </ul>-->
+    <!--                </ng-template>-->
+    <!--            </p-fileUpload>-->
+    <!--        </div>-->
+    <!--        <div>-->
+    <!--            <div class="flex justify-content-between mb-5">-->
+    <!--                <p>Название файла</p>-->
+    <!--                <button-->
+    <!--                        class="p-button-warning"-->
+    <!--                        icon="pi pi-save"-->
+    <!--                        pButton>-->
+    <!--                </button>-->
+    <!--            </div>-->
+    <!--            <div class="flex justify-content-end">-->
+    <!--                <button-->
+    <!--                        (click)="visibleModification = true"-->
+    <!--                        class="p-button-danger mr-2"-->
+    <!--                        icon="pi pi-exclamation-circle"-->
+    <!--                        label="Отправить на доработку"-->
+    <!--                        pButton>-->
+    <!--                </button>-->
+    <!--                <button-->
+    <!--                        icon="pi pi-check"-->
+    <!--                        label="Утвердить"-->
+    <!--                        pButton>-->
+    <!--                </button>-->
+
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+</div>
