@@ -127,15 +127,22 @@ export class EventApiServiceConvert {
     }
     
     convertApiShortToCalendarEventAction(apiEvents: IEventFromApi1C[]): CalendarEvent[] {
+        function eventType(eventType: string): string {
+            if (eventType === 'Комитет') {
+                return '';
+            } else return eventType;
+        }
+    
         return apiEvents.map(event => ({
             start: addDays(new Date(event.start), 0),
             id: event.guid,
             end: addDays(new Date(event.end), 0),
-            title: `Начало мероприятия в <b>${format(new Date(event.start), 'HH:mm')}</b> ${event.type} ${event.title} ${event.className}`, //TODO: Добавить автора события из 1С
+            title: `Начало мероприятия в <b>${format(new Date(event.start), 'HH:mm')}</b> ${eventType(event.type)} ${event.title} ${event.className}`, //TODO: Добавить автора события из 1С
             meta: event.className,
             color: this.changeColor(event.type), //TODO: Добавить настройки цвета в зависимости от типа мероприятия
         }));
     }
+    
     
     convertApiDetailsToCalendarEventAction(value: any) {
         value = value * 2;

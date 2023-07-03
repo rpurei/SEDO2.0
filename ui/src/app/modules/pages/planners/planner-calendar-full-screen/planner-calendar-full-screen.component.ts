@@ -171,6 +171,7 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
     // onGlobalFilter(table: Table, event: Event) {
     //     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     // }
+    test: any = 20;
     
     showEventDetails(id: string) {
         let userId = JSON.parse(localStorage.getItem('user')!).id;

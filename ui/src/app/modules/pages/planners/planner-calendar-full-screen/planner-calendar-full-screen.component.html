@@ -1,6 +1,6 @@
 <div class="card mb-5">
     <div class="row text-center">
-        <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):locale }}</h3>
+        <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):locale | uppercase }}</h3>
         <div class="flex justify-content-between mb-5">
             <div class="flex flex-column align-items-start">
                 <div class="text-left mb-3">
@@ -43,12 +43,11 @@
                         pRipple
                 ></button>
 				<button [(viewDate)]="viewDate"
-                        [loading]="(loaderService.isLoading | async) || false"
                         class="p-button-outlined"
                         mwlCalendarToday
                         pButton
                         pRipple
-                >{{nowDate | calendarDate:(view + 'ViewTitle'):locale }}</button>
+                >{{nowDate | calendarDate:(view + 'ViewTitle'):locale | uppercase }}</button>
             <button (viewDateChange)="closeOpenMonthViewDay()"
                     [(viewDate)]="viewDate"
                     [view]="view"
@@ -131,8 +130,7 @@
         <p-divider></p-divider>
     </div>
     <div [ngSwitch]="view"
-         class="mt-5">
-
+         class="mt-5 text-uppercase">
         <mwl-calendar-month-view (dayClicked)="dayClicked($event.day)"
                                  (eventClicked)="handleEvent('Clicked', $event.event)"
                                  (eventTimesChanged)="eventTimesChanged($event)"
@@ -143,6 +141,7 @@
                                  [refresh]="refresh"
                                  [viewDate]="viewDate"
                                  [weekStartsOn]="weekStartsOn"
+                                 pStyleClass="test"
         ></mwl-calendar-month-view>
         <mwl-calendar-week-view (eventClicked)="handleEvent('Clicked', $event.event)"
                                 [dayStartHour]="7"
