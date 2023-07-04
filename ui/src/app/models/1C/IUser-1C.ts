@@ -1,4 +1,6 @@
-export interface IUserDetailFrom1C {
+import { IOptions1C } from './IOptions-1C';
+
+export interface IUserDetailListFrom1C {
     birthday: string;
     div: string;
     email: string;
@@ -10,4 +12,17 @@ export interface IUserDetailFrom1C {
     position: string;
     skype: string;
     subdivision: string;
+}
+
+export interface IUserDetailsFrom1C {
+    boss: IOptions1C,
+    div: IOptions1C,
+    email: string,
+    gender: number,
+    guid: string,
+    name: string,
+    photo: string,
+    position: IOptions1C,
+    subdiv: IOptions1C,
+    userRole: string
 }

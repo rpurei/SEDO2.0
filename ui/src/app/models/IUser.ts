@@ -1,16 +1,16 @@
 import { IOption } from './IOption';
 
-export class IUser {
-    id?: number;
-    login?: string;
-    full_name?: string;
-    password?: string;
-    email?: string;
-    auth_source?: number;
-    active?: boolean;
-    roles?: string[];
-    created?: string;
-    updated?: string;
+export interface IUser {
+    boss: IOption,
+    div: IOption,
+    email: string,
+    gender: number,
+    id: string,
+    name: string,
+    photo: string,
+    position: IOption,
+    subdiv: IOption,
+    roles?: string
 }
 
 export interface IUserCapsule {
@@ -19,7 +19,7 @@ export interface IUserCapsule {
     name: string;
 }
 
-export interface IUserDetail {
+export interface IUserDetailList {
     id: string;
     name: string;
     gender: number;
@@ -43,4 +43,17 @@ export interface IParticipant {
     role: IOption;
     presence: string;
     presenceRus: string;
+}
+
+export interface IUserDetails {
+    boss: IOption,
+    div: IOption,
+    email: string,
+    gender: number,
+    id: string,
+    name: string,
+    photo: string,
+    position: IOption,
+    subdiv: IOption,
+    userRole: string
 }

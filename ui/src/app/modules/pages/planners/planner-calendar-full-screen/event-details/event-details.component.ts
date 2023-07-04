@@ -7,7 +7,7 @@ import { AlertService } from '../../../../../services/alert/alert.service';
 import { IRoom } from '../../../../../models/IRoom';
 import { OrganizationService } from '../../../../../services/organization.service';
 import { IOrganization } from '../../../../../models/IOrganization';
-import { IParticipant, IUserDetail } from '../../../../../models/IUser';
+import { IParticipant, IUserDetailList } from '../../../../../models/IUser';
 import { ConfirmationService } from 'primeng/api';
 import { RoleService } from '../../../../../services/role.service';
 import { IRole } from '../../../../../models/IRole';
@@ -31,7 +31,7 @@ export class EventDetailsComponent implements OnInit {
     @Input() isChange: boolean = false;
     @Input() rooms: IRoom[] = [];
     @Input() eventDetail: IEventDetails = {} as IEventDetails;
-    @Input() users: IUserDetail[] = [];
+    @Input() users: IUserDetailList[] = [];
     selectedOrganisation: string = '';
     dateStart: Date = new Date();
     dateEnd: Date = new Date();
@@ -43,8 +43,8 @@ export class EventDetailsComponent implements OnInit {
     organization: IOrganization[] = [];
     filteredOrganization: IOrganization[] = [];
     participants: IParticipant[] = [];
-    filteredUsers: IUserDetail[] = [];
-    selectUser: IUserDetail = {} as IUserDetail;
+    filteredUsers: IUserDetailList[] = [];
+    selectUser: IUserDetailList = {} as IUserDetailList;
     roleEvent: IRole[] = [];
     filteredRole: IRole[] = [];
     selectRole: IRole = {} as IRole;
@@ -122,14 +122,14 @@ export class EventDetailsComponent implements OnInit {
             user.role.type = 'Справочник.гкРолиВСовещании';
             this.eventDetail.participants.push(user);
             this.selectRole = {} as IRole;
-            this.selectUser = {} as IUserDetail;
+            this.selectUser = {} as IUserDetailList;
             this.alertService.success('Пользователь успешно добавлен. Для сохранения изменений нажмите кнопку "Сохранить"');
             console.log(this.eventDetail.participants);
         }
     }
     
     filterUsers(event: any) {
-        const filteredType: IUserDetail[] = [];
+        const filteredType: IUserDetailList[] = [];
         const query = event.query;
         for (let i = 0; i < this.users.length; i++) {
             const type = this.users[i];

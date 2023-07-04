@@ -5,6 +5,7 @@ import { LayoutService } from '../../services/layout.service';
 import { TopbarComponent } from './components/topbar/topbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { AuthService } from '../../services/auth.service';
+import { AlertService } from '../../services/alert/alert.service';
 
 @Component({
     selector: 'app-pages',
@@ -54,7 +55,8 @@ export class PagesComponent implements OnDestroy, OnInit {
         public layoutService: LayoutService,
         public renderer: Renderer2,
         public router: Router,
-        private authService: AuthService
+        private authService: AuthService,
+        private alertService: AlertService,
     ) {
         this.overlayMenuOpenSubscription = this.layoutService.overlayOpen$.subscribe(() => {
             if (!this.menuOutsideClickListener) {
@@ -161,11 +163,15 @@ export class PagesComponent implements OnDestroy, OnInit {
         }
     }
     
-    ngOnInit() {
+    getUser(): any {
         this.authService.getUserDetails().subscribe({
             next: value => {
-                console.log(value);
-            }
+                return value;
+            }, error: error => this.alertService.errorApi(error)
         });
+    }
+    
+    ngOnInit() {
+    
     }
 }

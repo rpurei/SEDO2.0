@@ -2,20 +2,22 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { IUser } from '../models/IUser';
+import { IUser, IUserDetails } from '../models/IUser';
 import { Auth1CService } from './1C/api/auth.service';
 import { Users1CService } from './1C/api/users.service';
+import { AlertService } from './alert/alert.service';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
-    private userSubject: BehaviorSubject<IUser | null> | undefined;
-    public user: Observable<IUser | null> | undefined;
+    private userSubject: BehaviorSubject<IUser>;
+    public user: Observable<IUser>;
     
     constructor(
         private router: Router,
         private http: HttpClient,
         private authService: Auth1CService,
-        private users1CService: Users1CService
+        private users1CService: Users1CService,
+        public alertService: AlertService
     ) {
         this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
         this.user = this.userSubject.asObservable();
@@ -40,21 +42,23 @@ export class AuthService {
     
     logout() {
         localStorage.removeItem('user');
-        // this.userSubject?.next(null);
+        this.userSubject?.next(null as unknown as IUser);
         this.router.navigate(['/login']);
+        console.log(this.userSubject.value);
     }
     
-    public getUserId(): string {
-        const userJson = localStorage.getItem('user');
+    public getUserId() {
+        const userJson = this.currentUser.id;
         if (userJson) {
-            const user = JSON.parse(userJson);
-            return user?.id || '';
+            return userJson;
+        } else {
+            this.alertService.error('Ошибка получения данных.');
         }
         return '';
     }
     
-    public getUserDetails(): Observable<any> {
-        let id = JSON.parse(localStorage.getItem('user')!).id;
+    public getUserDetails(): Observable<IUserDetails> {
+        let id = this.currentUser.id;
         return this.users1CService.getUserById(id);
     }
     

@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IOrganization1C } from '../../../models/1C/IOrganization-1C';
+import { Auth1CService } from './auth.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class Organizations1CService {
     
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private auth1CService: Auth1CService) {
     }
     
     URL: string = 'https://api.zdmail.ru/service';
@@ -17,7 +18,7 @@ export class Organizations1CService {
     public getAllOrganizations(): Observable<any> {
         return this.http.post<IOrganization1C[]>(this.URL, {
             method: 'org',
-            user: JSON.parse(localStorage.getItem('user')!).id
+            user: this.auth1CService.getUserId()
         });
     }
     

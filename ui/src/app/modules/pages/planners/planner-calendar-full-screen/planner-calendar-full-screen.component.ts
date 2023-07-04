@@ -12,7 +12,7 @@ import { AlertService } from '../../../../services/alert/alert.service';
 import { RoomsService } from '../../../../services/rooms.service';
 import { IRoom } from '../../../../models/IRoom';
 import { UsersService } from '../../../../services/users.service';
-import { IUserDetail } from '../../../../models/IUser';
+import { IUserDetailList } from '../../../../models/IUser';
 import { IEventDetails } from '../../../../models/IEvent';
 import { AuthService } from '../../../../services/auth.service';
 import { LoaderService } from '../../../../services/loader.service';
@@ -52,9 +52,9 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
     filteredRooms: IRoom[] = [];
     events: CalendarEvent[] = [];
     allEvents: CalendarEvent[] = [];
-    users: IUserDetail[] = [];
-    filteredUsers: IUserDetail[] = [];
-    selectUser!: IUserDetail;
+    users: IUserDetailList[] = [];
+    filteredUsers: IUserDetailList[] = [];
+    selectUser!: IUserDetailList;
     activeDayIsOpen: boolean = true;
     nowDate: Date = new Date();
     display: boolean = false;
@@ -89,7 +89,7 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
         this.filteredUsers = this.userService.filterUsers(this.users, event);
     }
     
-    getEventFroUser(selectUser: IUserDetail) {
+    getEventFroUser(selectUser: IUserDetailList) {
         this.loaderService.isLoading.next(true);
         this.apiEventService.getEventsShort(selectUser.id, false).subscribe(value => {
             this.events = value;
@@ -137,7 +137,7 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
         
         forkJoin([
             this.authService.verifyToken(),
-            this.userService.getAllUsersDetail(),
+            this.userService.getUsersList(),
             this.roomsService.getAllRooms(),
             this.apiEventService.getEventsShort(this.authService.getUserId(), false),
         ]).pipe(

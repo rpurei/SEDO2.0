@@ -1,23 +1,31 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IUserDetailFrom1C } from '../../../models/1C/IUser-1C';
+import { IUserDetailListFrom1C, IUserDetailsFrom1C } from '../../../models/1C/IUser-1C';
+import { Auth1CService } from './auth.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class Users1CService {
-    url = '/api/users/';
     
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private auth1CService: Auth1CService) {
     }
+    
     
     URL: string = 'https://api.zdmail.ru/service';
     
-    public getAllUsersDetail(): Observable<any> {
-        return this.http.post<IUserDetailFrom1C[]>(this.URL, {
+    public getAllUsers(): Observable<any> {
+        return this.http.post<IUserDetailListFrom1C[]>(this.URL, {
             method: 'phonebookFile',
-            user: JSON.parse(localStorage.getItem('user')!).id
+            user: this.auth1CService.getUserId()
+        });
+    }
+    
+    public getUserDetails(): Observable<any> {
+        return this.http.post<IUserDetailsFrom1C>(this.URL, {
+            method: 'userDetails',
+            user: this.auth1CService.getUserId()
         });
     }
     
@@ -34,7 +42,7 @@ export class Users1CService {
     // }
     //
     public getUserById(id: string): Observable<any> {
-        return this.http.post<IUserDetailFrom1C>(this.URL, {
+        return this.http.post<IUserDetailListFrom1C>(this.URL, {
             method: 'userDetails',
             user: id
         });

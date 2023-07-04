@@ -3,9 +3,9 @@ import { catchError, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Users1CService } from './1C/api/users.service';
-import { IUserDetail, } from '../models/IUser';
+import { IUserDetailList, } from '../models/IUser';
 import { UserConvert1cService } from './1C/api/convert/user-convert-1c.service';
-import { IUserDetailFrom1C } from '../models/1C/IUser-1C';
+import { IUserDetailListFrom1C } from '../models/1C/IUser-1C';
 
 
 @Injectable({
@@ -15,20 +15,35 @@ export class UsersService {
     constructor(private users1CService: Users1CService, private usersConvertService: UserConvert1cService) {
     }
     
-    public getAllUsersDetail(): Observable<IUserDetail[]> {
-        if (environment.backend ==='1c') {
-            const events$: Observable<IUserDetailFrom1C[]> = this.users1CService.getAllUsersDetail();
+    public getUsersList(): Observable<IUserDetailList[]> {
+        if (environment.backend === '1c') {
+            const events$: Observable<IUserDetailListFrom1C[]> = this.users1CService.getAllUsers();
             return events$.pipe(
-                map(apiEvents => this.usersConvertService.convertApiUser(apiEvents)),
+                map(apiEvents => this.usersConvertService.convertApiUserList(apiEvents)),
                 catchError(error => {
                     console.log(error);
-                    return of([] as IUserDetail[]);
+                    return of([] as IUserDetailList[]);
                 })
             );
-        } return of([] as IUserDetail[]);
+        }
+        return of([] as IUserDetailList[]);
     }
-    public filterUsers(allRooms: IUserDetail[], event: any) {
-        let filtered: IUserDetail[] = [];
+    
+    // public getUserDetails(): Observable<IUser> {
+    //     if (environment.backend === '1c') {
+    //        this.users1CService.getUserDetails().subscribe({next: values => {
+    //                return this.usersConvertService.convertUserDetails(values)
+    //            }, error: error => {
+    //                console.log(error);
+    //                return of({} as IUser);
+    //            }}
+    //         );
+    //     }
+    //     return of({} as IUser);
+    // }
+    
+    public filterUsers(allRooms: IUserDetailList[], event: any) {
+        let filtered: IUserDetailList[] = [];
         let query = event.query;
         for (let i = 0; i < allRooms.length; i++) {
             let user = allRooms[i];

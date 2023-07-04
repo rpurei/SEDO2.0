@@ -11,6 +11,14 @@ export class Auth1CService {
     constructor(private http: HttpClient) {
     }
     
+    getUserId(): string {
+        let user = localStorage.getItem('user');
+        if (user === null) {
+            return '';
+        }
+        return JSON.parse(user).id;
+    }
+    
     public login1C(username: string, password: string): Observable<any> {
         const formData = new FormData();
         formData.append('username', username);

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IEventDetailsFrom1C, IEventFromApi1C } from '../../../models/1C/IEvent-1C';
 import { ICommittee1C, IOptions1C, IRoomsList1C } from '../../../models/1C/IOptions-1C';
+import { Auth1CService } from './auth.service';
 
 
 @Injectable({
@@ -10,13 +11,10 @@ import { ICommittee1C, IOptions1C, IRoomsList1C } from '../../../models/1C/IOpti
 })
 export class Events1CService {
     
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private auth1CService: Auth1CService) {
     }
     
     URL: string = 'https://api.zdmail.ru/service';
-    
-    method: string = 'method';
-    guid: string = '96f32757-cb70-11ec-b5b3-0050569a9811';
     
     public getAllEventsShortFrom1C(id: string): Observable<any> {
         return this.http.post<IEventFromApi1C[]>(this.URL, {
@@ -50,8 +48,7 @@ export class Events1CService {
     }
     
     public createNewEvent(method: string, eventDetails: IEventDetailsFrom1C): Observable<any> {
-        let user = JSON.parse(localStorage.getItem('user')!);
-        eventDetails.userId = user.id;
+        eventDetails.userId = this.auth1CService.getUserId();
         eventDetails.isFilesVisible = true;
         return this.http.post(this.URL,
             {
@@ -86,7 +83,7 @@ export class Events1CService {
         return this.http.post<IOptions1C[]>(this.URL,
             {
                 method: 'eventTypes',
-                user: JSON.parse(localStorage.getItem('user')!).id
+                user: this.auth1CService.getUserId()
             });
     }
     
@@ -94,7 +91,7 @@ export class Events1CService {
         return this.http.post<ICommittee1C[]>(this.URL,
             {
                 method: 'committeeTypes',
-                user: JSON.parse(localStorage.getItem('user')!).id
+                user: this.auth1CService.getUserId()
             });
     }
     
@@ -105,11 +102,10 @@ export class Events1CService {
     }
     
     public deleteEvent(eventId: string): Observable<any> {
-        let user = JSON.parse(localStorage.getItem('user')!);
         return this.http.post(this.URL,
             {
                 method: 'eventCancel',
-                user: user.id,
+                user: this.auth1CService.getUserId(),
                 params: {
                     eventId: eventId,
                     cause: 'Delete'

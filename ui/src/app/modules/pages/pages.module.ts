@@ -63,6 +63,7 @@ import { EventDetailsComponent } from './planners/planner-calendar-full-screen/e
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { SidebarModule } from 'primeng/sidebar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ImageModule } from 'primeng/image';
 
 registerLocaleData(localeRU);
 
@@ -128,6 +129,7 @@ registerLocaleData(localeRU);
         ConfirmPopupModule,
         SidebarModule,
         ProgressSpinnerModule,
+        ImageModule,
 
     ],
     providers: [
