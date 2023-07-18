@@ -64,6 +64,10 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { SidebarModule } from 'primeng/sidebar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ImageModule } from 'primeng/image';
+import { ChartModule } from 'primeng/chart';
+import { DragDropModule } from 'primeng/dragdrop';
+import { PanelModule } from 'primeng/panel';
+import { WidgetPhonebookComponent } from './components/widets/widget-phonebook/widget-phonebook.component';
 
 registerLocaleData(localeRU);
 
@@ -82,6 +86,7 @@ registerLocaleData(localeRU);
         TaskComponent,
         PlannerCalendarFullScreenComponent,
         EventDetailsComponent,
+        WidgetPhonebookComponent,
     ],
     exports: [TopbarComponent, SidebarComponent, FooterComponent],
     imports: [
@@ -130,6 +135,9 @@ registerLocaleData(localeRU);
         SidebarModule,
         ProgressSpinnerModule,
         ImageModule,
+        ChartModule,
+        DragDropModule,
+        PanelModule,
 
     ],
     providers: [

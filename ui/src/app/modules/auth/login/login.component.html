@@ -40,7 +40,7 @@
                     <button pButton
                             pRipple
                             label="Вход"
-                            [loading]="loading"
+                            [loading]="loaderService.isLoading.value"
                             class="w-full p-3 text-xl"
                             (click)="onSubmit()"
                     ></button>

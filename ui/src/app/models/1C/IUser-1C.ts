@@ -24,5 +24,6 @@ export interface IUserDetailsFrom1C {
     photo: string,
     position: IOptions1C,
     subdiv: IOptions1C,
-    userRole: string
+    userRole: string,
+    phone?: string[]
 }

@@ -22,10 +22,10 @@ export class Users1CService {
         });
     }
     
-    public getUserDetails(): Observable<any> {
+    public getUserDetails(userId: string): Observable<any> {
         return this.http.post<IUserDetailsFrom1C>(this.URL, {
             method: 'userDetails',
-            user: this.auth1CService.getUserId()
+            user: userId
         });
     }
     
@@ -41,8 +41,8 @@ export class Users1CService {
     //   return this.http.patch<IUser[]>(`${environment.apiUrl + this.url}`, user, {withCredentials: true})
     // }
     //
-    public getUserById(id: string): Observable<any> {
-        return this.http.post<IUserDetailListFrom1C>(this.URL, {
+    public getUserById(id: string): Observable<IUserDetailsFrom1C> {
+        return this.http.post<IUserDetailsFrom1C>(this.URL, {
             method: 'userDetails',
             user: id
         });

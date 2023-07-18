@@ -1,0 +1,44 @@
+.create-new-element {
+  background: url("../../../../assets/images/icons/create-new-element.svg") no-repeat 50% 50%;
+  background-size: 50%;
+  cursor: pointer;
+  opacity: 0.8
+}
+
+.create-new-element:hover {
+  opacity: 1
+}
+
+.create-new-element:active {
+  opacity: 0.8
+}
+
+.img-create-element {
+  opacity: 0.7;
+  max-width: 150px;
+  cursor: pointer;
+}
+
+.widget-img {
+  width: 100%;
+  height: auto;
+}
+
+.widget-wrap {
+  max-width: 300px;
+  height: 100%
+}
+
+.widget {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.widget:hover {
+  opacity: 1;
+}
+
+.widget:active {
+  opacity: 0.8;
+}
+

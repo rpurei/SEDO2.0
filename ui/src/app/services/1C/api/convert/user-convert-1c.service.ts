@@ -37,7 +37,8 @@ export class UserConvert1cService {
             photo: userDetails.photo,
             position: this.optionConvert1cService.changeOptionsType(userDetails.position),
             subdiv: this.optionConvert1cService.changeOptionsType(userDetails.subdiv),
-            userRole: userDetails.userRole
+            userRole: userDetails.userRole,
+            phone: userDetails.phone
         };
     }
     

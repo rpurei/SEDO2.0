@@ -164,7 +164,7 @@ export class PagesComponent implements OnDestroy, OnInit {
     }
     
     getUser(): any {
-        this.authService.getUserDetails().subscribe({
+        this.authService.getUserDetails(this.authService.getUserId()).subscribe({
             next: value => {
                 return value;
             }, error: error => this.alertService.errorApi(error)

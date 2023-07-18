@@ -29,18 +29,6 @@ export class UsersService {
         return of([] as IUserDetailList[]);
     }
     
-    // public getUserDetails(): Observable<IUser> {
-    //     if (environment.backend === '1c') {
-    //        this.users1CService.getUserDetails().subscribe({next: values => {
-    //                return this.usersConvertService.convertUserDetails(values)
-    //            }, error: error => {
-    //                console.log(error);
-    //                return of({} as IUser);
-    //            }}
-    //         );
-    //     }
-    //     return of({} as IUser);
-    // }
     
     public filterUsers(allRooms: IUserDetailList[], event: any) {
         let filtered: IUserDetailList[] = [];

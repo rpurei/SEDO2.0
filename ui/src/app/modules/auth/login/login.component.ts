@@ -4,6 +4,7 @@ import { AlertService } from '../../../services/alert/alert.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { first } from 'rxjs';
+import { LoaderService } from '../../../services/loader.service';
 
 @Component({
     selector: 'app-login',
@@ -19,8 +20,6 @@ import { first } from 'rxjs';
 })
 export class LoginComponent {
     
-    loading = false;
-    submitted = false;
     password!: string;
     display: boolean = false;
     username: string = '';
@@ -30,11 +29,12 @@ export class LoginComponent {
         private authService: AuthService,
         private alertService: AlertService,
         private router: Router,
+        public loaderService: LoaderService
     ) {
     }
     
     ngOnInit() {
-        if (this.authService.currentUser) this.router.navigate(['/page/planner']);
+        if (this.authService.currentUser) this.router.navigate(['/page/index']); //редирект при авторизации
     }
     
     onSubmit() {
@@ -42,7 +42,7 @@ export class LoginComponent {
         if (!username.includes('@zdmail.ru')) {
             username = username + '@zdmail.ru';
         }
-        this.loading = true;
+        this.loaderService.isLoading.next(true);
         this.authService.login(username, this.password)
             .pipe(first())
             .subscribe({
@@ -53,8 +53,9 @@ export class LoginComponent {
                     } else this.alertService.error(value.code === 401 ? 'Ошибка авторизации. Неверный логин или пароль' : value.meta.error);
                 }, error: err => {
                     this.alertService.errorApi(err);
+                    this.loaderService.isLoading.next(false);
                 }, complete: () => {
-                    this.loading = false;
+                    this.loaderService.isLoading.next(false);
                 }
             });
     

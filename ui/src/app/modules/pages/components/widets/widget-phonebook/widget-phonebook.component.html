@@ -1,0 +1,189 @@
+<div class=""
+     pDraggable="dd">
+    <p-table #dt1
+             [globalFilterFields]="['name','country.name','representative.name','status']"
+             [paginator]="true"
+             [rowHover]="true"
+             [rows]="10"
+             [value]="usersList"
+             dataKey="id"
+             responsiveLayout="scroll"
+             styleClass="">
+        <ng-template pTemplate="caption">
+            <div class="flex justify-content-between flex-column sm:flex-row">
+
+                <button (click)="clear(dt1)"
+                        class="p-button-outlined mb-2"
+                        icon="pi pi-filter-slash"
+                        label="Очистить"
+                        pButton></button>
+                <span class="p-input-icon-left mb-2">
+							<i class="pi pi-search"></i>
+							<input #filter
+                                   (input)="onGlobalFilter(dt1, $event)"
+                                   class="w-full"
+                                   pInputText
+                                   placeholder="Поиск"
+                                   type="text"/>
+						</span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="min-width: 12rem">
+                    <div class="flex justify-content-between align-items-center">
+                        ФИО
+                        <p-columnFilter display="menu"
+                                        field="name"
+                                        placeholder="Поиск по имени"
+                                        type="text"></p-columnFilter>
+                    </div>
+                </th>
+                <th style="min-width: 12rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Должность
+                        <p-columnFilter display="menu"
+                                        field="country.name"
+                                        placeholder="Поиск по стране"
+                                        type="text"></p-columnFilter>
+                    </div>
+                </th>
+                <!--                    <th style="min-width: 14rem">-->
+                <!--                        <div class="flex justify-content-between align-items-center">-->
+                <!--                            Подразделение-->
+                <!--                            <p-columnFilter type="text" field="country.name" display="menu" placeholder="Поиск по стране"></p-columnFilter>-->
+                <!--                        </div>-->
+                <!--                    </th>-->
+                <th style="min-width: 10rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Дата рождения
+                        <p-columnFilter display="menu"
+                                        field="date"
+                                        placeholder="mm/dd/yyyy"
+                                        type="date"></p-columnFilter>
+                    </div>
+                </th>
+                <th style="min-width: 10rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Телефон
+                    </div>
+                </th>
+                <th style="min-width: 12rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Почта
+                    </div>
+                </th>
+                <th style="min-width: 12rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Скайп
+                    </div>
+                </th>
+            </tr>
+        </ng-template>
+
+        <ng-template [ngForOf]="usersList"
+                     let-i="index"
+                     let-user
+                     ngFor
+                     pTemplate="body">
+            <tr (click)="showUserInfo(user.id)"
+                class="cursor-pointer">
+                <td>
+                    {{user.name}}
+                </td>
+                <td>
+                    <span>{{user.position}}</span>
+                </td>
+                <!--                    <td>-->
+                <!--                        <span>{{user.department}}</span>-->
+                <!--                    </td>-->
+                <td>
+                    <span>{{user.birthday | date: 'dd.MM.yyyy'}}</span>
+                </td>
+                <td>
+                    <span>{{user.phone[0]}}</span>
+                </td>
+                <td>
+                    <span>{{user.email}}</span>
+                </td>
+                <td>
+                    <span>{{user.skype}}</span>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="8">Данные не найдены</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="loadingbody">
+            <tr>
+                <td colspan="8">Загрузка данных...</td>
+            </tr>
+        </ng-template>
+
+    </p-table>
+</div>
+<p-dialog [(visible)]="displayUser"
+          [breakpoints]="{'960px': '75vw'}"
+          [header]="currentUser.name!"
+          [modal]="true"
+          [draggable]="false"
+          [style]="{width: '30vw'}"
+          showEffect="fade">
+    <div class="flex justify-content-center mb-4 ">
+        <p-image *ngIf="currentUser.photo !== ''"
+                 [preview]="true"
+                 alt="Изображение"
+                 src="data:image/png;base64, {{currentUser.photo}}"
+                 width="250"
+        ></p-image>
+        <p-image *ngIf="currentUser.photo === '' "
+                 [preview]="true"
+                 [src]="currentUser.gender === 0 ? '../../../../assets/images/images/userWoman.jfif' : '../../../../assets/images/images/userMan.jfif'"
+                 alt="Изображение"
+                 width="250"
+        ></p-image>
+    </div>
+    <p>День рождения: {{currentUser.birthday | date}}</p>
+    <p>Подразделение: {{ currentUser.subdiv ? currentUser.subdiv.name : '' }} </p>
+    <p *ngIf="currentUser.department">Отдел: {{currentUser.department}}</p>
+    <p>Должность: {{ currentUser.position ? currentUser.position.name : '' }}</p>
+    <p *ngIf="currentUser.phone ">Телефон мобильный:
+        <a *ngIf="currentUser.phone?.length !== 0"
+           href="tel:{{currentUser.phone}}">
+            {{currentUser.phone[0]}}
+        </a>
+        <span *ngIf="currentUser.phone?.length === 0">Номер отсутствует</span>
+    </p>
+    <p *ngIf="currentUser.phone && currentUser.phone[1]">
+        Телефон внутренний: {{ currentUser.phone[1] }}
+    </p>
+    <p *ngIf="currentUser.skype">Skype:
+        <a href="Skype:{{currentUser.skype}}?chat">
+            {{currentUser.skype}}
+        </a>
+    </p>
+    <p *ngIf="currentUser.email">E-mail:
+        <a href="mailto:{{currentUser.email}}">
+            {{currentUser.email}}
+        </a>
+    </p>
+    <ng-template
+            pTemplate="footer">
+        <div [class]="currentUser.boss.name !== currentUser.name?
+            'flex justify-content-between align-items-center ': ''">
+            <span (click)="showUserInfo(currentUser.boss.id!)"
+                  *ngIf="currentUser.boss && currentUser.boss.name !== currentUser.name">
+                  Руководитель:
+                <a class="cursor-pointer">
+                    {{currentUser.boss ? currentUser.boss.name : '' }}
+                </a>
+            </span>
+            <button (click)="displayUser=false"
+                    class="p-button-outlined"
+                    label="Закрыть"
+                    pButton></button>
+        </div>
+    </ng-template>
+</p-dialog>

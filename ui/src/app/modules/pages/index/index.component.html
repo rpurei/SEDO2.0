@@ -1,1 +1,424 @@
-<h1>Index Page</h1>
+<div *ngIf="userDetailsShow"
+     class="grid justify-content-between"
+     pDroppable="test"
+>
+    <div class="card col-12 md:col-3 flex flex-column text-center  shadow-1">
+        <p-image [preview]="true"
+                 alt="Изображение"
+                 src="data:image/png;base64, {{userDetails.photo}}"
+                 width="250"
+        ></p-image>
+        <h3>{{dateNow | date : 'EEEE, MMMM d' }}</h3>
+        <p>{{userDetails.name}}</p>
+        <p>Отдел: {{userDetails.subdiv.name}}</p>
+        <p>Должность: {{userDetails.position.name}}</p>
+        <p>Руководитель: {{userDetails.boss.name}}</p>
+    </div>
+    <!--    <div class="card col-12 md:col-3 mr-5 shadow-1"-->
+    <!--         (onDragStart)="test($event)"-->
+    <!--         (onDragEnd)="test($event)"-->
+    <!--         pDraggable="dd">-->
+    <!--        <div class="flex justify-content-between align-items-center mb-5">-->
+    <!--            <h5>Планировщик</h5>-->
+    <!--            <div>-->
+    <!--                <button (click)="menu.toggle($event)"-->
+    <!--                        class="p-button-rounded p-button-text p-button-plain"-->
+    <!--                        icon="pi pi-ellipsis-v"-->
+    <!--                        pButton-->
+    <!--                        type="button"></button>-->
+    <!--                <p-menu #menu-->
+    <!--                        [model]="items"-->
+    <!--                        [popup]="true"></p-menu>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <p-chart [data]="pieData"-->
+    <!--                 [options]="pieOptions"-->
+    <!--                 class="cursor-pointer"-->
+    <!--                 type="doughnut"-->
+    <!--        ></p-chart>-->
+    <!--        <h5 class="text-center w-full"-->
+    <!--        >Всего<span class="font-bold"> {{12}} </span>событий на эту неделю-->
+    <!--        </h5>-->
+    <!--    </div>-->
+
+    <app-widget-phonebook [usersList]="usersList"
+                          class="card col-12 md:col-8 shadow-1"></app-widget-phonebook>
+
+    <div class="card col-12 md:col-5   shadow-1"
+         pDraggable="dd"
+         pDroppable="test">
+        <div class="flex justify-content-between align-items-center mb-5">
+            <h5>Задачи</h5>
+            <div>
+                <button (click)="menu.toggle($event)"
+                        class="p-button-rounded p-button-text p-button-plain"
+                        icon="pi pi-ellipsis-v"
+                        pButton
+                        type="button"></button>
+                <p-menu #menu
+                        [model]="items"
+                        [popup]="true"></p-menu>
+            </div>
+        </div>
+        <p-chart [data]="tasks"
+                 [options]="pieOptions"
+                 type="bar"></p-chart>
+        <!--        <p-chart (onDataSelect)="selectData($event)"-->
+        <!--                 [data]="pieData"-->
+        <!--                 [options]="pieOptions"-->
+        <!--                 class="cursor-pointer"-->
+        <!--                 type="doughnut"></p-chart>-->
+        <h5 class="text-center w-full"
+        >Всего задач: <span class="font-bold"> {{countTasks}} </span>
+        </h5>
+    </div>
+
+    <div class="card col-12 md:col-3  shadow-1"
+         pDraggable="dd">
+        <div class="flex align-items-center justify-content-between mb-4">
+            <h5>Уведомления</h5>
+            <div>
+                <button (click)="menu.toggle($event)"
+                        class="p-button-rounded p-button-text p-button-plain"
+                        icon="pi pi-ellipsis-v"
+                        pButton
+                        type="button"></button>
+                <p-menu #menu
+                        [model]="items"
+                        [popup]="true"></p-menu>
+            </div>
+        </div>
+
+        <span class="block text-600 font-medium mb-3">Сегодня</span>
+        <ul class="p-0 mx-0 mt-0 mb-4 list-none">
+            <li class="flex align-items-center py-2 border-bottom-1 surface-border">
+                <div class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
+                    <i class="pi pi-dollar text-xl text-blue-500"></i>
+                </div>
+                <span class="text-900 line-height-3">Администратор
+                            <span class="text-700"> Вам начислено аж <span class="text-blue-500">10 баллов СберСпасибо</span></span>
+                        </span>
+            </li>
+            <li class="flex align-items-center py-2">
+                <div class="w-3rem h-3rem flex align-items-center justify-content-center bg-orange-100 border-circle mr-3 flex-shrink-0">
+                    <i class="pi pi-download text-xl text-orange-500"></i>
+                </div>
+                <span class="text-700 line-height-3">Доступно обновление до версии <span class="text-blue-500 font-medium">1.0</span></span>
+            </li>
+        </ul>
+
+        <span class="block text-600 font-medium mb-3">Вчера</span>
+        <ul class="p-0 m-0 list-none">
+            <li class="flex align-items-center py-2 border-bottom-1 surface-border">
+                <div class="w-3rem h-3rem flex align-items-center justify-content-center bg-blue-100 border-circle mr-3 flex-shrink-0">
+                    <i class="pi pi-dollar text-xl text-blue-500"></i>
+                </div>
+                <span class="text-900 line-height-3">Дуня Кулакова
+                            <span class="text-700"> продинамила Василия Пупкина</span>
+                        </span>
+            </li>
+            <li class="flex align-items-center py-2 border-bottom-1 surface-border">
+                <div class="w-3rem h-3rem flex align-items-center justify-content-center bg-pink-100 border-circle mr-3 flex-shrink-0">
+                    <i class="pi pi-question text-xl text-pink-500"></i>
+                </div>
+                <span class="text-900 line-height-3">Василий Пупкин<span class="text-700"> в очередной раз запостил баян.</span></span>
+            </li>
+            <li class="flex align-items-center py-2 border-bottom-1 surface-border">
+                <div class="w-3rem h-3rem flex align-items-center justify-content-center bg-orange-100 border-circle mr-3 flex-shrink-0">
+                    <i class="pi pi-download text-xl text-orange-500"></i>
+                </div>
+                <span class="text-700 line-height-3">Доступно обновление до версии <span class="text-blue-500 font-medium">0.9</span></span>
+            </li>
+            <li class="flex align-items-center py-2 border-bottom-1 surface-border">
+                <div class="w-3rem h-3rem flex align-items-center justify-content-center bg-orange-100 border-circle mr-3 flex-shrink-0">
+                    <i class="pi pi-download text-xl text-orange-500"></i>
+                </div>
+                <span class="text-700 line-height-3">Доступно обновление до версии <span class="text-blue-500 font-medium">0.8</span></span>
+            </li>
+        </ul>
+    </div>
+    <div class="card col-12 md:col-3   shadow-1"
+         pDroppable="test">
+        <div class="flex justify-content-between align-items-center mb-5">
+            <h5>Аналитика за месяц</h5>
+            <div>
+                <button (click)="menu.toggle($event)"
+                        class="p-button-rounded p-button-text p-button-plain"
+                        icon="pi pi-ellipsis-v"
+                        pButton
+                        type="button"></button>
+                <p-menu #menu
+                        [model]="items"
+                        [popup]="true"></p-menu>
+            </div>
+        </div>
+        <ul class="list-none p-0 m-0">
+            <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                <div>
+                    <span class="text-900 font-medium mr-5 mb-1 md:mb-0">Задачи</span>
+                    <div class="mt-1 text-600">Выполнено</div>
+                </div>
+                <div class="mt-2 md:mt-0 flex align-items-center">
+                    <!--                    <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" [ngStyle]="{height: '8px'}">-->
+                    <!--                        <div class="bg-orange-500 h-full" [ngStyle]="{width: '50%'}"></div>-->
+                    <!--                    </div>-->
+                    <span class="text-green-500 ml-3 font-medium">35</span>
+                </div>
+            </li>
+            <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                <div>
+                    <span class="text-900 font-medium mr-5 mb-1 md:mb-0">Задачи</span>
+                    <div class="mt-1 text-600">В работе</div>
+                </div>
+                <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
+                    <!--                    <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" [ngStyle]="{height: '8px'}">-->
+                    <!--                        <div class="bg-cyan-500 h-full" [ngStyle]="{width: '16%'}"></div>-->
+                    <!--                    </div>-->
+                    <span class="text-cyan-500 ml-3 font-medium">4</span>
+                </div>
+            </li>
+            <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                <div>
+                    <span class="text-900 font-medium mr-5 mb-1 md:mb-0">Задачи</span>
+                    <div class="mt-1 text-600">Просрочены</div>
+                </div>
+                <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
+                    <!--                    <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" [ngStyle]="{height: '8px'}">-->
+                    <!--                                                <div class="bg-teal-500 h-full" [ngStyle]="{width: '40%'}"></div>-->
+                    <!--                    </div>-->
+                    <span class="text-pink-500 ml-3 font-medium">1</span>
+                </div>
+            </li>
+            <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                <div>
+                    <span class="text-900 font-medium mr-5 mb-1 md:mb-0">События</span>
+                    <div class="mt-1 text-600">Прошедшие</div>
+                </div>
+                <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
+                    <!--                    <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" [ngStyle]="{height: '8px'}">-->
+                    <!--                        <div class="bg-pink-500 h-full" [ngStyle]="{width: '67%'}"></div>-->
+                    <!--                    </div>-->
+                    <span class="text-teal-500 ml-3 font-medium">67</span>
+                </div>
+            </li>
+            <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                <div>
+                    <span class="text-900 font-medium mr-5 mb-1 md:mb-0">События</span>
+                    <div class="mt-1 text-600">Предстоящие</div>
+                </div>
+                <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
+                    <!--                    <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" [ngStyle]="{height: '8px'}">-->
+                    <!--                        <div class="bg-green-500 h-full" [ngStyle]="{width: '35%'}"></div>-->
+                    <!--                    </div>-->
+                    <span class="text-orange-500 ml-3 font-medium">35</span>
+                </div>
+            </li>
+            <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                <div>
+                    <span class="text-900 font-medium mr-5 mb-1 md:mb-0">Ограничения</span>
+                    <div class="mt-1 text-600">Контроль</div>
+                </div>
+                <div class="mt-2 md:mt-0 ml-0 md:ml-8 flex align-items-center">
+                    <!--                    <div class="surface-300 border-round overflow-hidden w-10rem lg:w-6rem" [ngStyle]="{height: '8px'}">-->
+                    <!--                        <div class="bg-purple-500 h-full" [ngStyle]="{width: '75%'}"></div>-->
+                    <!--                    </div>-->
+                    <span class="text-purple-500 ml-3 font-medium">{{100 | currency: 'RUB'}}</span>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+    <div class="card col-12 md:col-5 mr-5 shadow-1"
+         pDraggable="dd">
+        <div class="flex justify-content-between align-items-center mb-5">
+            <h5>Планировщик</h5>
+            <div>
+                <button (click)="menu.toggle($event)"
+                        class="p-button-rounded p-button-text p-button-plain"
+                        icon="pi pi-ellipsis-v"
+                        pButton
+                        type="button"></button>
+                <p-menu #menu
+                        [model]="items"
+                        [popup]="true"></p-menu>
+            </div>
+        </div>
+        <p-chart [data]="tasks"
+                 [options]="pieOptions"
+                 type="bar"></p-chart>
+
+        <h5 class="text-center w-full"
+        >Всего<span class="font-bold"> {{12}} </span>событий на эту неделю
+        </h5>
+    </div>
+
+    <!--    <div (click)="display = true"-->
+    <!--         class="card col-12 md:col-3 mb-5 mr-5 create-new-element transition-duration-400 hover:shadow-2 active:shadow-none">-->
+    <!--    </div>-->
+    <!--    <p-dialog [(visible)]="display"-->
+    <!--              [breakpoints]="{'960px': '75vw'}"-->
+    <!--              [modal]="true"-->
+    <!--              header="Заголовок"-->
+    <!--              showEffect="fade">-->
+    <!--        <div class="grid ml-5">-->
+    <!--            <div *ngFor="let widget of widgets"-->
+    <!--                 class="widget">-->
+    <!--                <div *ngIf="widget.isActive"-->
+    <!--                     class="card mr-5 mt-2 widget-wrap transition-duration-400 hover:shadow-2 active:shadow-none">-->
+    <!--                    <p>{{widget.title}}</p>-->
+    <!--                    <img class="widget-img"-->
+    <!--                         src="{{widget.img}}">-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <ng-template pTemplate="footer">-->
+    <!--            <button (click)="display=false"-->
+    <!--                    class="p-button-outlined"-->
+    <!--                    icon="pi pi-check"-->
+    <!--                    label="Да"-->
+    <!--                    pButton></button>-->
+    <!--        </ng-template>-->
+    <!--    </p-dialog>-->
+    <!--    <div class="col-12">-->
+    <!--        <div class="card">-->
+    <!--            <h5>Фильтр</h5>-->
+    <!--            <p-table #dt1 [value]="customers1" dataKey="id" [rows]="10"  [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true" [globalFilterFields]="['name','country.name','representative.name','status']" responsiveLayout="scroll">-->
+    <!--                <ng-template pTemplate="caption">-->
+    <!--                    <div class="flex justify-content-between flex-column sm:flex-row">-->
+    <!--                        &lt;!&ndash;                        <button pButton label="Очистить" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>&ndash;&gt;-->
+    <!--                                                <button pButton label="Очистить" class="p-button-outlined mb-2" icon="pi pi-filter-slash" ></button>-->
+    <!--                        <span class="p-input-icon-left mb-2">-->
+    <!--							<i class="pi pi-search"></i>-->
+    <!--							<input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Поиск" class="w-full"/>-->
+    <!--						</span>-->
+    <!--                    </div>-->
+    <!--                </ng-template>-->
+    <!--                <ng-template pTemplate="header">-->
+    <!--                    <tr>-->
+    <!--                        <th style="min-width: 12rem">-->
+    <!--                            <div class="flex justify-content-between align-items-center">-->
+    <!--                                Имя-->
+    <!--                                <p-columnFilter type="text" field="name" display="menu" placeholder="Поиск по имени"></p-columnFilter>-->
+    <!--                            </div>-->
+    <!--                        </th>-->
+    <!--                        <th style="min-width: 12rem">-->
+    <!--                            <div class="flex justify-content-between align-items-center">-->
+    <!--                                Страна-->
+    <!--                                <p-columnFilter type="text" field="country.name" display="menu" placeholder="Поиск по стране"></p-columnFilter>-->
+    <!--                            </div>-->
+    <!--                        </th>-->
+    <!--                        <th style="min-width: 14rem">-->
+    <!--                            <div class="flex justify-content-between align-items-center">-->
+    <!--                                Агент-->
+    <!--                                <p-columnFilter field="representative" matchMode="in" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">-->
+    <!--                                    <ng-template pTemplate="header">-->
+    <!--                                        <div class="px-3 pt-3 pb-0">-->
+    <!--                                            <span class="font-bold">Agent Picker</span>-->
+    <!--                                        </div>-->
+    <!--                                    </ng-template>-->
+    <!--                                    <ng-template pTemplate="filter" let-value let-filter="filterCallback">-->
+    <!--                                        <p-multiSelect [ngModel]="value" [options]="representatives" placeholder="Any" (onChange)="filter($event.value)" optionLabel="name">-->
+    <!--                                            <ng-template let-option pTemplate="item">-->
+    <!--                                                <div class="p-multiselect-representative-option">-->
+    <!--                                                    <img [alt]="option.label" src="assets/demo/images/avatar/{{option.image}}" width="32" style="vertical-align: middle" />-->
+    <!--                                                    <span class="ml-2">{{option.name}}</span>-->
+    <!--                                                </div>-->
+    <!--                                            </ng-template>-->
+    <!--                                        </p-multiSelect>-->
+    <!--                                    </ng-template>-->
+    <!--                                </p-columnFilter>-->
+    <!--                            </div>-->
+    <!--                        </th>-->
+    <!--                        <th style="min-width: 10rem">-->
+    <!--                            <div class="flex justify-content-between align-items-center">-->
+    <!--                                Дата-->
+    <!--                                <p-columnFilter type="date" field="date" display="menu" placeholder="mm/dd/yyyy"></p-columnFilter>-->
+    <!--                            </div>-->
+    <!--                        </th>-->
+    <!--                        <th style="min-width: 10rem">-->
+    <!--                            <div class="flex justify-content-between align-items-center">-->
+    <!--                                Баланс-->
+    <!--                                <p-columnFilter type="numeric" field="balance" display="menu" currency="USD"></p-columnFilter>-->
+    <!--                            </div>-->
+    <!--                        </th>-->
+    <!--                        <th style="min-width: 12rem">-->
+    <!--                            <div class="flex justify-content-between align-items-center">-->
+    <!--                                Статус-->
+    <!--                                <p-columnFilter field="status" matchMode="equals" display="menu">-->
+    <!--                                    <ng-template pTemplate="filter" let-value let-filter="filterCallback">-->
+    <!--                                        <p-dropdown [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)" placeholder="Any" [style]="{'min-width': '12rem'}" >-->
+    <!--                                            <ng-template let-option pTemplate="item">-->
+    <!--                                                <span [class]="'customer-badge status-' + option.value">{{option.label}}</span>-->
+    <!--                                            </ng-template>-->
+    <!--                                        </p-dropdown>-->
+    <!--                                    </ng-template>-->
+    <!--                                </p-columnFilter>-->
+    <!--                            </div>-->
+    <!--                        </th>-->
+    <!--                        <th style="min-width: 12rem">-->
+    <!--                            <div class="flex justify-content-between align-items-center">-->
+    <!--                                Активность-->
+    <!--                                <p-columnFilter field="activity" matchMode="between" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">-->
+    <!--                                    <ng-template pTemplate="filter" let-filter="filterCallback">-->
+    <!--                                        <p-slider [ngModel]="activityValues" [range]="true" (onSlideEnd)="filter($event.values)" styleClass="m-3" [style]="{'min-width': '12rem'}" ></p-slider>-->
+    <!--                                        <div class="flex align-items-center justify-content-between px-2">-->
+    <!--                                            <span>{{activityValues[0]}}</span>-->
+    <!--                                            <span>{{activityValues[1]}}</span>-->
+    <!--                                        </div>-->
+    <!--                                    </ng-template>-->
+    <!--                                </p-columnFilter>-->
+    <!--                            </div>-->
+    <!--                        </th>-->
+    <!--                        <th style="min-width: 8rem">-->
+    <!--                            <div class="flex justify-content-between align-items-center">-->
+    <!--                                Проверен-->
+    <!--                                <p-columnFilter type="boolean" field="verified" display="menu"></p-columnFilter>-->
+    <!--                            </div>-->
+    <!--                        </th>-->
+    <!--                    </tr>-->
+    <!--                </ng-template>-->
+    <!--                <ng-template pTemplate="body" let-customer>-->
+    <!--                    <tr>-->
+    <!--                        <td>-->
+    <!--                            {{customer.name}}-->
+    <!--                        </td>-->
+    <!--                        <td>-->
+    <!--                            <img src="assets/demo/images/flag/flag_placeholder.png" [class]="'flag flag-' + customer.country.code" width="30">-->
+    <!--                            <span class="image-text ml-2">{{customer.country.name}}</span>-->
+    <!--                        </td>-->
+    <!--                        <td>-->
+    <!--                            <img [alt]="customer.representative.name" src="assets/demo/images/avatar/{{customer.representative.image}}" width="32" style="vertical-align: middle"/>-->
+    <!--                            <span class="image-text ml-2">{{customer.representative.name}}</span>-->
+    <!--                        </td>-->
+    <!--                        <td>-->
+    <!--                            {{customer.date | date: 'dd.MM.yyyy'}}-->
+    <!--                        </td>-->
+    <!--                        <td>-->
+    <!--                            {{customer.balance | currency:'RUB ':'symbol'}}-->
+    <!--                        </td>-->
+    <!--                        <td>-->
+    <!--                            <span [class]="'customer-badge status-' + customer.status">{{customer.status}}</span>-->
+    <!--                        </td>-->
+    <!--                        <td>-->
+    <!--                            <p-progressBar [value]="customer.activity" [showValue]="false" [style]="{'height': '0.5rem'}"></p-progressBar>-->
+    <!--                        </td>-->
+    <!--                        <td class="text-center">-->
+    <!--                            <i class="pi" [ngClass]="{'true-icon pi-check-circle text-green-500': customer.verified, 'false-icon pi-times-circle text-pink-500': !customer.verified}"></i>-->
+    <!--                        </td>-->
+    <!--                    </tr>-->
+    <!--                </ng-template>-->
+    <!--                <ng-template pTemplate="emptymessage">-->
+    <!--                    <tr>-->
+    <!--                        <td colspan="8">Данные не найдены</td>-->
+    <!--                    </tr>-->
+    <!--                </ng-template>-->
+    <!--                <ng-template pTemplate="loadingbody">-->
+    <!--                    <tr>-->
+    <!--                        <td colspan="8">Загрузка данных...</td>-->
+    <!--                    </tr>-->
+    <!--                </ng-template>-->
+    <!--            </p-table>-->
+    <!--        </div>-->
+
+    <!--    </div>-->
+</div>

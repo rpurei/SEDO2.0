@@ -1,9 +1,9 @@
-<div class="card mb-5">
+<div class="card mb-5 ">
     <div class="row text-center">
         <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):locale | uppercase }}</h3>
         <div class="flex justify-content-between mb-5">
             <div class="flex flex-column align-items-start">
-                <div class="text-left mb-3">
+                <div class="text-left mb-3 shadow-1">
                     <p-autoComplete (completeMethod)="filterRooms($event)"
                                     [(ngModel)]="selectRoom"
                                     [dropdown]="true"
@@ -31,7 +31,7 @@
                                     placeholder="Выбрать помещение"
                     ></p-autoComplete>
                 </div>
-                <span class="p-buttonset mb-3">
+                <span class="p-buttonset mb-3 shadow-1">
 				<button (viewDateChange)="closeOpenMonthViewDay()"
                         [(viewDate)]="viewDate"
                         [view]="view"
@@ -43,7 +43,7 @@
                         pRipple
                 ></button>
 				<button [(viewDate)]="viewDate"
-                        class="p-button-outlined"
+                        class="p-button-outlined h-full"
                         mwlCalendarToday
                         pButton
                         pRipple
@@ -60,14 +60,17 @@
                     pRipple
             ></button>
     </span>
-                <button (click)="getAllEvent()"
-                        [loading]="(loaderService.isLoading | async) || false"
-                        pButton
-                >Все события
-                </button>
+                <div class="shadow-1">
+                    <button (click)="getAllEvent()"
+                            [loading]="(loaderService.isLoading | async) || false"
+
+                            pButton
+                    >Все события
+                    </button>
+                </div>
             </div>
             <div class="text-right">
-                <div class="text-left mb-3 ">
+                <div class="text-left mb-3 shadow-1">
                     <!--                    <p-autoComplete (completeMethod)="filterUsers($event)"-->
                     <!--                                    (onSelect)="getEventFroUserInList(selectUser)"-->
                     <!--                                    [dropdown]="true"-->
@@ -93,7 +96,7 @@
                                     placeholder="Выбрать сотрудника"
                     ></p-autoComplete>
                 </div>
-                <span class="p-buttonset flex mb-3">
+                <span class="p-buttonset flex mb-3 shadow-1">
 				    <button (click)="setView(CalendarView.Month)"
                             [class.active]="view === CalendarView.Month"
                             [loading]="(loaderService.isLoading | async) || false"
@@ -123,6 +126,7 @@
                         [loading]="(loaderService.isLoading | async) || false"
                         icon="pi pi-plus"
                         label="Добавить событие"
+                        class="shadow-1"
                         pButton
                 ></button>
             </div>

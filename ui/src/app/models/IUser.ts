@@ -10,7 +10,11 @@ export interface IUser {
     photo: string,
     position: IOption,
     subdiv: IOption,
-    roles?: string
+    roles?: string,
+    phone?: string[]
+    skype?: string
+    birthday?: string,
+    department?: string
 }
 
 export interface IUserCapsule {
