@@ -6,7 +6,7 @@ import { DAYS_OF_WEEK } from 'calendar-utils';
 import { CustomDateFormatter } from './custom-date-formatter.provider';
 import { CustomerService } from '../../../demo/service/customer.service';
 import { ConfirmationService, MenuItem } from 'primeng/api';
-import { EventApiServiceConvert } from '../../../../services/1C/api/convert/planner-full-api-convert-1c.service';
+import { EventApiServiceConvert } from '../../../../services/1C/api/convert/event-convert-1c.service';
 import { EventsService } from '../../../../services/events.service';
 import { AlertService } from '../../../../services/alert/alert.service';
 import { RoomsService } from '../../../../services/rooms.service';
@@ -136,12 +136,12 @@ export class PlannerCalendarFullScreenComponent implements OnInit {
         this.loaderService.isLoading.next(true);
         
         forkJoin([
-            this.authService.verifyToken(),
             this.userService.getUsersList(),
             this.roomsService.getAllRooms(),
             this.apiEventService.getEventsShort(this.authService.getUserId(), false),
+            this.authService.verifyToken(),
         ]).pipe(
-            tap(([data1, users, rooms, events]) => {
+            tap(([users, rooms, events]) => {
                 this.users = users;
                 this.rooms = [...this.rooms, this.selectRoom, ...rooms];
                 this.events = events;

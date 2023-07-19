@@ -66,3 +66,19 @@ export interface IEventFromApi1C {
     className: string;
     author?: string;
 }
+
+export interface IEventInfo1C {
+    events: number,
+    duration: number
+}
+
+export interface IQuantityEvents1C {
+    day1: IEventInfo1C;
+    day2: IEventInfo1C;
+    day3: IEventInfo1C;
+    day4: IEventInfo1C;
+    day5: IEventInfo1C;
+    day6: IEventInfo1C;
+    day7: IEventInfo1C;
+    total: IEventInfo1C;
+}

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { IEventDetailsFrom1C, IEventFromApi1C } from '../../../../models/1C/IEvent-1C';
+import { IEventDetailsFrom1C, IEventFromApi1C, IEventInfo1C, IQuantityEvents1C } from '../../../../models/1C/IEvent-1C';
 import { CalendarEvent, EventColor } from 'calendar-utils';
 import { addDays, format } from 'date-fns';
-import { IEventDetails } from '../../../../models/IEvent';
+import { IEventDetails, IEventInfo, IQuantityEvents } from '../../../../models/IEvent';
 import { IFiles1C, IViolations1C } from '../../../../models/1C/IOptions-1C';
 import { IViolation } from '../../../../models/IOption';
 import { IFileEvent } from '../../../../models/IFiles';
@@ -126,13 +126,34 @@ export class EventApiServiceConvert {
         }
     }
     
+    convertEventInfo(eventInfo1C: IEventInfo1C): IEventInfo {
+        return {
+            eventsQuantity: eventInfo1C.events,
+            duration: eventInfo1C.duration
+        };
+    }
+    
+    convertApiQuantityEvents(apiQuantityEvents: IQuantityEvents1C): IQuantityEvents {
+        return {
+            monday: this.convertEventInfo(apiQuantityEvents.day1),
+            tuesday: this.convertEventInfo(apiQuantityEvents.day2),
+            wednesday: this.convertEventInfo(apiQuantityEvents.day3),
+            thursday: this.convertEventInfo(apiQuantityEvents.day4),
+            friday: this.convertEventInfo(apiQuantityEvents.day5),
+            saturday: this.convertEventInfo(apiQuantityEvents.day6),
+            sunday: this.convertEventInfo(apiQuantityEvents.day7),
+            total: this.convertEventInfo(apiQuantityEvents.total),
+        };
+    }
+    
     convertApiShortToCalendarEventAction(apiEvents: IEventFromApi1C[]): CalendarEvent[] {
         function eventType(eventType: string): string {
             if (eventType === 'Комитет') {
                 return '';
             } else return eventType;
         }
-    
+        
+        
         return apiEvents.map(event => ({
             start: addDays(new Date(event.start), 0),
             id: event.guid,

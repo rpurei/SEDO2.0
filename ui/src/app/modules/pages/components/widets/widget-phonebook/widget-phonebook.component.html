@@ -1,4 +1,13 @@
-<div class=""
+<div *ngIf="isLoading"
+     class="w-full h-full">
+    <p-progressSpinner class="flex w-full h-full align-items-center opacity-50"
+                       styleClass="w-4rem h-4rem"
+                       strokeWidth="8"
+                       fill="var(--surface-ground)"
+                       animationDuration="1.7s"></p-progressSpinner>
+</div>
+
+<div *ngIf="!isLoading"
      pDraggable="dd">
     <p-table #dt1
              [globalFilterFields]="['name','country.name','representative.name','status']"

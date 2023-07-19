@@ -32,12 +32,14 @@ export class IndexComponent implements OnInit {
     representatives: Representative[] = [];
     statuses: any[] = [];
     activityValues: number[] = [0, 100];
+    // @ts-ignore
+    id: string = JSON.parse(localStorage.getItem('user')).id;
     
     constructor(public loaderService: LoaderService,
                 private userService: UsersService,
                 private PagesComponent: PagesComponent,
                 private alertService: AlertService,
-                private authService: AuthService
+                private authService: AuthService,
     ) {
     }
     
@@ -45,13 +47,11 @@ export class IndexComponent implements OnInit {
     initService() {
         this.loaderService.isLoading.next(true);
         forkJoin([
-            this.userService.getUsersList(),
             this.authService.getUserDetails(this.authService.getUserId()),
             this.authService.verifyToken(),
         ]).pipe(
-            tap(([usersList, userDetail]) => {
+            tap(([userDetail]) => {
                 this.userDetails = userDetail;
-                this.usersList = usersList;
                 this.userDetailsShow = true;
             }),
             catchError(err => {

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Events1CService } from './1C/api/events.service';
-import { EventApiServiceConvert } from './1C/api/convert/planner-full-api-convert-1c.service';
+import { EventApiServiceConvert } from './1C/api/convert/event-convert-1c.service';
 import { CalendarEvent } from 'calendar-utils';
 import { catchError, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
-import { IEventDetailsFrom1C, IEventFromApi1C } from '../models/1C/IEvent-1C';
+import { IEventDetailsFrom1C, IEventFromApi1C, IQuantityEvents1C } from '../models/1C/IEvent-1C';
 import { environment } from '../../environments/environment';
-import { IEventDetails } from '../models/IEvent';
+import { IEventDetails, IQuantityEvents } from '../models/IEvent';
 import { ICommittee, IOption } from '../models/IOption';
 import { OptionConvert1cService } from './1C/api/convert/option-convert-1c.service';
 
@@ -22,19 +22,19 @@ export class EventsService {
     ) {
     }
     
-    // public getAllEventsShort(userId: string, allUsers: boolean): Observable<CalendarEvent[]> {
-    //     if (environment.backend === '1c') {
-    //         const events$: Observable<IEventFromApi1C[]> = this.event1CService.getAllEventsShortFrom1C(userId, allUsers);
-    //         return events$.pipe(
-    //             map(apiEvents => this.eventApiServiceConvert.convertApiShortToCalendarEventAction(apiEvents)),
-    //             catchError(error => {
-    //                 console.log(error);
-    //                 return of([] as CalendarEvent[]);
-    //             })
-    //         );
-    //     }
-    //     return of([] as CalendarEvent[]);
-    // }
+    public getQuantityEvents(userId: string): Observable<IQuantityEvents> {
+        if (environment.backend === '1c') {
+            const events$: Observable<IQuantityEvents1C> = this.event1CService.getQuantityEvents(userId);
+            return events$.pipe(
+                map(apiEvents => this.eventApiServiceConvert.convertApiQuantityEvents(apiEvents)),
+                catchError(error => {
+                    console.log(error);
+                    return of({} as IQuantityEvents);
+                })
+            );
+        }
+        return of({} as IQuantityEvents);
+    }
     
     public getEventsShort(id: string, allUsers: boolean): Observable<CalendarEvent[]> {
         if (environment.backend === '1c') {

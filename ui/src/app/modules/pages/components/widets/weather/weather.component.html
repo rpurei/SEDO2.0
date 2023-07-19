@@ -1,0 +1,42 @@
+<div *ngIf="isLoading"
+     class="w-full h-full">
+    <p-progressSpinner animationDuration="1.7s"
+                       class="flex w-full h-full align-items-center opacity-50"
+                       fill="var(--surface-ground)"
+                       strokeWidth="8"
+                       styleClass="w-4rem h-4rem"></p-progressSpinner>
+</div>
+<div *ngIf="!isLoading">
+    <div class="flex justify-content-between align-items-center mb-5">
+        <!--        <button (click)="getQuantityEvents('baac46f3-f21c-11e8-9c2d-00155d03e20f')
+        ">TEST</button>-->
+        <h5>Погода</h5>
+        <div>
+            <button (click)="menu.toggle($event)"
+                    class="p-button-rounded p-button-text p-button-plain"
+                    icon="pi pi-ellipsis-v"
+                    pButton
+                    type="button"></button>
+            <p-menu #menu
+                    [model]="items"
+                    [popup]="true"></p-menu>
+        </div>
+    </div>
+    <div class="flex justify-content-between ">
+        <p class="text-4xl">Белгород</p>
+        <p class="text-4xl">{{weather.main.temp}} °C</p>
+        <div class="flex flex-column align-items-center">
+            <img alt=""
+                 src="https://openweathermap.org/img/wn/{{weather.weather[0].icon}}.png">
+            <p class="text-2xl">{{weather.weather[0].description}}</p>
+        </div>
+    </div>
+    <p class="text-2xl"> Ощущается как: {{weather.main.feels_like}}</p>
+    <p class="text-2xl">Влажность: {{weather.main.humidity}}%</p>
+    <p class="text-2xl">Давление: {{weather.main.pressure}} мм рт. ст</p>
+    <p class="text-2xl">Ветер: {{toTextualDescription(this.weather.wind.deg)}}</p>
+    <p class="text-2xl">Скорость: {{weather.wind.speed}} м/с</p>
+    <p class="text-2xl">Рассвет в {{weather.sys.sunrise | date: 'HH:mm'}} </p>
+    <p class="text-2xl">Закат в {{weather.sys.sunset | date: 'HH:mm'}}</p>
+
+</div>

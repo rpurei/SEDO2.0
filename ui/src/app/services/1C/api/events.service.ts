@@ -113,4 +113,12 @@ export class Events1CService {
             });
     }
     
+    getQuantityEvents(userId: string): Observable<any> {
+        console.log(userId);
+        return this.http.post(this.URL, {
+            method: 'quantityEvents',
+            user: userId
+        });
+    }
+    
 }

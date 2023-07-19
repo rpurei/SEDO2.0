@@ -1,0 +1,43 @@
+<div *ngIf="isLoading"
+     class="w-full h-full">
+    <p-progressSpinner class="flex w-full h-full align-items-center opacity-50"
+                       styleClass="w-4rem h-4rem"
+                       strokeWidth="8"
+                       fill="var(--surface-ground)"
+                       animationDuration="1.7s"></p-progressSpinner>
+</div>
+
+<div *ngIf="!isLoading">
+    <div class="flex justify-content-between align-items-center mb-5">
+        <!--        <button (click)="getQuantityEvents('baac46f3-f21c-11e8-9c2d-00155d03e20f')
+        ">TEST</button>-->
+        <h5>Мои задачи</h5>
+        <div>
+            <button (click)="menu.toggle($event)"
+                    class="p-button-rounded p-button-text p-button-plain"
+                    icon="pi pi-ellipsis-v"
+                    pButton
+                    type="button"></button>
+            <p-menu #menu
+                    [model]="items"
+                    [popup]="true"></p-menu>
+        </div>
+    </div>
+    <p-chart [data]="tasks"
+             [options]="pieOptions"
+             type="bar"></p-chart>
+    <!--        <p-chart (onDataSelect)="selectData($event)"-->
+    <!--                 [data]="pieData"-->
+    <!--                 [options]="pieOptions"-->
+    <!--                 class="cursor-pointer"-->
+    <!--                 type="doughnut"></p-chart>-->
+    <h5 class="text-center w-full">
+        Осталось мероприятий на неделю:
+        <span class="font-bold"> {{quantityEvents.total.eventsQuantity}} </span>
+    </h5>
+    <h5 class="text-center w-full">
+        Загрузка:
+        <span class="font-bold"> {{quantityEvents.total.duration}} </span>
+        ч.
+    </h5>
+</div>

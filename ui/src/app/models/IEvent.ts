@@ -25,3 +25,20 @@ export interface IEventDetails {
     violations: IViolation[];
     
 }
+
+export interface IEventInfo {
+    eventsQuantity: number,
+    duration: number
+}
+
+export interface IQuantityEvents {
+    monday: IEventInfo;
+    tuesday: IEventInfo;
+    wednesday: IEventInfo;
+    thursday: IEventInfo;
+    friday: IEventInfo;
+    saturday: IEventInfo;
+    sunday: IEventInfo;
+    total: IEventInfo;
+}
+

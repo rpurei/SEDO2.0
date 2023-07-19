@@ -68,6 +68,8 @@ import { ChartModule } from 'primeng/chart';
 import { DragDropModule } from 'primeng/dragdrop';
 import { PanelModule } from 'primeng/panel';
 import { WidgetPhonebookComponent } from './components/widets/widget-phonebook/widget-phonebook.component';
+import { EventChartComponent } from './components/widets/event-chart/event-chart.component';
+import { WeatherComponent } from './components/widets/weather/weather.component';
 
 registerLocaleData(localeRU);
 
@@ -87,6 +89,8 @@ registerLocaleData(localeRU);
         PlannerCalendarFullScreenComponent,
         EventDetailsComponent,
         WidgetPhonebookComponent,
+        EventChartComponent,
+        WeatherComponent,
     ],
     exports: [TopbarComponent, SidebarComponent, FooterComponent],
     imports: [
