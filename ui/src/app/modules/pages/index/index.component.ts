@@ -64,27 +64,6 @@ export class IndexComponent implements OnInit {
     
     ngOnInit(): any {
         this.initService();
-        this.statuses = [
-            {label: 'Unqualified', value: 'unqualified'},
-            {label: 'Qualified', value: 'qualified'},
-            {label: 'New', value: 'new'},
-            {label: 'Negotiation', value: 'negotiation'},
-            {label: 'Renewal', value: 'renewal'},
-            {label: 'Proposal', value: 'proposal'}
-        ];
-        this.representatives = [
-            {name: 'Amy Elsner', image: 'amyelsner.png'},
-            {name: 'Anna Fali', image: 'annafali.png'},
-            {name: 'Asiya Javayant', image: 'asiyajavayant.png'},
-            {name: 'Bernardo Dominic', image: 'bernardodominic.png'},
-            {name: 'Elwin Sharvill', image: 'elwinsharvill.png'},
-            {name: 'Ioni Bowcher', image: 'ionibowcher.png'},
-            {name: 'Ivan Magalhaes', image: 'ivanmagalhaes.png'},
-            {name: 'Onyama Limba', image: 'onyamalimba.png'},
-            {name: 'Stephen Shaw', image: 'stephenshaw.png'},
-            {name: 'XuXue Feng', image: 'xuxuefeng.png'}
-        ];
-        
         this.widgets = [
             {
                 title: 'Планировщик',
@@ -117,38 +96,9 @@ export class IndexComponent implements OnInit {
             {label: 'Удалить', icon: 'pi pi-fw pi-minus'}
         ];
         this.dateNow = new Date();
-        const documentStyle = getComputedStyle(document.documentElement);
-        const textColor = documentStyle.getPropertyValue('--text-color');
+       
         // const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-        this.tasks = {
-            labels: ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница'],
-            datasets: [
-                {
-                    label: 'Количество задач: ',
-                    data: [2, 0, 7, 3, 4, 5],
-                    backgroundColor: documentStyle.getPropertyValue('--primary-500'),
-                    borderColor: documentStyle.getPropertyValue('--primary-500'),
-                    
-                    hoverBackgroundColor: [
-                        documentStyle.getPropertyValue('--indigo-400'),
-                        documentStyle.getPropertyValue('--purple-400'),
-                        documentStyle.getPropertyValue('--teal-400'),
-                        documentStyle.getPropertyValue('--yellow-400'), // Добавлен новый цвет --red-400
-                        documentStyle.getPropertyValue('--green-400') // Добавлен новый цвет --green-400
-                    ]
-                }]
-        };
-        this.countTasks = this.tasks.datasets[0].data.reduce((acc: number, number: number) => acc + number);
-        this.pieOptions = {
-            plugins: {
-                legend: {
-                    labels: {
-                        usePointStyle: true,
-                        color: textColor
-                    }
-                }
-            }
-        };
+        
     }
     
     

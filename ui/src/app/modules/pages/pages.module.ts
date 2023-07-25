@@ -67,9 +67,11 @@ import { ImageModule } from 'primeng/image';
 import { ChartModule } from 'primeng/chart';
 import { DragDropModule } from 'primeng/dragdrop';
 import { PanelModule } from 'primeng/panel';
-import { WidgetPhonebookComponent } from './components/widets/widget-phonebook/widget-phonebook.component';
+import { PhonebookComponent } from './components/widets/widget-phonebook/phonebook.component';
 import { EventChartComponent } from './components/widets/event-chart/event-chart.component';
 import { WeatherComponent } from './components/widets/weather/weather.component';
+import { PlanerComponent } from './components/widets/planer/planer.component';
+import { WeatherDatePipe } from './components/widets/weather/weather-date.pipe';
 
 registerLocaleData(localeRU);
 
@@ -88,9 +90,11 @@ registerLocaleData(localeRU);
         TaskComponent,
         PlannerCalendarFullScreenComponent,
         EventDetailsComponent,
-        WidgetPhonebookComponent,
+        PhonebookComponent,
         EventChartComponent,
         WeatherComponent,
+        PlanerComponent,
+        WeatherDatePipe
     ],
     exports: [TopbarComponent, SidebarComponent, FooterComponent],
     imports: [
@@ -142,7 +146,6 @@ registerLocaleData(localeRU);
         ChartModule,
         DragDropModule,
         PanelModule,
-
     ],
     providers: [
         NodeService,

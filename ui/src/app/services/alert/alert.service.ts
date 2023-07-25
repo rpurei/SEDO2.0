@@ -21,7 +21,7 @@ export class AlertService {
     errorEmptyInput(message: string) {
         this.service.add({
             key: this.defaultKey,
-            severity: 'error',
+            severity: 'warn',
             summary: 'Ошибка',
             detail: `Пожалуйста, заполните поле "${message}"`
         });

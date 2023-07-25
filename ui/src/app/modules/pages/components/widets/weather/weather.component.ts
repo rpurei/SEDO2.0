@@ -1,30 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AlertService } from '../../../../../services/alert/alert.service';
+import { WeatherDataItem } from './IWeather';
+import { WeatherService } from './weather.service';
 
 @Component({
     selector: 'app-weather',
     templateUrl: './weather.component.html',
     styleUrls: ['./weather.component.scss']
 })
+
 export class WeatherComponent implements OnInit {
-    constructor(private http: HttpClient, private alertService: AlertService) {
+    
+    constructor(private http: HttpClient, private alertService: AlertService, private weatherService: WeatherService) {
     }
     
     isLoading: boolean = true;
-    weather: any;
-    items: any;
+    weather: WeatherDataItem[] = [];
+    weatherDay: number = 0;
+    currentDate: Date = new Date();
     
-    getWeather() {
-        return this.http.get('https://api.openweathermap.org/data/2.5/weather?lat=50.595414&lon=36.587260',
-            {
-                params: {
-                    'units': 'metric',
-                    'appid': 'ebddb934710f1675d16c4b7b8b17dee1',
-                    'lang': 'ru'
-                }
-            });
-        
+    selectTime(value: string) {
+        if (value === 'next') {
+            this.weatherDay = this.weatherDay + 1;
+        } else {
+            this.weatherDay = this.weatherDay - 1;
+            if (this.weatherDay < 0) {
+                this.weatherDay = 0;
+            }
+        }
     }
     
     toTextualDescription(degree: number) {
@@ -42,29 +46,24 @@ export class WeatherComponent implements OnInit {
     }
     
     ngOnInit(): void {
-        this.items = [
-            {
-                label: 'Добавить', icon: 'pi pi-fw pi-plus', command: () => {
-                    console.log('god');
-                }
-            },
-            {label: 'Удалить', icon: 'pi pi-fw pi-minus'}
-        ];
-        
-        this.getWeather().subscribe({
+        // this.items = [
+        //     {
+        //         label: 'Добавить', icon: 'pi pi-fw pi-plus', command: () => {
+        //             console.log('god');
+        //         }
+        //     },
+        //     {label: 'Удалить', icon: 'pi pi-fw pi-minus'}
+        // ];
+    
+        this.weatherService.getWeather().subscribe({
             next: value => {
-                console.log(value);
-                this.weather = value;
-                this.weather.main.temp = Math.round(this.weather.main.temp);
-                this.weather.main.feels_like = Math.round(this.weather.main.feels_like);
-                this.weather.main.pressure = Math.round(this.weather.main.pressure * 0.75006375541921);
-                this.weather.sys.sunrise = new Date(this.weather.sys.sunrise * 1000);
-                this.weather.sys.sunset = new Date(this.weather.sys.sunset * 1000);
-                this.weather.wind.speed = Math.round(this.weather.wind.speed);
-            }, error: err => {
-                this.alertService.errorApi(err);
-            }, complete: () => {
+                this.weather = value.list;
+            },
+            complete: () => {
                 this.isLoading = false;
+            },
+            error: () => {
+                this.alertService.error('Ошибка получения данных о погоде');
             }
         });
     }

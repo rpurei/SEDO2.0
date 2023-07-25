@@ -7,36 +7,51 @@
                        styleClass="w-4rem h-4rem"></p-progressSpinner>
 </div>
 <div *ngIf="!isLoading">
-    <div class="flex justify-content-between align-items-center mb-5">
-        <!--        <button (click)="getQuantityEvents('baac46f3-f21c-11e8-9c2d-00155d03e20f')
-        ">TEST</button>-->
-        <h5>Погода</h5>
-        <div>
-            <button (click)="menu.toggle($event)"
-                    class="p-button-rounded p-button-text p-button-plain"
-                    icon="pi pi-ellipsis-v"
-                    pButton
-                    type="button"></button>
-            <p-menu #menu
-                    [model]="items"
-                    [popup]="true"></p-menu>
+    <div class="mb-5">
+        <div class="flex justify-content-between align-items-center ">
+            <!--            <h5 class="text-3xl">Погода</h5>-->
+            <!--            <div class="flex justify-content-between align-items-center">-->
+            <!--                <button (click)="menu.toggle($event)"-->
+            <!--                        class="p-button-rounded p-button-text p-button-plain"-->
+            <!--                        icon="pi pi-ellipsis-v"-->
+            <!--                        pButton-->
+            <!--                        type="button"></button>-->
+            <!--                <p-menu #menu-->
+            <!--                        [model]="items"-->
+            <!--                        [popup]="true"></p-menu>-->
+            <!--            </div>-->
+        </div>
+        <div class="flex justify-content-between align-items-center">
+            <button (click)="selectTime('previous')"
+                    [disabled]='weatherDay === 0'
+                    icon="pi pi-chevron-left"
+                    pButton></button>
+            <span class="text-4xl">{{currentDate | date: 'dd.MM HH:mm'}}</span>
+            <button (click)="selectTime('next')"
+                    [disabled]='weatherDay === weather.length - 1'
+                    icon="pi pi-chevron-right"
+                    pButton></button>
         </div>
     </div>
-    <div class="flex justify-content-between ">
-        <p class="text-4xl">Белгород</p>
-        <p class="text-4xl">{{weather.main.temp}} °C</p>
-        <div class="flex flex-column align-items-center">
-            <img alt=""
-                 src="https://openweathermap.org/img/wn/{{weather.weather[0].icon}}.png">
-            <p class="text-2xl">{{weather.weather[0].description}}</p>
+    <div *ngFor="let weather of weather; let i = index">
+        <div *ngIf="weatherDay === i">
+            <div class="flex justify-content-between">
+                <span class="text-4xl">Белгород</span>
+                <span class="text-4xl">{{weather.dt_txt | weatherDate}}</span>
+            </div>
+            <div class="flex justify-content-between align-items-center mb-5">
+                <p class="text-4xl">{{weather.main.temp}} °C</p>
+                <div class="flex flex-column align-items-end ">
+                    <img alt=""
+                         src="https://openweathermap.org/img/wn/{{weather.weather[0].icon}}.png">
+                    <p class="text-2xl">{{weather.weather[0].description}}</p>
+                </div>
+            </div>
+            <p class="text-2xl">Ощущается как: {{weather.main.feels_like}} °C</p>
+            <p class="text-2xl">Влажность: {{weather.main.humidity}}%</p>
+            <p class="text-2xl">Давление: {{weather.main.pressure}} мм рт. ст</p>
+            <p class="text-2xl">Ветер: {{toTextualDescription(this.weather.wind.deg)}}</p>
+            <p class="text-2xl">Скорость: {{weather.wind.speed}} м/с</p>
         </div>
     </div>
-    <p class="text-2xl"> Ощущается как: {{weather.main.feels_like}}</p>
-    <p class="text-2xl">Влажность: {{weather.main.humidity}}%</p>
-    <p class="text-2xl">Давление: {{weather.main.pressure}} мм рт. ст</p>
-    <p class="text-2xl">Ветер: {{toTextualDescription(this.weather.wind.deg)}}</p>
-    <p class="text-2xl">Скорость: {{weather.wind.speed}} м/с</p>
-    <p class="text-2xl">Рассвет в {{weather.sys.sunrise | date: 'HH:mm'}} </p>
-    <p class="text-2xl">Закат в {{weather.sys.sunset | date: 'HH:mm'}}</p>
-
 </div>

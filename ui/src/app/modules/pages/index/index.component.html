@@ -17,7 +17,10 @@
     <app-event-chart class="card col-12 md:col-5 shadow-1"></app-event-chart>
 
     <app-weather class="card col-12 md:col-3 shadow-1"></app-weather>
-    <div class="card col-12 md:col-3  shadow-1"
+    <app-planer class="card col-12 md:col-5 shadow-1"></app-planer>
+
+
+    <div class="card col-12 md:col-3 shadow-1"
          pDraggable="dd">
         <div class="flex align-items-center justify-content-between mb-4">
             <h5>Уведомления</h5>
@@ -82,33 +85,8 @@
         </ul>
     </div>
 
-    <app-widget-phonebook class="card col-12 md:col-8 shadow-1"></app-widget-phonebook>
 
-
-    <div class="card col-12 md:col-5 mr-5 shadow-1"
-         pDraggable="dd">
-        <div class="flex justify-content-between align-items-center mb-5">
-            <h5>Планировщик</h5>
-            <div>
-                <button (click)="menu.toggle($event)"
-                        class="p-button-rounded p-button-text p-button-plain"
-                        icon="pi pi-ellipsis-v"
-                        pButton
-                        type="button"></button>
-                <p-menu #menu
-                        [model]="items"
-                        [popup]="true"></p-menu>
-            </div>
-        </div>
-        <p-chart [data]="tasks"
-                 [options]="pieOptions"
-                 type="bar"></p-chart>
-
-        <h5 class="text-center w-full"
-        >Всего<span class="font-bold"> {{12}} </span>событий на эту неделю
-        </h5>
-    </div>
-    <div class="card col-12 md:col-3   shadow-1"
+    <div class="card col-12 md:col-3 shadow-1"
          pDroppable="test">
         <div class="flex justify-content-between align-items-center mb-5">
             <h5>Аналитика за месяц</h5>
@@ -199,5 +177,6 @@
 
         </ul>
     </div>
+    <app-phonebook class="card col-12  shadow-1"></app-phonebook>
 
 </div>

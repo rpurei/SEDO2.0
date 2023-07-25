@@ -7,11 +7,11 @@ import { UsersService } from '../../../../../services/users.service';
 import { AlertService } from '../../../../../services/alert/alert.service';
 
 @Component({
-    selector: 'app-widget-phonebook',
-    templateUrl: './widget-phonebook.component.html',
-    styleUrls: ['./widget-phonebook.component.scss']
+    selector: 'app-phonebook',
+    templateUrl: './phonebook.component.html',
+    styleUrls: ['./phonebook.component.scss']
 })
-export class WidgetPhonebookComponent implements OnInit {
+export class PhonebookComponent implements OnInit {
     constructor(public loaderService: LoaderService, private authService: AuthService, private userService: UsersService, public alertService: AlertService) {
     }
     
@@ -20,21 +20,26 @@ export class WidgetPhonebookComponent implements OnInit {
     displayUser: boolean = false;
     currentUser: IUser = {} as IUser;
     isLoading: boolean = true;
+    items: any;
     
     showUserInfo(userId: string) {
         let users = this.usersList.find((user: { id: string; }) => user.id === userId);
         console.log(users);
         this.loaderService.isLoading.next(true);
+
         this.authService.getUserDetails(userId).subscribe({
             next: value => {
-                this.loaderService.isLoading.next(false);
-                this.displayUser = true;
                 this.currentUser = value;
                 this.currentUser.phone = users!.phone;
                 this.currentUser.email = users!.email;
                 this.currentUser.skype = users!.skype;
                 this.currentUser.birthday = users!.birthday;
                 this.currentUser.department = users!.department;
+            }, error: err => {
+                this.alertService.errorApi(err);
+            }, complete: () => {
+                this.loaderService.isLoading.next(false);
+                this.displayUser = true;
             }
         });
     }
@@ -49,6 +54,14 @@ export class WidgetPhonebookComponent implements OnInit {
     }
     
     ngOnInit(): void {
+        this.items = [
+            {
+                label: 'Добавить', icon: 'pi pi-fw pi-plus', command: () => {
+                    console.log('god');
+                }
+            },
+            {label: 'Удалить', icon: 'pi pi-fw pi-minus'}
+        ];
         this.userService.getUsersList().subscribe({
             next: value => {
                 this.usersList = value;
