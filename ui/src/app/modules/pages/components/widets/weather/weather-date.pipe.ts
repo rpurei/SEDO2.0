@@ -4,7 +4,6 @@ import { Pipe, PipeTransform } from '@angular/core';
     name: 'weatherDate'
 })
 export class WeatherDatePipe implements PipeTransform {
-    
     transform(value: string, ...args: unknown[]): string {
         let date = new Date(value);
         let dateNow = new Date();
@@ -18,5 +17,4 @@ export class WeatherDatePipe implements PipeTransform {
             minute: '2-digit'
         }).replace(',', '');
     }
-    
 }

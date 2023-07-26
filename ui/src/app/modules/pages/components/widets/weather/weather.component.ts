@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AlertService } from '../../../../../services/alert/alert.service';
 import { WeatherDataItem } from './IWeather';
@@ -10,7 +10,8 @@ import { WeatherService } from './weather.service';
     styleUrls: ['./weather.component.scss']
 })
 
-export class WeatherComponent implements OnInit {
+export class WeatherComponent implements OnInit, DoCheck {
+    
     
     constructor(private http: HttpClient, private alertService: AlertService, private weatherService: WeatherService) {
     }
@@ -46,15 +47,6 @@ export class WeatherComponent implements OnInit {
     }
     
     ngOnInit(): void {
-        // this.items = [
-        //     {
-        //         label: 'Добавить', icon: 'pi pi-fw pi-plus', command: () => {
-        //             console.log('god');
-        //         }
-        //     },
-        //     {label: 'Удалить', icon: 'pi pi-fw pi-minus'}
-        // ];
-    
         this.weatherService.getWeather().subscribe({
             next: value => {
                 this.weather = value.list;
@@ -68,4 +60,7 @@ export class WeatherComponent implements OnInit {
         });
     }
     
+    ngDoCheck(): void {
+        this.currentDate = new Date();
+    }
 }

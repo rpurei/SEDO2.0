@@ -11,7 +11,7 @@
     <div class="flex justify-content-between align-items-center mb-5">
         <!--        <button (click)="getQuantityEvents('baac46f3-f21c-11e8-9c2d-00155d03e20f')
         ">TEST</button>-->
-        <h5>Мои задачи</h5>
+        <h5>Мои мероприятия</h5>
         <div>
             <button (click)="menu.toggle($event)"
                     class="p-button-rounded p-button-text p-button-plain"
@@ -26,11 +26,6 @@
     <p-chart [data]="tasks"
              [options]="pieOptions"
              type="bar"></p-chart>
-    <!--        <p-chart (onDataSelect)="selectData($event)"-->
-    <!--                 [data]="pieData"-->
-    <!--                 [options]="pieOptions"-->
-    <!--                 class="cursor-pointer"-->
-    <!--                 type="doughnut"></p-chart>-->
     <h5 class="text-center w-full">
         Осталось мероприятий на неделю:
         <span class="font-bold"> {{quantityEvents.total.eventsQuantity}} </span>

@@ -10,7 +10,6 @@ import { IQuantityEvents } from '../../../../../models/IEvent';
 export class EventChartComponent implements OnInit {
     constructor(private eventsService: EventsService) {
     }
-    
     items: any;
     tasks: any;
     pieOptions: any;

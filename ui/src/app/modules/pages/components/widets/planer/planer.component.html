@@ -1,0 +1,23 @@
+<div>
+    <div class="flex justify-content-between align-items-center mb-5">
+        <h5>Планировщик</h5>
+        <div>
+            <button (click)="menu.toggle($event)"
+                    class="p-button-rounded p-button-text p-button-plain"
+                    icon="pi pi-ellipsis-v"
+                    pButton
+                    type="button"></button>
+            <p-menu #menu
+                    [model]="items"
+                    [popup]="true"
+            ></p-menu>
+        </div>
+    </div>
+    <p-chart [data]="tasks"
+             [options]="pieOptions"
+             type="bar"></p-chart>
+
+    <h5 class="text-center w-full"
+    >Всего<span class="font-bold"> {{12}} </span>событий на эту неделю
+    </h5>
+</div>
